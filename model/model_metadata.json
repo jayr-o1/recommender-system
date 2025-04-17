@@ -1,5 +1,5 @@
 {
-    "num_features": 121,
+    "num_features": 126,
     "fields": [
         "Business Accountancy",
         "Computer Science",
@@ -32,8 +32,10 @@
         "Medical Laboratory Technologist",
         "Nurse Practitioner",
         "Physician",
+        "Project Manager",
         "Radiologic Technologist",
         "Registered Nurse",
+        "Research Associate",
         "Research Psychologist",
         "Research Scientist",
         "Restaurant Manager",
@@ -44,5 +46,5 @@
         "University Professor",
         "Web Developer"
     ],
-    "created_at": "2025-04-17T09:07:19"
+    "created_at": "2025-04-17T09:24:24"
 }
