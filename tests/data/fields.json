@@ -1,0 +1,52 @@
+{
+    "Computer Science": {
+        "description": "Field covering the theory and practice of computer technology and software development",
+        "core_skills": {
+            "Programming": 90,
+            "Data Structures": 80,
+            "Algorithms": 80,
+            "Software Design": 70,
+            "Problem Solving": 85
+        }
+    },
+    "Data Science": {
+        "description": "Interdisciplinary field that uses scientific methods, processes, algorithms and systems to extract knowledge and insights from data",
+        "core_skills": {
+            "Statistics": 85,
+            "Mathematics": 75,
+            "Programming": 80,
+            "Data Analysis": 90,
+            "Machine Learning": 80
+        }
+    },
+    "Web Development": {
+        "description": "Development of websites and web applications for the internet",
+        "core_skills": {
+            "HTML": 90,
+            "CSS": 90,
+            "JavaScript": 85,
+            "Web Frameworks": 80,
+            "Responsive Design": 75
+        }
+    },
+    "Cybersecurity": {
+        "description": "Protection of computer systems, networks, and data from digital attacks",
+        "core_skills": {
+            "Network Security": 85,
+            "Cryptography": 80,
+            "Security Assessment": 85,
+            "System Administration": 75,
+            "Security Tools": 80
+        }
+    },
+    "Artificial Intelligence": {
+        "description": "Development of intelligent machines that can perform tasks typically requiring human intelligence",
+        "core_skills": {
+            "Machine Learning": 90,
+            "Deep Learning": 85,
+            "Neural Networks": 80,
+            "Mathematics": 85,
+            "Algorithm Design": 80
+        }
+    }
+}
