@@ -92,9 +92,10 @@ def validate_data_consistency(fields, specializations, skill_weights):
     if missing_skills:
         logger.warning(f"Some skills in specializations are not in skill_weights: {', '.join(missing_skills)}")
 
-def generate_synthetic_users(fields, specializations, skill_weights, num_users=10000):
+def generate_synthetic_users(fields, specializations, skill_weights, num_users=15000):
     """
     Generate synthetic user data for training the recommender
+    with balanced representation across all fields
     
     Args:
         fields: Dictionary of fields
@@ -107,16 +108,56 @@ def generate_synthetic_users(fields, specializations, skill_weights, num_users=1
     """
     users = []
     
-    spec_names = list(specializations.keys())
+    # Get field names and specializations per field
+    field_names = list(fields.keys())
+    specs_by_field = {}
+    for field in field_names:
+        specs_by_field[field] = [
+            spec_name for spec_name, spec_data in specializations.items()
+            if spec_data.get("field") == field
+        ]
+    
     all_skills = list(skill_weights.keys())
     
-    logger.info(f"Generating {num_users} synthetic users with {len(all_skills)} possible skills")
+    # Calculate users per field to ensure balanced representation
+    min_users_per_field = num_users // len(field_names)
     
-    for _ in range(num_users):
-        # Select a random specialization
-        spec_name = np.random.choice(spec_names)
+    # Track specialized skills
+    specialized_terms = {"laboratory", "techniques", "toxicology", "analytical", 
+                      "chemistry", "chemical", "organic", "synthesis", "spectroscopy",
+                      "biochemistry", "instrumentation"}
+    
+    specialized_skills = []
+    for skill in all_skills:
+        if any(term in skill.lower() for term in specialized_terms):
+            specialized_skills.append(skill)
+    
+    logger.info(f"Generating {num_users} synthetic users with {len(all_skills)} possible skills")
+    logger.info(f"Ensuring at least {min_users_per_field} users per field for balanced representation")
+    logger.info(f"Identified {len(specialized_skills)} specialized skills that will receive higher weight")
+    
+    # Generate users for each field to ensure balance
+    field_user_count = {field: 0 for field in field_names}
+    
+    while sum(field_user_count.values()) < num_users:
+        # Choose a field - prioritize underrepresented fields
+        remaining_users = num_users - sum(field_user_count.values())
+        underrepresented_fields = [f for f in field_names if field_user_count[f] < min_users_per_field]
+        
+        if underrepresented_fields:
+            field_name = np.random.choice(underrepresented_fields)
+        else:
+            # After minimum quota met, randomly assign remaining users
+            field_name = np.random.choice(field_names)
+        
+        # Get available specializations for this field
+        field_specs = specs_by_field[field_name]
+        if not field_specs:
+            continue  # Skip fields with no specializations
+            
+        # Select a random specialization from this field
+        spec_name = np.random.choice(field_specs)
         spec_data = specializations[spec_name]
-        field_name = spec_data["field"]
         
         # Generate skills
         user_skills = {}
@@ -125,7 +166,11 @@ def generate_synthetic_users(fields, specializations, skill_weights, num_users=1
         core_skills = spec_data.get("core_skills", {})
         for skill in core_skills:
             if skill in all_skills:  # Ensure skill exists in all_skills
-                user_skills[skill] = np.random.randint(70, 101)
+                # Increase the probability of higher proficiency for specialized skills
+                if any(term in skill.lower() for term in specialized_terms):
+                    user_skills[skill] = np.random.randint(80, 101)  # 80-100 for specialized skills
+                else:
+                    user_skills[skill] = np.random.randint(70, 101)  # 70-100 for other skills
         
         # Add some random skills from the same field with medium proficiency (40-80)
         field_skills = set()
@@ -157,6 +202,12 @@ def generate_synthetic_users(fields, specializations, skill_weights, num_users=1
         }
         
         users.append(user)
+        field_user_count[field_name] += 1
+    
+    # Log field distribution
+    logger.info("Final user distribution by field:")
+    for field, count in field_user_count.items():
+        logger.info(f"- {field}: {count} users ({count/num_users*100:.1f}%)")
     
     return users
 
@@ -286,7 +337,7 @@ if __name__ == "__main__":
         fields, specializations, skill_weights = load_data()
         
         logger.info("Generating synthetic users for training...")
-        users = generate_synthetic_users(fields, specializations, skill_weights, num_users=10000)
+        users = generate_synthetic_users(fields, specializations, skill_weights, num_users=15000)
         logger.info(f"Generated {len(users)} synthetic user profiles")
         
         logger.info("Preparing data for training...")
