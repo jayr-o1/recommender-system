@@ -12,6 +12,38 @@ A machine learning-based system that recommends career fields and specialization
     -   Command Line Interface
     -   Docker Deployment
 
+## Recent Improvements
+
+### Added Chemistry Field and Specializations
+
+-   New Chemistry field with core skills like Laboratory Techniques, Toxicology, and Analytical Chemistry
+-   Added specializations: Analytical Chemist, Toxicologist, and Organic Chemist
+-   Expanded skill weights with chemistry-specialized skills
+
+### Improved Fuzzy Matching
+
+-   Reduced default fuzzy threshold from 80 to 70 for better matching of specialized terms
+-   Implemented token-based matching for multi-word skills
+-   Added bonuses for specialized technical terms in matching algorithm
+-   Improved handling of partial matches in specialized domains
+
+### Enhanced Training Process
+
+-   Balanced training data generation across all fields
+-   Increased synthetic user dataset size from 10,000 to 15,000
+-   Ensured minimum representation for each field in the training data
+-   Added weighting for specialized skills during training
+
+### Weighted Confidence Calculation
+
+-   Specialized skills now have 50% more weight in confidence scoring
+-   Improved multi-factor confidence calculation considering:
+    -   Skill match quality
+    -   Match score
+    -   Skill importance
+    -   Coverage of required skills
+-   Better confidence scoring for specialized career paths
+
 ## Getting Started
 
 ### Prerequisites

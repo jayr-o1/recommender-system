@@ -1,7 +1,8 @@
 {
-    "num_features": 131,
+    "num_features": 140,
     "fields": [
         "Business Accountancy",
+        "Chemistry",
         "Computer Science",
         "Criminology",
         "Education",
@@ -17,6 +18,7 @@
     ],
     "specializations": [
         "Accountant",
+        "Analytical Chemist",
         "Auditor",
         "Civil Engineer",
         "Clinical Psychologist",
@@ -31,6 +33,7 @@
         "Mechanical Engineer",
         "Medical Laboratory Technologist",
         "Nurse Practitioner",
+        "Organic Chemist",
         "Physician",
         "Project Manager",
         "Radiologic Technologist",
@@ -42,9 +45,10 @@
         "Software Engineer",
         "Surgeon",
         "Tour Guide",
+        "Toxicologist",
         "Travel Consultant",
         "University Professor",
         "Web Developer"
     ],
-    "created_at": "2025-04-17T09:36:15"
+    "created_at": "2025-04-17T11:42:07"
 }
