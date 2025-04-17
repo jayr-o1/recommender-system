@@ -38,6 +38,7 @@ class RecommendationParams(BaseModel):
     """Parameters for recommendation"""
     top_fields: Optional[int] = Field(1, ge=1, le=5, description="Number of top fields to return")
     top_specializations: Optional[int] = Field(3, ge=1, le=10, description="Number of top specializations to return")
+    fuzzy_threshold: Optional[int] = Field(80, ge=0, le=100, description="Threshold for fuzzy matching (0-100)")
 
 
 @app.get("/")
@@ -68,6 +69,9 @@ async def recommend(skills_input: SkillInput, params: Optional[RecommendationPar
         params = RecommendationParams()
         
     try:
+        # Set fuzzy threshold in recommender
+        recommender.fuzzy_threshold = params.fuzzy_threshold
+        
         # Try to use the ML-based recommendation if models are loaded
         try:
             result = recommender.full_recommendation(
@@ -130,7 +134,7 @@ def fallback_recommendation(skills: Dict[str, int], top_fields: int = 1, top_spe
         # Find specializations in the top field
         for spec_name, spec_data in recommender.specializations.items():
             if spec_data.get("field") == top_field:
-                # Get matched and missing skills
+                # Get matched and missing skills using recommender's fuzzy matching
                 matched_skill_details, missing_skills = recommender._get_skill_details(skills, spec_name)
                 
                 # Calculate confidence based on matches
@@ -171,4 +175,4 @@ async def get_specializations():
 
 
 if __name__ == "__main__":
-    uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True) 
+    uvicorn.run("src.api:app", host="0.0.0.0", port=8000, reload=True) 
