@@ -1,0 +1,47 @@
+{
+  "version": "3.0",
+  "trained_at": "2025-04-16T08:00:21.537617",
+  "specialization_cv_score": 0.08275147928994084,
+  "specialization_oob_score": 0.08298816568047337,
+  "cv_scores": [
+    0.07855029585798816,
+    0.08210059171597633,
+    0.0834319526627219,
+    0.08387573964497042,
+    0.08579881656804733
+  ],
+  "pca_explained_variance": 0.887835589780425,
+  "feature_count": 1839,
+  "sample_size": 33800,
+  "specialization_classes": 338,
+  "specialization_distribution": {
+    "Health Informatics Specialist": 100,
+    "Executive Chef": 100,
+    "Veterinarian": 100,
+    "Gastroenterologist": 100,
+    "Data Scientist": 100,
+    "Dermatologist": 100,
+    "Physiotherapist": 100,
+    "Surgeon": 100,
+    "Radiologist": 100,
+    "Medical Technologist": 100,
+    "Medical Researcher": 100,
+    "Cardiologist": 100,
+    "Urologist": 100,
+    "Public Health Specialist": 100,
+    "Dentist": 100,
+    "Environmental Engineer": 100,
+    "General Practitioner": 100,
+    "Occupational Therapist": 100,
+    "Market Research Analyst": 100,
+    "Public Relations Manager": 100
+  },
+  "parameters": {
+    "sample_size": 33800,
+    "max_features": 1500,
+    "n_estimators": 250,
+    "n_components": 150,
+    "min_samples_per_spec": 50,
+    "random_state": 42
+  }
+}
