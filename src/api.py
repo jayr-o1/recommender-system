@@ -70,6 +70,7 @@ class RecommendationParams(BaseModel):
     top_specializations: Optional[int] = Field(3, ge=1, le=10, description="Number of top specializations to return")
     fuzzy_threshold: Optional[int] = Field(80, ge=0, le=100, description="Threshold for fuzzy matching (0-100)")
     simplified_response: Optional[bool] = Field(False, description="Whether to return a simplified response for frontend")
+    use_semantic: Optional[bool] = Field(True, description="Whether to use semantic matching for skills")
 
 class APIStatus(BaseModel):
     """API status model"""
@@ -109,8 +110,9 @@ async def get_recommendations(skills: Dict[str, int], params: RecommendationPara
     logger.info(f"Processing recommendation for {len(skills)} skills")
     
     try:
-        # Set fuzzy threshold in recommender
+        # Set fuzzy threshold in recommender and configure semantic matching
         recommender.fuzzy_threshold = params.fuzzy_threshold
+        recommender.use_semantic = params.use_semantic
         
         # Try to use the ML-based recommendation if models are loaded
         try:
@@ -368,6 +370,52 @@ async def get_fields():
 async def get_specializations():
     """Get all available specializations"""
     return recommender.specializations
+
+# New model for skill matching
+class SkillMatchInput(BaseModel):
+    """Skill matching input model"""
+    user_skill: str = Field(..., description="The user's skill to match")
+    standard_skill: str = Field(..., description="The standard skill to match against")
+    use_semantic: Optional[bool] = Field(True, description="Whether to use semantic matching")
+
+class SkillMatchResult(BaseModel):
+    """Skill matching result model"""
+    is_match: bool
+    score: float
+    user_skill: str
+    standard_skill: str
+    method: str
+
+# Add a new endpoint for skill matching
+@app.post("/match_skill", response_model=SkillMatchResult)
+async def match_skill(input_data: SkillMatchInput):
+    """
+    Match a user skill against a standard skill using either fuzzy or semantic matching.
+    
+    Returns whether it's a match and the match score (0-100).
+    """
+    try:
+        # Set use_semantic in the recommender
+        recommender.use_semantic = input_data.use_semantic
+        
+        # Call the skill matching method
+        is_match, score = recommender._match_skill_improved(
+            input_data.user_skill, 
+            input_data.standard_skill
+        )
+        
+        # Format and return the result
+        return {
+            "is_match": is_match,
+            "score": score,
+            "user_skill": input_data.user_skill,
+            "standard_skill": input_data.standard_skill,
+            "method": "semantic" if input_data.use_semantic else "fuzzy"
+        }
+    except Exception as e:
+        logger.error(f"Skill matching error: {str(e)}")
+        logger.error(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
     uvicorn.run(
