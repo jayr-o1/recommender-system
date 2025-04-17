@@ -3,6 +3,7 @@ import json
 import os
 import numpy as np
 from typing import Dict, List, Tuple, Any, Optional
+from fuzzywuzzy import fuzz, process
 
 class CareerRecommender:
     """
@@ -10,13 +11,14 @@ class CareerRecommender:
     Uses machine learning models to make predictions.
     """
     
-    def __init__(self, data_path: str = "data", model_path: str = "model"):
+    def __init__(self, data_path: str = "data", model_path: str = "model", fuzzy_threshold: int = 80):
         """
         Initialize the recommender with data paths
         
         Args:
             data_path: Path to data directory containing field and specialization data
             model_path: Path to directory containing trained models
+            fuzzy_threshold: Threshold score (0-100) for fuzzy matching, higher is stricter
         """
         self.data_path = data_path
         self.model_path = model_path
@@ -25,6 +27,7 @@ class CareerRecommender:
         self.skill_weights = {}
         self.models_loaded = False
         self._model_cache = {}  # Cache for loaded models
+        self.fuzzy_threshold = fuzzy_threshold
         
         # Load data
         self.load_data()
@@ -189,11 +192,26 @@ class CareerRecommender:
         skill_vector = np.zeros(len(self.feature_names))
         
         for i, skill in enumerate(self.feature_names):
-            # Find the skill in user skills (case insensitive)
+            # Find the skill in user skills using fuzzy matching
+            best_match = None
+            best_score = 0
+            
             for user_skill, proficiency in skills.items():
+                # Try exact match first (case-insensitive)
                 if user_skill.lower() == skill.lower():
-                    skill_vector[i] = proficiency / 100.0  # Normalize to 0-1
+                    best_match = user_skill
+                    best_score = 100
                     break
+                
+                # Try fuzzy matching
+                score = fuzz.ratio(user_skill.lower(), skill.lower())
+                if score > best_score and score >= self.fuzzy_threshold:
+                    best_match = user_skill
+                    best_score = score
+            
+            # If we found a match, use its proficiency
+            if best_match:
+                skill_vector[i] = skills[best_match] / 100.0  # Normalize to 0-1
         
         return skill_vector.reshape(1, -1)
     
@@ -238,7 +256,7 @@ class CareerRecommender:
             raise RuntimeError(f"Error recommending fields: {e}")
     
     def _get_matching_skills_for_field(self, skills: Dict[str, int], field_name: str) -> int:
-        """Count matching skills for a field"""
+        """Count matching skills for a field using fuzzy matching"""
         if field_name not in self.fields:
             return 0
             
@@ -247,8 +265,18 @@ class CareerRecommender:
         # Count matches
         matches = 0
         for skill in field_skills:
-            if any(user_skill.lower() == skill.lower() for user_skill in skills):
+            # Try exact match first (case-insensitive)
+            exact_match = any(user_skill.lower() == skill.lower() for user_skill in skills)
+            if exact_match:
                 matches += 1
+                continue
+                
+            # Try fuzzy matching
+            for user_skill in skills:
+                score = fuzz.ratio(user_skill.lower(), skill.lower())
+                if score >= self.fuzzy_threshold:
+                    matches += 1
+                    break
                 
         return matches
     
@@ -311,7 +339,7 @@ class CareerRecommender:
             raise RuntimeError(f"Error recommending specializations: {e}")
     
     def _get_skill_details(self, skills: Dict[str, int], spec_name: str) -> tuple:
-        """Get matched and missing skills for a specialization"""
+        """Get matched and missing skills for a specialization using fuzzy matching"""
         if spec_name not in self.specializations:
             return [], []
             
@@ -322,17 +350,42 @@ class CareerRecommender:
         missing_skills = []
         
         for skill, weight in spec_skills.items():
-            # Check if skill is in user skills (case insensitive)
+            # Check if skill is in user skills (case insensitive or fuzzy match)
             matched = False
+            best_match = None
+            best_score = 0
+            best_proficiency = 0
+            
+            # Try exact match first
             for user_skill, proficiency in skills.items():
                 if user_skill.lower() == skill.lower():
                     matched_skill_details.append({
                         "skill": skill,
                         "proficiency": proficiency,
-                        "weight": weight
+                        "weight": weight,
+                        "match_score": 100
                     })
                     matched = True
                     break
+            
+            # If no exact match, try fuzzy matching
+            if not matched:
+                for user_skill, proficiency in skills.items():
+                    score = fuzz.ratio(user_skill.lower(), skill.lower())
+                    if score > best_score and score >= self.fuzzy_threshold:
+                        best_match = user_skill
+                        best_score = score
+                        best_proficiency = proficiency
+                
+                if best_match:
+                    matched_skill_details.append({
+                        "skill": skill,
+                        "proficiency": best_proficiency,
+                        "weight": weight,
+                        "match_score": best_score,
+                        "matched_to": best_match
+                    })
+                    matched = True
                     
             if not matched:
                 missing_skills.append({
