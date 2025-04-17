@@ -1,0 +1,447 @@
+{
+    "Python": {
+        "global_weight": 89,
+        "field_weights": {
+            "Computer Science": 88,
+            "Data Science": 74,
+            "Web Development": 63,
+            "Artificial Intelligence": 86
+        }
+    },
+    "JavaScript": {
+        "global_weight": 72,
+        "field_weights": {
+            "Computer Science": 85,
+            "Data Science": 70,
+            "Web Development": 74,
+            "Artificial Intelligence": 82
+        }
+    },
+    "Java": {
+        "global_weight": 74,
+        "field_weights": {
+            "Computer Science": 86,
+            "Data Science": 83,
+            "Web Development": 68,
+            "Artificial Intelligence": 84
+        }
+    },
+    "C++": {
+        "global_weight": 79,
+        "field_weights": {
+            "Computer Science": 80,
+            "Data Science": 78,
+            "Web Development": 80,
+            "Artificial Intelligence": 83
+        }
+    },
+    "C#": {
+        "global_weight": 79,
+        "field_weights": {
+            "Computer Science": 93,
+            "Data Science": 79,
+            "Web Development": 66,
+            "Artificial Intelligence": 81
+        }
+    },
+    "Go": {
+        "global_weight": 73,
+        "field_weights": {
+            "Computer Science": 89,
+            "Data Science": 84,
+            "Web Development": 76,
+            "Artificial Intelligence": 84
+        }
+    },
+    "Rust": {
+        "global_weight": 72,
+        "field_weights": {
+            "Computer Science": 82,
+            "Data Science": 77,
+            "Web Development": 81,
+            "Artificial Intelligence": 81
+        }
+    },
+    "TypeScript": {
+        "global_weight": 82,
+        "field_weights": {
+            "Computer Science": 86,
+            "Data Science": 76,
+            "Web Development": 71,
+            "Artificial Intelligence": 89
+        }
+    },
+    "PHP": {
+        "global_weight": 79,
+        "field_weights": {
+            "Computer Science": 87,
+            "Data Science": 75,
+            "Web Development": 64,
+            "Artificial Intelligence": 78
+        }
+    },
+    "Swift": {
+        "global_weight": 72,
+        "field_weights": {
+            "Computer Science": 87,
+            "Data Science": 83,
+            "Web Development": 88,
+            "Artificial Intelligence": 75
+        }
+    },
+    "Kotlin": {
+        "global_weight": 75,
+        "field_weights": {
+            "Computer Science": 93,
+            "Data Science": 83,
+            "Web Development": 64,
+            "Artificial Intelligence": 81
+        }
+    },
+    "Ruby": {
+        "global_weight": 85,
+        "field_weights": {
+            "Computer Science": 82,
+            "Data Science": 85,
+            "Web Development": 80,
+            "Artificial Intelligence": 81
+        }
+    },
+    "SQL": {
+        "global_weight": 74,
+        "field_weights": {
+            "Data Science": 80,
+            "Computer Science": 73
+        }
+    },
+    "Data Analysis": {
+        "global_weight": 80,
+        "field_weights": {
+            "Data Science": 80,
+            "Computer Science": 70
+        }
+    },
+    "Data Visualization": {
+        "global_weight": 73,
+        "field_weights": {
+            "Data Science": 86,
+            "Computer Science": 64
+        }
+    },
+    "Data Modeling": {
+        "global_weight": 89,
+        "field_weights": {
+            "Data Science": 95,
+            "Computer Science": 68
+        }
+    },
+    "ETL": {
+        "global_weight": 82,
+        "field_weights": {
+            "Data Science": 89,
+            "Computer Science": 69
+        }
+    },
+    "Data Warehousing": {
+        "global_weight": 74,
+        "field_weights": {
+            "Data Science": 89,
+            "Computer Science": 64
+        }
+    },
+    "Big Data": {
+        "global_weight": 74,
+        "field_weights": {
+            "Data Science": 80,
+            "Computer Science": 61
+        }
+    },
+    "Data Mining": {
+        "global_weight": 82,
+        "field_weights": {
+            "Data Science": 89,
+            "Computer Science": 72
+        }
+    },
+    "Tableau": {
+        "global_weight": 76,
+        "field_weights": {
+            "Data Science": 89,
+            "Computer Science": 60
+        }
+    },
+    "Power BI": {
+        "global_weight": 90,
+        "field_weights": {
+            "Data Science": 84,
+            "Computer Science": 66
+        }
+    },
+    "Excel": {
+        "global_weight": 71,
+        "field_weights": {
+            "Data Science": 85,
+            "Computer Science": 63
+        }
+    },
+    "Statistics": {
+        "global_weight": 88,
+        "field_weights": {
+            "Data Science": 94,
+            "Computer Science": 62
+        }
+    },
+    "Machine Learning": {
+        "global_weight": 94,
+        "field_weights": {
+            "Artificial Intelligence": 90,
+            "Data Science": 81
+        }
+    },
+    "Deep Learning": {
+        "global_weight": 90,
+        "field_weights": {
+            "Artificial Intelligence": 87,
+            "Data Science": 81
+        }
+    },
+    "NLP": {
+        "global_weight": 77,
+        "field_weights": {
+            "Artificial Intelligence": 92,
+            "Data Science": 75
+        }
+    },
+    "Computer Vision": {
+        "global_weight": 93,
+        "field_weights": {
+            "Artificial Intelligence": 95,
+            "Data Science": 87
+        }
+    },
+    "TensorFlow": {
+        "global_weight": 90,
+        "field_weights": {
+            "Artificial Intelligence": 88,
+            "Data Science": 90
+        }
+    },
+    "PyTorch": {
+        "global_weight": 77,
+        "field_weights": {
+            "Artificial Intelligence": 93,
+            "Data Science": 85
+        }
+    },
+    "scikit-learn": {
+        "global_weight": 88,
+        "field_weights": {
+            "Artificial Intelligence": 90,
+            "Data Science": 81
+        }
+    },
+    "Neural Networks": {
+        "global_weight": 81,
+        "field_weights": {
+            "Artificial Intelligence": 85,
+            "Data Science": 78
+        }
+    },
+    "Reinforcement Learning": {
+        "global_weight": 80,
+        "field_weights": {
+            "Artificial Intelligence": 93,
+            "Data Science": 78
+        }
+    },
+    "Feature Engineering": {
+        "global_weight": 80,
+        "field_weights": {
+            "Artificial Intelligence": 88,
+            "Data Science": 80
+        }
+    },
+    "Model Deployment": {
+        "global_weight": 84,
+        "field_weights": {
+            "Artificial Intelligence": 88,
+            "Data Science": 75
+        }
+    },
+    "HTML": {
+        "global_weight": 85,
+        "field_weights": {
+            "Web Development": 91
+        }
+    },
+    "CSS": {
+        "global_weight": 80,
+        "field_weights": {
+            "Web Development": 92
+        }
+    },
+    "React": {
+        "global_weight": 83,
+        "field_weights": {
+            "Web Development": 91
+        }
+    },
+    "Angular": {
+        "global_weight": 86,
+        "field_weights": {
+            "Web Development": 92
+        }
+    },
+    "Vue.js": {
+        "global_weight": 88,
+        "field_weights": {
+            "Web Development": 89
+        }
+    },
+    "Node.js": {
+        "global_weight": 85,
+        "field_weights": {
+            "Web Development": 89
+        }
+    },
+    "REST APIs": {
+        "global_weight": 74,
+        "field_weights": {
+            "Web Development": 88
+        }
+    },
+    "GraphQL": {
+        "global_weight": 77,
+        "field_weights": {
+            "Web Development": 91
+        }
+    },
+    "Responsive Design": {
+        "global_weight": 90,
+        "field_weights": {
+            "Web Development": 93
+        }
+    },
+    "UI/UX": {
+        "global_weight": 84,
+        "field_weights": {
+            "Web Development": 86
+        }
+    },
+    "Web Security": {
+        "global_weight": 86,
+        "field_weights": {
+            "Web Development": 90
+        }
+    },
+    "Communication": {
+        "global_weight": 64,
+        "field_weights": {}
+    },
+    "Problem Solving": {
+        "global_weight": 74,
+        "field_weights": {}
+    },
+    "Project Management": {
+        "global_weight": 62,
+        "field_weights": {}
+    },
+    "Teamwork": {
+        "global_weight": 73,
+        "field_weights": {}
+    },
+    "Leadership": {
+        "global_weight": 78,
+        "field_weights": {}
+    },
+    "Time Management": {
+        "global_weight": 75,
+        "field_weights": {}
+    },
+    "Critical Thinking": {
+        "global_weight": 82,
+        "field_weights": {}
+    },
+    "Adaptability": {
+        "global_weight": 71,
+        "field_weights": {}
+    },
+    "Creativity": {
+        "global_weight": 66,
+        "field_weights": {}
+    },
+    "Attention to Detail": {
+        "global_weight": 63,
+        "field_weights": {}
+    },
+    "AWS": {
+        "global_weight": 85,
+        "field_weights": {
+            "Computer Science": 72,
+            "Cybersecurity": 83
+        }
+    },
+    "Azure": {
+        "global_weight": 79,
+        "field_weights": {
+            "Computer Science": 85,
+            "Cybersecurity": 77
+        }
+    },
+    "Google Cloud": {
+        "global_weight": 78,
+        "field_weights": {
+            "Computer Science": 80,
+            "Cybersecurity": 80
+        }
+    },
+    "Docker": {
+        "global_weight": 88,
+        "field_weights": {
+            "Computer Science": 72,
+            "Cybersecurity": 82
+        }
+    },
+    "Kubernetes": {
+        "global_weight": 87,
+        "field_weights": {
+            "Computer Science": 72,
+            "Cybersecurity": 78
+        }
+    },
+    "Cloud Architecture": {
+        "global_weight": 86,
+        "field_weights": {
+            "Computer Science": 75,
+            "Cybersecurity": 83
+        }
+    },
+    "Serverless": {
+        "global_weight": 79,
+        "field_weights": {
+            "Computer Science": 81,
+            "Cybersecurity": 79
+        }
+    },
+    "DevOps": {
+        "global_weight": 79,
+        "field_weights": {
+            "Computer Science": 71,
+            "Cybersecurity": 77
+        }
+    },
+    "CI/CD": {
+        "global_weight": 83,
+        "field_weights": {
+            "Computer Science": 73,
+            "Cybersecurity": 72
+        }
+    },
+    "Infrastructure as Code": {
+        "global_weight": 90,
+        "field_weights": {
+            "Computer Science": 71,
+            "Cybersecurity": 72
+        }
+    }
+}

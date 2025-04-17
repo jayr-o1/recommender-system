@@ -1,8 +1,0 @@
-{
-  "original_model": "models/career_path_recommendation_model.pkl",
-  "backup_path": "models/history\\career_path_recommendation_model_backup_2025-04-17T13-43-42.966565.pkl",
-  "backup_time": "2025-04-17T13-43-42.966565",
-  "trained_at": "2025-04-17T13:43:42.965564",
-  "accuracy": 0,
-  "feedback_entries_used": 0
-}

@@ -1,0 +1,135 @@
+{
+    "Data Analyst": {
+        "field": "Data Science",
+        "description": "Collects, processes, and performs statistical analysis on large datasets",
+        "core_skills": {
+            "Python": 80,
+            "SQL": 90,
+            "Data Analysis": 95,
+            "Data Visualization": 85,
+            "Statistics": 80,
+            "Excel": 75,
+            "Problem Solving": 70
+        }
+    },
+    "Data Scientist": {
+        "field": "Data Science",
+        "description": "Uses advanced analytics, machine learning and statistical methods to interpret data",
+        "core_skills": {
+            "Python": 85,
+            "R": 70,
+            "Machine Learning": 90,
+            "Statistics": 85,
+            "Data Analysis": 90,
+            "Big Data": 75,
+            "Data Visualization": 80
+        }
+    },
+    "Software Engineer": {
+        "field": "Computer Science",
+        "description": "Designs, develops, and maintains software systems",
+        "core_skills": {
+            "Python": 80,
+            "Java": 75,
+            "JavaScript": 70,
+            "Data Structures": 85,
+            "Algorithms": 85,
+            "Software Design": 80,
+            "Testing": 75,
+            "Version Control": 70
+        }
+    },
+    "Web Developer": {
+        "field": "Web Development",
+        "description": "Creates and maintains websites",
+        "core_skills": {
+            "HTML": 95,
+            "CSS": 95,
+            "JavaScript": 90,
+            "React": 80,
+            "Node.js": 75,
+            "Responsive Design": 85,
+            "Web Security": 70
+        }
+    },
+    "Machine Learning Engineer": {
+        "field": "Artificial Intelligence",
+        "description": "Designs and implements machine learning models",
+        "core_skills": {
+            "Python": 90,
+            "Machine Learning": 95,
+            "Deep Learning": 85,
+            "TensorFlow": 80,
+            "PyTorch": 80,
+            "Mathematics": 85,
+            "Feature Engineering": 80,
+            "Model Deployment": 75
+        }
+    },
+    "AI Engineer": {
+        "field": "Artificial Intelligence",
+        "description": "Develops AI solutions and implements machine learning algorithms",
+        "core_skills": {
+            "Python": 85,
+            "Machine Learning": 90,
+            "Deep Learning": 85,
+            "NLP": 80,
+            "Computer Vision": 80,
+            "Neural Networks": 85,
+            "Mathematics": 80
+        }
+    },
+    "DevOps Engineer": {
+        "field": "Computer Science",
+        "description": "Implements and manages software development lifecycle",
+        "core_skills": {
+            "Linux": 85,
+            "Docker": 90,
+            "Kubernetes": 85,
+            "CI/CD": 90,
+            "Cloud Platforms": 85,
+            "Scripting": 80,
+            "Version Control": 80,
+            "Infrastructure as Code": 85
+        }
+    },
+    "Security Analyst": {
+        "field": "Cybersecurity",
+        "description": "Monitors and protects systems and networks from security threats",
+        "core_skills": {
+            "Network Security": 90,
+            "Security Tools": 85,
+            "Threat Analysis": 90,
+            "Vulnerability Assessment": 85,
+            "Cryptography": 75,
+            "Incident Response": 80,
+            "Security Frameworks": 75
+        }
+    },
+    "Frontend Developer": {
+        "field": "Web Development",
+        "description": "Develops user interfaces and user experience for websites",
+        "core_skills": {
+            "HTML": 95,
+            "CSS": 95,
+            "JavaScript": 90,
+            "React": 85,
+            "UI/UX": 85,
+            "Responsive Design": 90,
+            "Web Performance": 80
+        }
+    },
+    "Backend Developer": {
+        "field": "Web Development",
+        "description": "Develops server-side logic and databases for web applications",
+        "core_skills": {
+            "Python": 80,
+            "Node.js": 80,
+            "SQL": 85,
+            "REST APIs": 90,
+            "Database Design": 85,
+            "Authentication": 80,
+            "Server Management": 75
+        }
+    }
+}
