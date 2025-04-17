@@ -287,3 +287,70 @@ These high accuracy rates are expected since the test data is generated from the
 You can customize the recommendation system by:
 
 1. Modifying the data files in the `data/`
+
+## Testing the API with Uvicorn
+
+The project now includes a test script that interacts with the API running on Uvicorn. The `test_api.py` script can:
+
+1. Start a Uvicorn server automatically
+2. Run tests against the API endpoints
+3. Test skill matching capabilities
+4. Compare fuzzy vs semantic matching through the API
+
+### Running the API tests
+
+To run the API tests with Uvicorn:
+
+```bash
+# Run all tests with default settings
+python test_api.py
+
+# Run simple endpoint tests
+python test_api.py --simple-test
+
+# Test with custom skills
+python test_api.py --skills "Python:90,Data Analysis:85,Machine Learning:75"
+
+# Test with specific parameters
+python test_api.py --no-semantic --threshold 70 --top-fields 5 --top-specs 10
+
+# Only run the matching comparison
+python test_api.py --compare-only
+
+# Use a custom port
+python test_api.py --port 8080
+```
+
+### Command-line parameters
+
+The `test_api.py` script supports the following parameters:
+
+-   `--skills`: Comma-separated list of skills with optional proficiency (e.g., "Python:90,Data Analysis:85")
+-   `--no-semantic`: Disable semantic matching
+-   `--threshold`: Fuzzy matching threshold (0-100)
+-   `--top-fields`: Number of top fields to return (1-5)
+-   `--top-specs`: Number of top specializations to return (1-10)
+-   `--compare-only`: Only run the matching methods comparison
+-   `--port`: Port to run the API on (default: 8000)
+-   `--host`: Host to run the API on (default: 127.0.0.1)
+-   `--no-server`: Don't start the server (assume it's already running)
+-   `--simple-test`: Run the simple API tests (test_recommend_direct, test_recommend_nested, test_api_recommend)
+
+### Starting the API with Uvicorn manually
+
+You can also start the API with Uvicorn manually using the provided PowerShell script:
+
+```powershell
+# Start the API with development reload enabled
+./start_api_uvicorn.ps1
+```
+
+Or directly with Python:
+
+```bash
+# Development mode with reload
+uvicorn src.api:app --reload
+
+# Production mode
+uvicorn src.api:app --host 0.0.0.0 --port 8000
+```
