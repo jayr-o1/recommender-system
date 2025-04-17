@@ -4,24 +4,34 @@ def test_recommendation():
     # Initialize the recommender
     recommender = CareerRecommender()
     
-    # Sample user skills for testing
+    # Sample user skills for testing - Technical Project Manager profile
     user_skills = {
-        "Python": 90,
-        "JavaScript": 85,
-        "Data Analysis": 80,
-        "Machine Learning": 75,
-        "Problem Solving": 95
+        "Project Management": 90,
+        "Leadership": 85,
+        "Communication": 88,
+        "Risk Management": 80,
+        "Stakeholder Management": 85,
+        "Planning": 90,
+        "Problem Solving": 92,
+        "Budgeting": 75,
+        "Time Management": 85,
+        "Python": 75,
+        "JavaScript": 70,
+        "Software Design": 65,
+        "Agile Methodologies": 85,
+        "Scrum": 80,
+        "Testing": 60
     }
     
     # Get recommendations
     try:
         recommendations = recommender.full_recommendation(
             skills=user_skills,
-            top_fields=2,
-            top_specs=3
+            top_fields=3,
+            top_specs=5
         )
         
-        print("\n===== CAREER RECOMMENDATIONS =====")
+        print("\n===== CAREER RECOMMENDATIONS FOR TECHNICAL PROJECT MANAGER PROFILE =====")
         print("\nTOP FIELDS:")
         for field in recommendations["top_fields"]:
             print(f"- {field['field']} (Confidence: {field['confidence']}%)")
