@@ -104,135 +104,132 @@ def save_test_result(test_name: str, input_skills: Dict[str, int], result: Dict[
     # Add to the test results container
     test_results[test_name] = simplified_result
 
-def test_case_1_corporate_law_profile(recommender):
-    """Test with a corporate law skill profile"""
+def test_case_1_data_scientist_profile(recommender):
+    """Test with a data scientist skill profile"""
     skills = {
-        "Contract Drafting": 90,
-        "Corporate Governance": 95,
-        "Due Diligence": 90,
-        "Mergers & Acquisitions": 85,
-        "Securities Law": 80
+        "Python": 90,
+        "Machine Learning": 95,
+        "Data Analysis": 90,
+        "Statistics": 85,
+        "Data Visualization": 80
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("corporate_law_profile", skills, result)
+    save_test_result("data_scientist_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
     # Specific assertions for this profile
-    # Find and check if Corporate Law or similar field is recommended
-    corporate_law_field = next((field for field in result["fields"] 
-                        if "corporate" in field["field"].lower() or "business" in field["field"].lower()), None)
+    # Find and check if Data Science field is recommended
+    data_science_field = next((field for field in result["fields"] 
+                        if field["field"] == "Data Science"), None)
     
-    if corporate_law_field:
+    if data_science_field:
         # Check if confidence score is present
-        assert corporate_law_field["confidence"] > 50, "Corporate Law confidence should be significant"
+        assert data_science_field["confidence"] > 50, "Data Science confidence should be significant"
         
-        # Check if corporate law specialization was recommended for this field
-        field_name = corporate_law_field["field"]
+        # Check if data science specialization was recommended for this field
+        field_name = data_science_field["field"]
         if field_name in result["specializations_by_field"]:
             specs = result["specializations_by_field"][field_name]
-            corp_spec = next((spec for spec in specs 
-                              if "corporate" in spec["specialization"].lower() or "business" in spec["specialization"].lower()), None)
+            ds_spec = next((spec for spec in specs 
+                          if spec["specialization"] == "Data Scientist"), None)
             
-            if corp_spec:
-                # Check if matched skills include the core corporate law skills
-                matched_skills = [skill["skill"] for skill in corp_spec["matched_skills"]]
-                assert any("contract" in skill.lower() for skill in matched_skills) or \
-                       any("corporate" in skill.lower() for skill in matched_skills), \
-                       "Corporate Law specialization should recognize Contract Drafting/Corporate Governance skills"
+            if ds_spec:
+                # Check if matched skills include the core data science skills
+                matched_skills = [skill["skill"] for skill in ds_spec["matched_skills"]]
+                assert any("python" in skill.lower() for skill in matched_skills) or \
+                       any("machine learning" in skill.lower() for skill in matched_skills), \
+                       "Data Scientist specialization should recognize Python/Machine Learning skills"
                 
                 # Check if skill confidence values are present
-                for skill in corp_spec["matched_skills"]:
+                for skill in ds_spec["matched_skills"]:
                     assert "proficiency" in skill, "Matched skills should have proficiency"
                     assert isinstance(skill["proficiency"], (int, float)), "Proficiency should be numeric"
                 
                 # Check if any missing skills have confidence/priority indicators
-                if corp_spec["missing_skills"]:
-                    missing = corp_spec["missing_skills"][0]
+                if ds_spec["missing_skills"]:
+                    missing = ds_spec["missing_skills"][0]
                     assert "priority" in missing, "Missing skills should have priority"
                     assert isinstance(missing["priority"], (int, float)), "Priority should be numeric"
 
-def test_case_2_litigation_profile(recommender):
-    """Test with a litigation skill profile"""
+def test_case_2_data_engineer_profile(recommender):
+    """Test with a data engineer skill profile"""
     skills = {
-        "Legal Research": 85,
-        "Legal Writing": 90,
-        "Trial Advocacy": 80,
-        "Evidence Law": 75,
-        "Civil Procedure": 70
+        "SQL": 85,
+        "Data Warehousing": 90,
+        "ETL Processes": 80,
+        "Python": 75,
+        "Data Modeling": 70
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("litigation_profile", skills, result)
+    save_test_result("data_engineer_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
     # Specific assertions for this profile
-    # Find and check if Litigation or similar field is recommended
-    litigation_field = next((field for field in result["fields"] 
-                    if "litigation" in field["field"].lower() or "trial" in field["field"].lower() 
-                    or "dispute" in field["field"].lower()), None)
+    # Find and check if Data Science field is recommended
+    data_science_field = next((field for field in result["fields"] 
+                       if field["field"] == "Data Science"), None)
     
-    if litigation_field:
+    if data_science_field:
         # Check if confidence score is present
-        assert litigation_field["confidence"] > 50, "Litigation confidence should be significant"
+        assert data_science_field["confidence"] > 50, "Data Science confidence should be significant"
         
-        # Check if litigation specialization was recommended for this field
-        field_name = litigation_field["field"]
+        # Check if data engineer specialization was recommended for this field
+        field_name = data_science_field["field"]
         if field_name in result["specializations_by_field"]:
             specs = result["specializations_by_field"][field_name]
-            litigation_spec = next((spec for spec in specs 
-                          if "litigation" in spec["specialization"].lower() or 
-                             "trial" in spec["specialization"].lower() or
-                             "dispute" in spec["specialization"].lower()), None)
+            de_spec = next((spec for spec in specs 
+                         if spec["specialization"] == "Data Engineer"), None)
             
-            if litigation_spec:
-                # Check if matched skills include the core litigation skills
-                matched_skills = [skill["skill"] for skill in litigation_spec["matched_skills"]]
-                assert any("legal research" in skill.lower() for skill in matched_skills) or \
-                       any("trial advocacy" in skill.lower() for skill in matched_skills), \
-                       "Litigation specialization should recognize Legal Research/Trial Advocacy skills"
+            if de_spec:
+                # Check if matched skills include the core data engineering skills
+                matched_skills = [skill["skill"] for skill in de_spec["matched_skills"]]
+                assert any("sql" in skill.lower() for skill in matched_skills) or \
+                       any("data warehousing" in skill.lower() for skill in matched_skills), \
+                       "Data Engineer specialization should recognize SQL/Data Warehousing skills"
                 
-                # Check if missing skills include relevant litigation skills
-                if litigation_spec["missing_skills"]:
-                    missing_skills = [skill["skill"] for skill in litigation_spec["missing_skills"]]
+                # Check if missing skills include relevant data engineering skills
+                if de_spec["missing_skills"]:
+                    missing_skills = [skill["skill"] for skill in de_spec["missing_skills"]]
                     print(f"Missing skills: {missing_skills}")
 
-def test_case_3_mixed_legal_skills_profile(recommender):
-    """Test with a mixed legal skill profile that could match multiple fields"""
+def test_case_3_mixed_data_science_skills_profile(recommender):
+    """Test with a mixed data science skill profile that could match multiple specializations"""
     skills = {
-        "Contract Drafting": 80,
-        "Legal Research": 80,
-        "Regulatory Compliance": 85,
-        "Case Management": 90,
-        "Client Communication": 95
+        "Python": 80,
+        "SQL": 80,
+        "Data Visualization": 85,
+        "Machine Learning": 90,
+        "Data Modeling": 95
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("mixed_legal_skills_profile", skills, result)
+    save_test_result("mixed_data_science_skills_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
-    # Check that we have at least 2 fields recommended
-    assert len(result["fields"]) >= 1, "Should recommend at least one field for mixed skills"
+    # Check that we have at least 2 specializations recommended
+    assert len(result["top_specializations"]) >= 1, "Should recommend at least one specialization for mixed skills"
     
-    # Check confidence differences between fields
-    if len(result["fields"]) >= 2:
-        confidence_diff = result["fields"][0]["confidence"] - result["fields"][1]["confidence"]
-        print(f"Confidence difference between top fields: {confidence_diff}")
+    # Check confidence differences between specializations
+    if len(result["top_specializations"]) >= 2:
+        confidence_diff = result["top_specializations"][0]["confidence"] - result["top_specializations"][1]["confidence"]
+        print(f"Confidence difference between top specializations: {confidence_diff}")
     
     # Check if specializations have both matching and missing skills
     if result["top_specializations"]:
@@ -244,17 +241,17 @@ def test_case_3_mixed_legal_skills_profile(recommender):
             assert "match_score" in skill, "Matched skills should have match scores"
             assert 0 <= skill["match_score"] <= 100, "Match score should be between 0 and 100"
 
-def test_case_4_minimal_legal_skills_profile(recommender):
-    """Test with minimal legal skills to see recommendation behavior"""
+def test_case_4_minimal_data_science_skills_profile(recommender):
+    """Test with minimal data science skills to see recommendation behavior"""
     skills = {
-        "Legal Research": 60
+        "Python": 60
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("minimal_legal_skills_profile", skills, result)
+    save_test_result("minimal_data_science_skills_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -270,21 +267,21 @@ def test_case_4_minimal_legal_skills_profile(recommender):
             assert "skill" in missing, "Missing skill should have a name"
             assert "priority" in missing, "Missing skill should have priority"
 
-def test_case_5_high_proficiency_legal_profile(recommender):
-    """Test with high proficiency legal skills to check confidence scores"""
+def test_case_5_high_proficiency_data_science_profile(recommender):
+    """Test with high proficiency data science skills to check confidence scores"""
     skills = {
-        "Legal Research": 95,
-        "Legal Writing": 95,
-        "Constitutional Law": 95,
-        "Administrative Law": 95,
-        "Judicial Clerkship": 95
+        "Python": 95,
+        "Machine Learning": 95,
+        "Statistics": 95,
+        "Data Analysis": 95,
+        "Deep Learning": 95
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("high_proficiency_legal_profile", skills, result)
+    save_test_result("high_proficiency_data_science_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -303,21 +300,21 @@ def test_case_5_high_proficiency_legal_profile(recommender):
                 assert "proficiency" in skill, "Matched skill should have proficiency"
                 assert skill["proficiency"] >= 90, "Proficiency should be high (as input)"
 
-def test_case_6_low_proficiency_legal_profile(recommender):
-    """Test with low proficiency legal skills to check confidence scores"""
+def test_case_6_low_proficiency_data_science_profile(recommender):
+    """Test with low proficiency data science skills to check confidence scores"""
     skills = {
-        "Legal Research": 45,
-        "Legal Writing": 40,
-        "Constitutional Law": 30,
-        "Administrative Law": 35,
-        "Judicial Clerkship": 30
+        "Python": 45,
+        "Machine Learning": 40,
+        "Statistics": 30,
+        "Data Analysis": 35,
+        "Deep Learning": 30
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("low_proficiency_legal_profile", skills, result)
+    save_test_result("low_proficiency_data_science_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -335,20 +332,20 @@ def test_case_6_low_proficiency_legal_profile(recommender):
             avg_proficiency = sum(proficiencies) / len(proficiencies) if proficiencies else 0
             print(f"Average proficiency of matched skills: {avg_proficiency}")
 
-def test_case_7_misspelled_skills(recommender):
-    """Test with misspelled skills to check fuzzy matching"""
+def test_case_7_misspelled_data_science_skills(recommender):
+    """Test with misspelled data science skills to check fuzzy matching"""
     skills = {
-        "Legul Research": 85,  # Misspelled Legal Research
-        "Contruct Drafting": 80,  # Misspelled Contract Drafting
-        "Constitutionl Law": 75,  # Misspelled Constitutional Law
-        "Reguletory Compliance": 85  # Misspelled Regulatory Compliance
+        "Pythen": 85,  # Misspelled Python
+        "Data Anelysis": 80,  # Misspelled Data Analysis
+        "Machine Lerning": 75,  # Misspelled Machine Learning
+        "Statistecs": 85  # Misspelled Statistics
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("misspelled_skills_profile", skills, result)
+    save_test_result("misspelled_data_science_skills_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -366,8 +363,8 @@ def test_case_7_misspelled_skills(recommender):
     
     print(f"Found matches for misspelled skills: {matched_any}")
 
-def test_case_8_irrelevant_skills(recommender):
-    """Test with skills irrelevant to any field"""
+def test_case_8_irrelevant_skills_for_data_science(recommender):
+    """Test with skills irrelevant to data science field"""
     skills = {
         "Cooking": 90,
         "Gardening": 85,
@@ -379,7 +376,7 @@ def test_case_8_irrelevant_skills(recommender):
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("irrelevant_skills_profile", skills, result)
+    save_test_result("irrelevant_skills_for_data_science_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -396,60 +393,56 @@ def test_case_8_irrelevant_skills(recommender):
         if top_spec["missing_skills"]:
             print(f"Example missing skill: {top_spec['missing_skills'][0]['skill']}")
 
-def test_case_9_highly_specialized_legal_profile(recommender):
-    """Test with a highly specialized legal skill set"""
+def test_case_9_highly_specialized_machine_learning_profile(recommender):
+    """Test with a highly specialized machine learning skill set"""
     skills = {
-        "International Arbitration": 90,
-        "Cross-Border Transactions": 95,
-        "Foreign Investment Law": 85,
-        "Treaty Interpretation": 80,
-        "International Trade Law": 95,
-        "Diplomatic Protocol": 90,
-        "Multi-Jurisdictional Litigation": 85
+        "Deep Learning": 90,
+        "Neural Networks": 95,
+        "TensorFlow": 85,
+        "PyTorch": 80,
+        "Computer Vision": 95,
+        "Natural Language Processing": 90,
+        "Reinforcement Learning": 85
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("highly_specialized_legal_profile", skills, result)
+    save_test_result("highly_specialized_machine_learning_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
-    # Check for relevant field like International Law
-    int_law_field = next((field for field in result["fields"] 
-                     if any(term in field["field"].lower() for term in 
-                        ["international", "global", "transnational", "cross-border"])), None)
+    # Check for relevant field like Data Science
+    ml_field = next((field for field in result["fields"] 
+                 if field["field"] == "Data Science"), None)
     
-    if int_law_field:
-        print(f"Recognized specialized International Law profile with confidence: {int_law_field['confidence']}")
+    if ml_field:
+        print(f"Recognized specialized Machine Learning profile with confidence: {ml_field['confidence']}")
         
-        # Check for specialized recommendations
-        field_name = int_law_field["field"]
+        # Check for specialized ML Engineer recommendation
+        field_name = ml_field["field"]
         if field_name in result["specializations_by_field"]:
             specs = result["specializations_by_field"][field_name]
-            int_law_spec = next((spec for spec in specs 
-                            if any(term in spec["specialization"].lower() for term in 
-                               ["international", "global", "transnational", "cross-border"])), None)
+            ml_spec = next((spec for spec in specs 
+                        if spec["specialization"] == "Machine Learning Engineer"), None)
             
-            if int_law_spec:
+            if ml_spec:
                 # Check matched skills
-                matched_skills = [skill["skill"] for skill in int_law_spec["matched_skills"]]
-                print(f"Matched International Law skills: {', '.join(matched_skills) if matched_skills else 'None'}")
+                matched_skills = [skill["skill"] for skill in ml_spec["matched_skills"]]
+                print(f"Matched Machine Learning skills: {', '.join(matched_skills) if matched_skills else 'None'}")
                 
                 # Check confidence scores
-                assert int_law_spec["confidence"] > 50, "International Law specialization should have high confidence"
+                assert ml_spec["confidence"] > 0.5, "Machine Learning Engineer specialization should have high confidence"
 
-def test_case_10_incomplete_field_skills(recommender):
-    """Test with incomplete skills for a field"""
-    # Get skills for a specific field and use only a subset of them
-    field_names = list(recommender.fields.keys())
-    if not field_names:
-        pytest.skip("No fields available in test data")
+def test_case_10_incomplete_data_science_skills(recommender):
+    """Test with incomplete skills for the Data Science field"""
+    # Get Data Science field skills
+    test_field = "Data Science"
+    if test_field not in recommender.fields:
+        pytest.skip("Data Science field not available in test data")
     
-    # Choose first field and get some of its skills
-    test_field = field_names[0]
     field_skills = recommender.fields[test_field].get("core_skills", {})
     
     # Handle both dictionary and list formats
@@ -471,12 +464,12 @@ def test_case_10_incomplete_field_skills(recommender):
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("incomplete_field_skills_profile", skills, result)
+    save_test_result("incomplete_data_science_skills_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
-    # Check if the correct field was recommended despite incomplete skills
+    # Check if the Data Science field was recommended despite incomplete skills
     recommended_fields = [field["field"] for field in result["fields"]]
     if test_field in recommended_fields:
         idx = recommended_fields.index(test_field)
@@ -546,6 +539,118 @@ def test_case_11_core_computer_science_skills(recommender):
             spec_confidence = cs_spec["confidence"]
             print(f"{cs_spec['specialization']} specialization confidence: {spec_confidence}")
             assert spec_confidence >= 0.7, "CS specialization should have high confidence (≥0.7)"
+
+def test_case_12_data_science_profile(recommender):
+    """Test with a data science skill profile"""
+    skills = {
+        "Python": 90,
+        "Data Analysis": 95,
+        "Machine Learning": 90,
+        "Statistics": 85,
+        "Data Visualization": 80
+    }
+    
+    # Get recommendations
+    result = recommender.full_recommendation(skills)
+    
+    # Save test result
+    save_test_result("data_science_profile", skills, result)
+    
+    # Validate structure
+    validate_recommendation_structure(result)
+    
+    # Check if Data Science field is recognized with high confidence
+    ds_field = next((field for field in result["fields"] if field["field"] == "Data Science"), None)
+    if ds_field:
+        confidence = ds_field["confidence"]
+        print(f"Data Science confidence with core skills: {confidence}")
+        assert confidence >= 70, "Data Science with core skills should have 70%+ confidence"
+    
+    # Check that relevant specializations are recommended
+    if result["top_specializations"]:
+        ds_spec = next((spec for spec in result["top_specializations"] 
+                       if spec["specialization"] in ["Data Scientist", "Machine Learning Engineer"]), None)
+        if ds_spec:
+            spec_confidence = ds_spec["confidence"]
+            print(f"{ds_spec['specialization']} specialization confidence: {spec_confidence}")
+            assert spec_confidence >= 0.7, "Data Science specialization should have high confidence (≥0.7)"
+
+def test_case_13_data_engineering_profile(recommender):
+    """Test with a data engineering skill profile"""
+    skills = {
+        "SQL": 95,
+        "Data Warehousing": 90,
+        "ETL Processes": 85,
+        "Python": 75,
+        "Data Modeling": 80
+    }
+    
+    # Get recommendations
+    result = recommender.full_recommendation(skills)
+    
+    # Save test result
+    save_test_result("data_engineering_profile", skills, result)
+    
+    # Validate structure
+    validate_recommendation_structure(result)
+    
+    # Check if Data Science field is recognized
+    ds_field = next((field for field in result["fields"] if field["field"] == "Data Science"), None)
+    if ds_field:
+        confidence = ds_field["confidence"]
+        print(f"Data Science confidence for data engineering skills: {confidence}")
+        
+        # Check that Data Engineer specialization is recommended
+        if result["top_specializations"]:
+            de_spec = next((spec for spec in result["top_specializations"] 
+                           if spec["specialization"] == "Data Engineer"), None)
+            if de_spec:
+                spec_confidence = de_spec["confidence"]
+                print(f"Data Engineer specialization confidence: {spec_confidence}")
+                # Check if matched skills include core data engineering skills
+                matched_skills = [skill["skill"] for skill in de_spec["matched_skills"]]
+                assert any("sql" in skill.lower() for skill in matched_skills) or \
+                       any("data warehousing" in skill.lower() for skill in matched_skills), \
+                       "Data Engineer should recognize SQL/Data Warehousing skills"
+
+def test_case_14_business_intelligence_profile(recommender):
+    """Test with a business intelligence skill profile"""
+    skills = {
+        "Data Visualization": 95,
+        "SQL": 85,
+        "Tableau/Power BI": 90,
+        "Business Analysis": 85,
+        "Reporting": 80
+    }
+    
+    # Get recommendations
+    result = recommender.full_recommendation(skills)
+    
+    # Save test result
+    save_test_result("business_intelligence_profile", skills, result)
+    
+    # Validate structure
+    validate_recommendation_structure(result)
+    
+    # Check if Data Science field is recognized
+    ds_field = next((field for field in result["fields"] if field["field"] == "Data Science"), None)
+    if ds_field:
+        confidence = ds_field["confidence"]
+        print(f"Data Science confidence for BI skills: {confidence}")
+        
+        # Check that BI Analyst specialization is recommended
+        if result["top_specializations"]:
+            bi_spec = next((spec for spec in result["top_specializations"] 
+                           if spec["specialization"] == "Business Intelligence Analyst"), None)
+            if bi_spec:
+                spec_confidence = bi_spec["confidence"]
+                print(f"Business Intelligence Analyst specialization confidence: {spec_confidence}")
+                # Check matched skills
+                matched_skills = [skill["skill"] for skill in bi_spec["matched_skills"]]
+                assert any("visualization" in skill.lower() for skill in matched_skills) or \
+                       any("tableau" in skill.lower() for skill in matched_skills) or \
+                       any("bi" in skill.lower() for skill in matched_skills), \
+                       "BI Analyst should recognize data visualization skills"
 
 def pytest_sessionfinish(session, exitstatus):
     """Save all test results to JSON file after all tests have completed"""
