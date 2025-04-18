@@ -131,10 +131,10 @@ class SemanticMatcher:
     
     # Default matching thresholds and weights that can be configured
     DEFAULT_MATCHING_CONFIG = {
-        "similarity_threshold": 0.75,
-        "partial_match_threshold": 0.5,
-        "domain_bonus_cap": 0.4,
-        "cross_domain_bonus": 0.25,
+        "similarity_threshold": 0.85,
+        "partial_match_threshold": 0.6,
+        "domain_bonus_cap": 0.35,
+        "cross_domain_bonus": 0.15,
         "exact_match_score": 1.0,
         "special_mapping_score": 0.95
     }
@@ -646,80 +646,130 @@ class SemanticMatcher:
         skill_lower = skill.lower()
         bonuses = {}
         
+        # Special handling for misspelled legal terms
+        common_legal_misspellings = {
+            "reguletory": "regulatory",
+            "leagal": "legal",
+            "litagation": "litigation",
+            "complyance": "compliance",
+            "corporat": "corporate",
+            "atturney": "attorney",
+            "attorny": "attorney",
+            "lawer": "lawyer",
+            "lawyr": "lawyer",
+            "legl": "legal"
+        }
+        
+        # Check for misspellings and correct them for domain detection
+        corrected_skill = skill_lower
+        for misspelled, correct in common_legal_misspellings.items():
+            if misspelled in skill_lower:
+                corrected_skill = skill_lower.replace(misspelled, correct)
+                # Add legal domain bonus immediately if legal misspelling found
+                bonuses["legal"] = 0.35
+                
         # Check for exact domain term matches
         for domain, terms in cls.DOMAIN_TERMS.items():
             # Check for exact matches in domain terms
             domain_score = 0
             for term in terms:
-                if term in skill_lower:
-                    # Give higher bonus for full word matches
-                    term_parts = term.split()
-                    if len(term_parts) > 1:
-                        # Multi-word term, check if all words appear
-                        if all(part in skill_lower.split() for part in term_parts):
-                            domain_score += 0.25  # Increased from 0.2
+                # Check in both original and corrected skill
+                for check_skill in [skill_lower, corrected_skill]:
+                    if term in check_skill:
+                        # Give higher bonus for full word matches
+                        term_parts = term.split()
+                        if len(term_parts) > 1:
+                            # Multi-word term, check if all words appear
+                            if all(part in check_skill.split() for part in term_parts):
+                                domain_score += 0.25  # Increased from 0.2
+                            else:
+                                domain_score += 0.15  # Increased from 0.1
                         else:
-                            domain_score += 0.15  # Increased from 0.1
-                    else:
-                        # Single word term, check if it's a full word
-                        skill_parts = skill_lower.split()
-                        if term in skill_parts:
-                            domain_score += 0.25  # Increased from 0.2
-                        else:
-                            domain_score += 0.15  # Increased from 0.1
+                            # Single word term, check if it's a full word
+                            skill_parts = check_skill.split()
+                            if term in skill_parts:
+                                domain_score += 0.25  # Increased from 0.2
+                            else:
+                                domain_score += 0.15  # Increased from 0.1
             
             if domain_score > 0:
                 bonuses[domain] = min(domain_score, 0.5)  # Cap at 0.5
         
-        # Special handling for potentially ambiguous terms
-        # Handle "compliance" term specifically - disambiguate between cybersecurity and legal
-        if "compliance" in skill_lower:
-            # Check if other legal terms exist in the skill
-            legal_indicators = ["regulatory", "legal", "law", "policy", "governance"]
-            security_indicators = ["security", "cyber", "network", "protection", "threat"]
+        # Special handling for "compliance" term - ensure proper classification
+        compliance_terms = ["compliance", "regulatory compliance", "legal compliance"]
+        if any(term in skill_lower for term in compliance_terms):
+            # Examine the context to determine if it's legal or cybersecurity
+            legal_indicators = ["regulatory", "legal", "law", "policy", "governance", "corporate", 
+                              "regulation"]
+            security_indicators = ["security", "cyber", "network", "it security", "technical", 
+                                 "protection", "threat"]
             
-            # Check for specific indicators in the skill
-            if any(indicator in skill_lower for indicator in legal_indicators):
-                # This is likely legal compliance
-                if "legal" in bonuses:
-                    bonuses["legal"] = max(bonuses.get("legal", 0), 0.4)
-                else:
-                    bonuses["legal"] = 0.4
-                
-                # Reduce or remove cybersecurity bonus if present
-                if "cybersecurity" in bonuses:
-                    bonuses["cybersecurity"] *= 0.5
+            # Look for indicators in whole skill text
+            has_legal_context = any(indicator in skill_lower for indicator in legal_indicators)
+            has_security_context = any(indicator in skill_lower for indicator in security_indicators)
             
-            elif any(indicator in skill_lower for indicator in security_indicators):
-                # This is likely security compliance
-                if "cybersecurity" in bonuses:
-                    bonuses["cybersecurity"] = max(bonuses.get("cybersecurity", 0), 0.4)
-                else:
-                    bonuses["cybersecurity"] = 0.4
-        
-        # Handle "case management" disambiguation
-        if "case management" in skill_lower or "case" in skill_lower and "management" in skill_lower:
-            # Check for legal context
-            legal_indicators = ["legal", "law", "litigation", "court", "attorney", "client"]
-            tech_indicators = ["incident", "security", "cyber", "ticket", "technical"]
-            
-            if any(indicator in skill_lower for indicator in legal_indicators):
-                # This is likely legal case management
-                if "legal" in bonuses:
-                    bonuses["legal"] = max(bonuses.get("legal", 0), 0.4)
-                else:
-                    bonuses["legal"] = 0.4
-                
-                # Reduce or remove cybersecurity bonus if present
+            # If clear legal indicators, strongly boost legal domain and reduce cybersecurity
+            if has_legal_context and not has_security_context:
+                bonuses["legal"] = max(bonuses.get("legal", 0), 0.45)
+                # Reduce or eliminate cybersecurity bonus if present
                 if "cybersecurity" in bonuses:
                     bonuses["cybersecurity"] *= 0.3  # Severely reduce cybersecurity score
             
-            elif any(indicator in skill_lower for indicator in tech_indicators):
-                # This is likely technical case/incident management
+            # If clear security indicators, boost cybersecurity domain
+            elif has_security_context and not has_legal_context:
+                bonuses["cybersecurity"] = max(bonuses.get("cybersecurity", 0), 0.45)
+            
+            # If ambiguous (both or neither context detected), slightly favor legal
+            elif "compliance" in skill_lower and "regulatory" in skill_lower:
+                bonuses["legal"] = max(bonuses.get("legal", 0), 0.4)
+                # Reduce cybersecurity bonus if present
                 if "cybersecurity" in bonuses:
-                    bonuses["cybersecurity"] = max(bonuses.get("cybersecurity", 0), 0.4)
-                else:
-                    bonuses["cybersecurity"] = 0.4
+                    bonuses["cybersecurity"] = min(bonuses.get("cybersecurity", 0) * 0.7, 0.25)
+            elif "compliance" in skill_lower:
+                # Default slightly to legal for plain "compliance" with no context
+                bonuses["legal"] = max(bonuses.get("legal", 0), 0.3)
+                # Slightly reduce cybersecurity if present
+                if "cybersecurity" in bonuses:
+                    bonuses["cybersecurity"] = min(bonuses.get("cybersecurity", 0) * 0.8, 0.25)
+        
+        # Handle "case management" disambiguation
+        if "case management" in skill_lower or ("case" in skill_lower and "management" in skill_lower):
+            # Check for legal context
+            legal_indicators = ["legal", "law", "litigation", "court", "attorney", "client", "lawsuit"]
+            tech_indicators = ["incident", "security", "cyber", "ticket", "technical", "it support"]
+            
+            has_legal_context = any(indicator in skill_lower for indicator in legal_indicators)
+            has_tech_context = any(indicator in skill_lower for indicator in tech_indicators)
+            
+            if has_legal_context and not has_tech_context:
+                # This is clearly legal case management
+                bonuses["legal"] = max(bonuses.get("legal", 0), 0.45)
+                
+                # Remove cybersecurity bonus if present
+                if "cybersecurity" in bonuses:
+                    del bonuses["cybersecurity"]
+            
+            elif has_tech_context and not has_legal_context:
+                # This is clearly technical case/incident management
+                bonuses["cybersecurity"] = max(bonuses.get("cybersecurity", 0), 0.45)
+            
+            elif not has_legal_context and not has_tech_context:
+                # Default behavior: favor legal interpretation for "case management" without context
+                bonuses["legal"] = max(bonuses.get("legal", 0), 0.35)
+                # Reduce cybersecurity score dramatically
+                if "cybersecurity" in bonuses:
+                    bonuses["cybersecurity"] *= 0.4
+        
+        # Deal with irrelevant skills - if skills like cooking, gardening, etc. are detected
+        irrelevant_terms = ["cooking", "gardening", "hobbies", "sports", "gaming"]
+        if any(term in skill_lower for term in irrelevant_terms):
+            # Clear all technical domain bonuses - irrelevant skills should not match technical domains
+            for domain in ["cybersecurity", "programming", "data_science", "engineering"]:
+                if domain in bonuses:
+                    del bonuses[domain]
+            
+            # Give small boost to general domains
+            bonuses["general"] = 0.2
         
         # Check for cross-domain mappings
         for primary_skill, related_skills in cls.CROSS_DOMAIN_MAPPINGS.items():
@@ -819,6 +869,38 @@ class SemanticMatcher:
                     cls._match_cache[cache_key] = result
                     return result
         
+        # Problematic cross-domain matches to explicitly handle
+        cross_domain_restrictions = {
+            "case management": {
+                "incident management": 0.5,  # Reduce match score between these terms
+                "ticket management": 0.6
+            },
+            "compliance": {
+                "security compliance": 0.6,
+                "regulatory compliance": 0.9  # Strong match within legal domain
+            },
+            "regulatory compliance": {
+                "compliance": 0.9  # Strong match within legal domain
+            }
+        }
+        
+        # Check for problematic cross-domain matches
+        for problem_term, restrictions in cross_domain_restrictions.items():
+            if problem_term in skill_lower:
+                for ref_skill in reference_skills:
+                    ref_lower = ref_skill.lower()
+                    for restricted_term, max_score in restrictions.items():
+                        if restricted_term in ref_lower:
+                            # Analyze domains to determine if cross-domain
+                            skill_domains = cls.get_prioritized_domains(skill)
+                            ref_domains = cls.get_prioritized_domains(ref_skill)
+                            
+                            # If they share a domain, don't restrict
+                            if not (set(skill_domains[:1]) & set(ref_domains[:1])):
+                                result = (None, max_score * 0.8)  # Return restricted match or no match
+                                cls._match_cache[cache_key] = result
+                                return result
+                            
         # Check cross-domain mappings for potential matches
         for primary_skill, related_skills in cls.CROSS_DOMAIN_MAPPINGS.items():
             if skill_lower in [s.lower() for s in related_skills] or skill_lower == primary_skill.lower():
@@ -838,8 +920,8 @@ class SemanticMatcher:
         # Get domain bonuses for the input skill
         domain_bonuses = cls.get_domain_bonus(skill)
         
-        # Prioritize matching within the same domain when possible
-        prioritized_domains = cls.get_prioritized_domains(skill)
+        # Get skill domains
+        skill_domains = cls.get_prioritized_domains(skill)
         
         # Group reference skills by their domains
         domain_grouped_refs = {}
@@ -850,66 +932,103 @@ class SemanticMatcher:
                     domain_grouped_refs[domain] = []
                 domain_grouped_refs[domain].append(ref_skill)
         
-        # Try to match within prioritized domains first
-        for domain in prioritized_domains:
-            if domain in domain_grouped_refs:
-                for ref_skill in domain_grouped_refs[domain]:
-                    # Calculate base similarity score
-                    if use_semantic:
-                        similarity = cls.semantic_similarity(skill, ref_skill)
-                    else:
-                        # Fallback to fuzzy matching
-                        similarity = fuzz.token_sort_ratio(skill_lower, ref_skill.lower()) / 100
-                    
-                    # Apply domain-specific bonuses
-                    ref_skill_bonuses = cls.get_domain_bonus(ref_skill)
-                    bonus = 0.0
-                    
-                    # If both skills have the same domain, apply bonus
-                    for domain, score in domain_bonuses.items():
-                        if domain in ref_skill_bonuses:
-                            bonus += min(score, ref_skill_bonuses[domain])
-                    
-                    # Apply the bonus (capped to avoid exceeding 1.0)
-                    final_score = min(1.0, similarity + bonus)
-                    
-                    if final_score > best_score:
-                        best_match = ref_skill
-                        best_score = final_score
+        # Try to match within same domains first - strongly prefer same-domain matches
+        same_domain_matches = []
+        cross_domain_matches = []
         
-        # If we didn't find a good match within prioritized domains, try all references
-        if best_score < threshold:
-            for ref_skill in reference_skills:
-                # Calculate base similarity score
-                if use_semantic:
-                    similarity = cls.semantic_similarity(skill, ref_skill)
-                else:
-                    # Fallback to fuzzy matching
-                    similarity = fuzz.token_sort_ratio(skill_lower, ref_skill.lower()) / 100
-                
-                # Apply domain-specific bonuses
-                ref_skill_bonuses = cls.get_domain_bonus(ref_skill)
-                bonus = 0.0
-                
-                # If both skills have the same domain, apply bonus
-                for domain, score in domain_bonuses.items():
-                    if domain in ref_skill_bonuses:
-                        bonus += min(score, ref_skill_bonuses[domain])
-                
-                # Apply the bonus (capped to avoid exceeding 1.0)
-                final_score = min(1.0, similarity + bonus)
-                
-                if final_score > best_score:
-                    best_match = ref_skill
-                    best_score = final_score
-        
-        # Only return match if it exceeds threshold
-        if best_score >= threshold:
-            result = (best_match, best_score)
-        else:
-            result = (None, best_score)
+        for ref_skill in reference_skills:
+            # Calculate base similarity score
+            if use_semantic:
+                similarity = cls.semantic_similarity(skill, ref_skill)
+            else:
+                # Fallback to fuzzy matching
+                similarity = fuzz.token_sort_ratio(skill_lower, ref_skill.lower()) / 100
             
-        # Cache the result
+            # Get domains for reference skill
+            ref_domains = cls.get_prioritized_domains(ref_skill)
+            
+            # Check for domain overlap - if they share primary domains, this is a same-domain match
+            is_same_domain = bool(set(skill_domains[:1]) & set(ref_domains[:1]))
+            
+            # Apply domain-specific bonuses
+            ref_skill_bonuses = cls.get_domain_bonus(ref_skill)
+            bonus = 0.0
+            
+            # If both skills have the same domain, apply bonus
+            for domain, score in domain_bonuses.items():
+                if domain in ref_skill_bonuses:
+                    bonus += min(score, ref_skill_bonuses[domain])
+            
+            # Cap the bonus
+            bonus = min(bonus, cls._matching_config["domain_bonus_cap"])
+            
+            # Higher threshold for cross-domain matches
+            effective_threshold = threshold
+            if not is_same_domain:
+                # Apply stricter threshold for cross-domain matches
+                effective_threshold = threshold * 1.2  # 20% higher threshold for cross-domain
+                
+                # Check for specific cross-domain restrictions
+                if "case management" in skill_lower and "incident" in ref_skill.lower():
+                    effective_threshold = threshold * 1.3  # Even stricter for case → incident
+                elif "compliance" in skill_lower and "security" in ref_skill.lower():
+                    effective_threshold = threshold * 1.3  # Stricter for compliance → security
+            
+            # Apply bonus to similarity
+            adjusted_similarity = similarity + bonus
+            
+            # Store match data differently for same vs cross domain
+            match_data = (ref_skill, adjusted_similarity, similarity, is_same_domain)
+            if is_same_domain:
+                same_domain_matches.append(match_data)
+            else:
+                cross_domain_matches.append(match_data)
+            
+            # Track best overall match
+            if adjusted_similarity > best_score:
+                effective_score = adjusted_similarity
+                
+                # If cross-domain, apply penalty
+                if not is_same_domain:
+                    effective_score = adjusted_similarity * 0.9  # 10% penalty for cross-domain
+                
+                # Check if this exceeds our best so far and threshold
+                if effective_score > best_score and effective_score >= effective_threshold:
+                    best_match = ref_skill
+                    best_score = effective_score
+        
+        # If no match found but we have same-domain near matches, consider using them
+        if not best_match and same_domain_matches:
+            # Sort by adjusted similarity
+            same_domain_matches.sort(key=lambda x: x[1], reverse=True)
+            best_same_domain = same_domain_matches[0]
+            
+            # Use a more lenient threshold for same-domain matches
+            lenient_threshold = threshold * 0.9  # 10% more lenient for same domain
+            if best_same_domain[1] >= lenient_threshold:
+                best_match = best_same_domain[0]
+                best_score = best_same_domain[1]
+        
+        # Final check for problematic matches that should be filtered
+        if best_match:
+            # Handle specific problematic pairs
+            problematic_pairs = [
+                ("case management", "incident management", 0.7),
+                ("legal compliance", "security compliance", 0.75),
+                ("regulatory", "security governance", 0.75),
+                ("contract", "network", 0.8)
+            ]
+            
+            for term1, term2, min_required in problematic_pairs:
+                if term1 in skill_lower and term2 in best_match.lower():
+                    # If match score is below higher threshold, reject
+                    if best_score < min_required:
+                        best_match = None
+                        best_score = 0.0
+                        break
+        
+        # Store result in cache
+        result = (best_match, best_score)
         cls._match_cache[cache_key] = result
         return result
     
