@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
     "num_features": 212,
     "fields": [
         "Architecture",
@@ -95,71 +94,5 @@
         "University Professor",
         "Web Developer"
     ],
-    "created_at": "2025-04-18T14:44:40"
+    "created_at": "2025-04-18T16:27:17"
 }
-=======
-    "version": "1.2.0",
-    "created_at": "2024-04-18",
-    "framework": "scikit-learn",
-    "models": {
-        "field_clf": {
-            "type": "RandomForestClassifier",
-            "hyperparameters": {
-                "n_estimators": 100,
-                "max_depth": 20,
-                "min_samples_split": 5,
-                "random_state": 42
-            },
-            "accuracy": 1.0
-        },
-        "spec_clf": {
-            "type": "RandomForestClassifier",
-            "hyperparameters": {
-                "n_estimators": 100,
-                "max_depth": 20,
-                "min_samples_split": 5,
-                "random_state": 42
-            },
-            "accuracy": 0.99
-        }
-    },
-    "features": {
-        "count": 161,
-        "type": "skill proficiency (0-100)"
-    },
-    "improvements": [
-        {
-            "version": "1.2.0",
-            "date": "2024-04-18",
-            "description": "Enhanced semantic matching with domain-specific knowledge",
-            "details": [
-                "Improved cross-domain skill matching for UI/UX vs Technical Design",
-                "Added skill prioritization for missing skills based on importance and domain relevance",
-                "Improved confidence distribution with sigmoid scaling for more proportionate scores",
-                "Enhanced domain categorization with additional domain terms",
-                "Added cross-domain mapping to better handle skills that span multiple domains"
-            ]
-        },
-        {
-            "version": "1.1.0",
-            "date": "2024-03-15",
-            "description": "Added semantic matching capability",
-            "details": [
-                "Integrated transformer-based semantic matching for better skill similarity detection",
-                "Added caching to improve performance",
-                "Implemented initial domain-specific term detection"
-            ]
-        },
-        {
-            "version": "1.0.0",
-            "date": "2024-02-01",
-            "description": "Initial model release",
-            "details": [
-                "Basic fuzzy string matching for skills",
-                "Random forest classifiers for field and specialization prediction",
-                "Simple confidence scoring"
-            ]
-        }
-    ]
-}
->>>>>>> 05a31f53e7cf8827ee9d9d7602031ca22712bd52
