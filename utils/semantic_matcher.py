@@ -131,10 +131,10 @@ class SemanticMatcher:
     
     # Default matching thresholds and weights that can be configured
     DEFAULT_MATCHING_CONFIG = {
-        "similarity_threshold": 0.65,
-        "partial_match_threshold": 0.4,
-        "domain_bonus_cap": 0.5,
-        "cross_domain_bonus": 0.35,
+        "similarity_threshold": 0.75,
+        "partial_match_threshold": 0.5,
+        "domain_bonus_cap": 0.4,
+        "cross_domain_bonus": 0.25,
         "exact_match_score": 1.0,
         "special_mapping_score": 0.95
     }
@@ -186,6 +186,17 @@ class SemanticMatcher:
             "access control", "authentication", "cryptography", "security governance", "compliance",
             "security operations", "risk assessment", "threat hunting", "security architecture", "osint"
         },
+        "legal": {
+            "legal", "law", "litigation", "corporate law", "compliance", "regulatory", "regulations",
+            "contracts", "intellectual property", "patent", "trademark", "copyright", "licensing",
+            "legal research", "case law", "jurisprudence", "legal writing", "legal analysis",
+            "legal counsel", "attorney", "lawyer", "solicitor", "barrister", "judicial",
+            "court proceedings", "trial", "deposition", "corporate governance", "due diligence",
+            "mergers", "acquisitions", "legal documentation", "arbitration", "mediation",
+            "dispute resolution", "negotiation", "tort", "civil law", "criminal law", "family law",
+            "real estate law", "commercial law", "business law", "legal advising", "paralegal",
+            "legal ethics", "legal workflow", "legislative", "case management", "legal drafting"
+        },
         "arts": {
             "dancing", "painting", "drawing", "sketching", "sculpture", 
             "performance", "choreography", "visual arts", "fine arts", "crafts",
@@ -231,7 +242,19 @@ class SemanticMatcher:
         # Skill variations
         "web development": ["web design", "website development", "frontend development"],
         "mobile development": ["android development", "ios development", "app development"],
-        "data analysis": ["data analytics", "statistical analysis", "data processing"]
+        "data analysis": ["data analytics", "statistical analysis", "data processing"],
+        
+        # Legal domain specific mappings
+        "legal research": ["case law research", "statutory research", "legal analysis"],
+        "corporate law": ["business law", "commercial law", "corporate governance"],
+        "litigation": ["trial practice", "court proceedings", "dispute resolution"],
+        "regulatory compliance": ["compliance", "regulatory affairs", "governance"],
+        "contract management": ["contract review", "contract drafting", "legal documentation"],
+        "legal writing": ["legal drafting", "brief writing", "legal documentation"],
+        
+        # Prevent cross-domain confusion between legal and cybersecurity
+        "case management": ["legal case management", "caseload management"],
+        "compliance": ["regulatory compliance", "legal compliance"]
     }
     
     @classmethod
@@ -647,6 +670,56 @@ class SemanticMatcher:
             
             if domain_score > 0:
                 bonuses[domain] = min(domain_score, 0.5)  # Cap at 0.5
+        
+        # Special handling for potentially ambiguous terms
+        # Handle "compliance" term specifically - disambiguate between cybersecurity and legal
+        if "compliance" in skill_lower:
+            # Check if other legal terms exist in the skill
+            legal_indicators = ["regulatory", "legal", "law", "policy", "governance"]
+            security_indicators = ["security", "cyber", "network", "protection", "threat"]
+            
+            # Check for specific indicators in the skill
+            if any(indicator in skill_lower for indicator in legal_indicators):
+                # This is likely legal compliance
+                if "legal" in bonuses:
+                    bonuses["legal"] = max(bonuses.get("legal", 0), 0.4)
+                else:
+                    bonuses["legal"] = 0.4
+                
+                # Reduce or remove cybersecurity bonus if present
+                if "cybersecurity" in bonuses:
+                    bonuses["cybersecurity"] *= 0.5
+            
+            elif any(indicator in skill_lower for indicator in security_indicators):
+                # This is likely security compliance
+                if "cybersecurity" in bonuses:
+                    bonuses["cybersecurity"] = max(bonuses.get("cybersecurity", 0), 0.4)
+                else:
+                    bonuses["cybersecurity"] = 0.4
+        
+        # Handle "case management" disambiguation
+        if "case management" in skill_lower or "case" in skill_lower and "management" in skill_lower:
+            # Check for legal context
+            legal_indicators = ["legal", "law", "litigation", "court", "attorney", "client"]
+            tech_indicators = ["incident", "security", "cyber", "ticket", "technical"]
+            
+            if any(indicator in skill_lower for indicator in legal_indicators):
+                # This is likely legal case management
+                if "legal" in bonuses:
+                    bonuses["legal"] = max(bonuses.get("legal", 0), 0.4)
+                else:
+                    bonuses["legal"] = 0.4
+                
+                # Reduce or remove cybersecurity bonus if present
+                if "cybersecurity" in bonuses:
+                    bonuses["cybersecurity"] *= 0.3  # Severely reduce cybersecurity score
+            
+            elif any(indicator in skill_lower for indicator in tech_indicators):
+                # This is likely technical case/incident management
+                if "cybersecurity" in bonuses:
+                    bonuses["cybersecurity"] = max(bonuses.get("cybersecurity", 0), 0.4)
+                else:
+                    bonuses["cybersecurity"] = 0.4
         
         # Check for cross-domain mappings
         for primary_skill, related_skills in cls.CROSS_DOMAIN_MAPPINGS.items():

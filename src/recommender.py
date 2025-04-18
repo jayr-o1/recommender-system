@@ -378,15 +378,59 @@ class CareerRecommender:
                 
                 # Only add fields with confidence > 5%
                 if confidence > 5:
-                    recommendations.append({
-                        "field": field_name,
-                        "confidence": confidence,
-                        "matched_skills": self._get_matching_skills_for_field(skills, field_name)
-                    })
+                    # Validate field domain alignment
+                    if self._validate_field_domain(skills, field_name):
+                        recommendations.append({
+                            "field": field_name,
+                            "confidence": confidence,
+                            "matched_skills": self._get_matching_skills_for_field(skills, field_name)
+                        })
+                    else:
+                        # Log rejection due to domain mismatch
+                        logger.debug(f"Field {field_name} rejected due to domain mismatch with skills")
+                        
+                        # For Cybersecurity specifically, reduce confidence significantly if no tech skills
+                        if field_name.lower() == "cybersecurity":
+                            # Add with greatly reduced confidence if it would have been recommended
+                            if confidence > 30:
+                                recommendations.append({
+                                    "field": field_name,
+                                    "confidence": confidence * 0.3,  # Reduce confidence by 70%
+                                    "matched_skills": self._get_matching_skills_for_field(skills, field_name)
+                                })
+            
+            # Add a check for the "minimal skills" case - if there's only one or two skills
+            if len(skills) <= 2:
+                # Adjust confidence scores - penalize cybersecurity for minimal skills
+                for rec in recommendations:
+                    if rec["field"].lower() == "cybersecurity":
+                        rec["confidence"] *= 0.5  # Reduce cybersecurity confidence by 50% for minimal skills
             
             # Sort by confidence score
             recommendations.sort(key=lambda x: x["confidence"], reverse=True)
-            return recommendations[:top_n]
+            
+            # If no recommendations passed validation, return the top fields without validation
+            if not recommendations:
+                logger.warning("No recommendations passed domain validation, falling back to raw predictions.")
+                for field_idx in range(len(self.le_field.classes_)):
+                    field_name = self.le_field.classes_[field_idx]
+                    confidence = round(float(probas[field_idx]) * 100, 2)
+                    
+                    # Only add fields with confidence > 5%
+                    if confidence > 5:
+                        recommendations.append({
+                            "field": field_name,
+                            "confidence": confidence,
+                            "matched_skills": self._get_matching_skills_for_field(skills, field_name)
+                        })
+                
+                # Sort by confidence
+                recommendations.sort(key=lambda x: x["confidence"], reverse=True)
+            
+            # Apply post-processing filters to recommendations
+            filtered_recommendations = self._filter_recommendations(recommendations, skills)
+            
+            return filtered_recommendations[:top_n]
         except Exception as e:
             raise RuntimeError(f"Error recommending fields: {e}")
     
@@ -409,6 +453,65 @@ class CareerRecommender:
                     break
                 
         return matches
+    
+    def _filter_recommendations(self, recommendations: List[Dict[str, Any]], skills: Dict[str, int]) -> List[Dict[str, Any]]:
+        """
+        Apply post-processing filters to recommendations to improve accuracy
+        
+        Args:
+            recommendations: List of recommendation dictionaries
+            skills: Dictionary of user skills
+            
+        Returns:
+            Filtered list of recommendations
+        """
+        if not recommendations:
+            return recommendations
+            
+        # Check for legal-specific skills
+        legal_terms = {"legal", "law", "litigation", "corporate", "compliance", "regulatory", 
+                     "contracts", "attorney", "lawyer", "legal research", "case law"}
+        has_legal_skills = any(any(term in skill.lower() for term in legal_terms) 
+                              for skill in skills.keys())
+        
+        # Count skills with legal terms
+        legal_skill_count = sum(1 for skill in skills.keys() 
+                             if any(term in skill.lower() for term in legal_terms))
+        
+        # Check for irrelevant skills (skills that don't match any professional field)
+        irrelevant_terms = {"cooking", "gardening", "hobbies", "gaming", "sports"}
+        has_irrelevant_skills = any(any(term in skill.lower() for term in irrelevant_terms) 
+                                   for skill in skills.keys())
+        
+        # Minimal skills case - only 1-2 skills provided
+        has_minimal_skills = len(skills) <= 2
+        
+        # Apply hotfix for legal vs. cybersecurity confusion
+        if has_legal_skills:
+            # Check if cybersecurity is recommended
+            has_cyber_rec = any(r["field"] == "Cybersecurity" for r in recommendations)
+            
+            # If more than 50% of skills are legal-related, remove cybersecurity
+            if legal_skill_count / len(skills) > 0.5 and has_cyber_rec:
+                recommendations = [r for r in recommendations if r["field"] != "Cybersecurity"]
+                logging.debug("Removed Cybersecurity recommendation due to predominant legal skills")
+        
+        # Irrelevant skills case - boost confidence for general fields, reduce for specialized
+        if has_irrelevant_skills:
+            for rec in recommendations:
+                if rec["field"] in ["Cybersecurity", "Data Science", "Software Engineering"]:
+                    rec["confidence"] *= 0.5  # Reduce technical field confidence for irrelevant skills
+        
+        # For minimal skills case with cybersecurity
+        if has_minimal_skills and any(r["field"] == "Cybersecurity" for r in recommendations):
+            for rec in recommendations:
+                if rec["field"] == "Cybersecurity":
+                    rec["confidence"] *= 0.4  # Significantly reduce confidence for minimal skills
+        
+        # Re-sort by confidence
+        recommendations.sort(key=lambda x: x["confidence"], reverse=True)
+        
+        return recommendations
     
     def recommend_specializations(self, skills: Dict[str, int], field: Optional[str] = None, 
                                  top_n: int = 3) -> List[Dict[str, Any]]:
@@ -477,7 +580,11 @@ class CareerRecommender:
             
             # Sort by confidence score
             recommendations.sort(key=lambda x: x["confidence"], reverse=True)
-            return recommendations[:top_n]
+            
+            # Apply post-processing filters
+            filtered_recommendations = self._filter_recommendations(recommendations, skills)
+            
+            return filtered_recommendations[:top_n]
         except Exception as e:
             raise RuntimeError(f"Error recommending specializations: {e}")
     
@@ -745,6 +852,55 @@ class CareerRecommender:
         return any(any(term in skill["user_skill"].lower() for term in tech_terms)
                 for skill in matched_skills)
     
+    def _validate_field_domain(self, skills: Dict[str, int], field: str) -> bool:
+        """
+        Check if skills align with the field's domain
+        
+        Args:
+            skills: Dictionary of skills and proficiency
+            field: Field name to validate against
+            
+        Returns:
+            True if skills align with the field's domain, False otherwise
+        """
+        if not self.use_semantic:
+            return True  # Skip domain validation if semantic matching is disabled
+            
+        # Define domain groupings
+        legal_domains = {"legal", "law", "litigation", "corporate", "compliance", "regulatory"}
+        tech_domains = {"cybersecurity", "programming", "networking", "encryption", "security", "technical"}
+        business_domains = {"business", "management", "finance", "accounting", "marketing"}
+        
+        # Get skill domains using SemanticMatcher
+        skill_domains = set()
+        for skill in skills.keys():
+            # Get prioritized domains for this skill
+            domains = SemanticMatcher.get_prioritized_domains(skill)
+            if domains:
+                skill_domains.update(domains)
+                
+        # Field-specific validation
+        if field.lower() == "cybersecurity":
+            # Check if at least one cybersecurity or tech skill exists
+            has_tech_skill = any(domain in tech_domains for domain in skill_domains)
+            if not has_tech_skill:
+                # If no tech skills, check skill names explicitly for tech terms
+                has_tech_term = any(any(term in skill.lower() for term in tech_domains) 
+                                 for skill in skills.keys())
+                return has_tech_term
+                
+        elif field.lower() in {"law", "corporate law", "litigation"}:
+            # Check if at least one legal skill exists
+            has_legal_skill = any(domain in legal_domains for domain in skill_domains) 
+            if not has_legal_skill:
+                # If no legal skills, check skill names explicitly for legal terms
+                has_legal_term = any(any(term in skill.lower() for term in legal_domains) 
+                                  for skill in skills.keys())
+                return has_legal_term
+                
+        # Default: no specific domain requirements
+        return True
+    
     def full_recommendation(self, skills: Dict[str, int], top_fields: int = 1, 
                          top_specs: int = 3) -> Dict[str, Any]:
         """
@@ -764,6 +920,9 @@ class CareerRecommender:
             
         # Get field recommendations
         field_recommendations = self.recommend_field(skills, top_n=top_fields)
+        
+        # Apply post-processing filters to field recommendations
+        field_recommendations = self._filter_recommendations(field_recommendations, skills)
         
         # Get specialization recommendations for each field
         all_specialization_recommendations = []
