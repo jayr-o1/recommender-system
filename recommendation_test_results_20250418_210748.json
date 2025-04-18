@@ -1,0 +1,780 @@
+{
+  "test_timestamp": "2025-04-18T21:07:48.389317",
+  "total_test_cases": 10,
+  "test_results": {
+    "web_development_profile": {
+      "input_skills": {
+        "JavaScript": 90,
+        "HTML": 95,
+        "CSS": 90,
+        "React": 85,
+        "Node.js": 80
+      },
+      "fields": [
+        {
+          "field": "Computer Science",
+          "confidence": 81.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Web Developer",
+          "field": "Computer Science",
+          "confidence": 0.9117287723497006,
+          "matched_skills": [
+            {
+              "skill": "HTML",
+              "user_skill": "HTML",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "CSS",
+              "user_skill": "CSS",
+              "proficiency": 90,
+              "match_score": 100
+            },
+            {
+              "skill": "JavaScript",
+              "user_skill": "JavaScript",
+              "proficiency": 90,
+              "match_score": 100
+            },
+            {
+              "skill": "React",
+              "user_skill": "React",
+              "proficiency": 85,
+              "match_score": 100
+            },
+            {
+              "skill": "Node.js",
+              "user_skill": "Node.js",
+              "proficiency": 80,
+              "match_score": 100
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "Responsive Design",
+              "priority": 0.640851141512394
+            },
+            {
+              "skill": "Web Security",
+              "priority": 0.5659684255719184
+            }
+          ]
+        },
+        {
+          "specialization": "Mobile App Developer",
+          "field": "Computer Science",
+          "confidence": 0.2245354668067593,
+          "matched_skills": [
+            {
+              "skill": "React Native",
+              "user_skill": "React",
+              "proficiency": 85,
+              "match_score": 98
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "Kotlin",
+              "priority": 0.7597748611122369
+            },
+            {
+              "skill": "Swift",
+              "priority": 0.7510174266994
+            },
+            {
+              "skill": "Flutter",
+              "priority": 0.6696304798126221
+            },
+            {
+              "skill": "API Integration",
+              "priority": 0.6144139915704727
+            },
+            {
+              "skill": "Mobile UI Design",
+              "priority": 0.6018350310623646
+            },
+            {
+              "skill": "App Store Deployment",
+              "priority": 0.5988334942609072
+            }
+          ]
+        },
+        {
+          "specialization": "DevOps Engineer",
+          "field": "Computer Science",
+          "confidence": 0.0,
+          "matched_skills": [],
+          "missing_skills": [
+            {
+              "skill": "CI/CD",
+              "priority": 0.8052526026964187
+            },
+            {
+              "skill": "Kubernetes",
+              "priority": 0.7719981338828802
+            },
+            {
+              "skill": "Docker",
+              "priority": 0.7216755278408528
+            },
+            {
+              "skill": "Infrastructure as Code",
+              "priority": 0.7189584910869599
+            },
+            {
+              "skill": "Cloud Services",
+              "priority": 0.6614259004592896
+            },
+            {
+              "skill": "Monitoring Tools",
+              "priority": 0.6430709339678287
+            },
+            {
+              "skill": "Shell Scripting",
+              "priority": 0.636042807251215
+            }
+          ]
+        }
+      ]
+    },
+    "data_science_profile": {
+      "input_skills": {
+        "Python": 85,
+        "Data Analysis": 90,
+        "Machine Learning": 80,
+        "Statistics": 75,
+        "SQL": 70
+      },
+      "fields": [
+        {
+          "field": "Data Science",
+          "confidence": 100.0,
+          "matched_skills": 4
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Data Scientist",
+          "field": "Data Science",
+          "confidence": 0.95,
+          "matched_skills": [
+            {
+              "skill": "Python",
+              "user_skill": "Python",
+              "proficiency": 85,
+              "match_score": 100
+            },
+            {
+              "skill": "Machine Learning",
+              "user_skill": "Machine Learning",
+              "proficiency": 80,
+              "match_score": 100
+            },
+            {
+              "skill": "Statistics",
+              "user_skill": "Statistics",
+              "proficiency": 75,
+              "match_score": 100
+            },
+            {
+              "skill": "Data Analysis",
+              "user_skill": "Data Analysis",
+              "proficiency": 90,
+              "match_score": 100
+            },
+            {
+              "skill": "Big Data",
+              "user_skill": "Data Analysis",
+              "proficiency": 90,
+              "match_score": 83
+            },
+            {
+              "skill": "Data Visualization",
+              "user_skill": "Data Analysis",
+              "proficiency": 90,
+              "match_score": 86
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "R",
+              "priority": 0.5985960602760314
+            }
+          ]
+        },
+        {
+          "specialization": "Machine Learning Engineer",
+          "field": "Data Science",
+          "confidence": 0.8749525480944024,
+          "matched_skills": [
+            {
+              "skill": "Machine Learning Algorithms",
+              "user_skill": "Machine Learning",
+              "proficiency": 80,
+              "match_score": 100
+            },
+            {
+              "skill": "Deep Learning",
+              "user_skill": "Machine Learning",
+              "proficiency": 80,
+              "match_score": 93
+            },
+            {
+              "skill": "Python",
+              "user_skill": "Python",
+              "proficiency": 85,
+              "match_score": 100
+            },
+            {
+              "skill": "Feature Engineering",
+              "user_skill": "Machine Learning",
+              "proficiency": 80,
+              "match_score": 72
+            },
+            {
+              "skill": "Data Processing",
+              "user_skill": "Data Analysis",
+              "proficiency": 90,
+              "match_score": 95
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "Model Deployment",
+              "priority": 0.6684475466609001
+            },
+            {
+              "skill": "TensorFlow/PyTorch",
+              "priority": 0.6477082371711731
+            }
+          ]
+        }
+      ]
+    },
+    "mixed_skills_profile": {
+      "input_skills": {
+        "JavaScript": 80,
+        "Python": 80,
+        "SQL": 85,
+        "Project Management": 90,
+        "Communication": 95
+      },
+      "fields": [
+        {
+          "field": "Computer Science",
+          "confidence": 34.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": []
+    },
+    "minimal_skills_profile": {
+      "input_skills": {
+        "JavaScript": 60
+      },
+      "fields": [
+        {
+          "field": "Computer Science",
+          "confidence": 35.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Mobile App Developer",
+          "field": "Computer Science",
+          "confidence": 0.0,
+          "matched_skills": [],
+          "missing_skills": [
+            {
+              "skill": "Kotlin",
+              "priority": 0.7675508461892605
+            },
+            {
+              "skill": "Swift",
+              "priority": 0.7510174266994
+            },
+            {
+              "skill": "Flutter",
+              "priority": 0.7233225286006928
+            },
+            {
+              "skill": "React Native",
+              "priority": 0.716754561662674
+            },
+            {
+              "skill": "Mobile UI Design",
+              "priority": 0.6783737652003765
+            },
+            {
+              "skill": "API Integration",
+              "priority": 0.6462623037397861
+            },
+            {
+              "skill": "App Store Deployment",
+              "priority": 0.6461725262925029
+            }
+          ]
+        }
+      ]
+    },
+    "high_proficiency_profile": {
+      "input_skills": {
+        "Python": 95,
+        "Machine Learning": 95,
+        "Deep Learning": 95,
+        "Neural Networks": 95,
+        "TensorFlow": 95
+      },
+      "fields": [
+        {
+          "field": "Data Science",
+          "confidence": 90.0,
+          "matched_skills": 2
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Machine Learning Engineer",
+          "field": "Data Science",
+          "confidence": 0.9382700933083558,
+          "matched_skills": [
+            {
+              "skill": "Machine Learning Algorithms",
+              "user_skill": "Machine Learning",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "Deep Learning",
+              "user_skill": "Deep Learning",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "Python",
+              "user_skill": "Python",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "TensorFlow/PyTorch",
+              "user_skill": "TensorFlow",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "Feature Engineering",
+              "user_skill": "Machine Learning",
+              "proficiency": 95,
+              "match_score": 72
+            },
+            {
+              "skill": "Data Processing",
+              "user_skill": "Machine Learning",
+              "proficiency": 95,
+              "match_score": 78
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "Model Deployment",
+              "priority": 0.6684475466609001
+            }
+          ]
+        },
+        {
+          "specialization": "Data Scientist",
+          "field": "Data Science",
+          "confidence": 0.8256833614426172,
+          "matched_skills": [
+            {
+              "skill": "Python",
+              "user_skill": "Python",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "Machine Learning",
+              "user_skill": "Machine Learning",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "Data Analysis",
+              "user_skill": "Machine Learning",
+              "proficiency": 95,
+              "match_score": 80
+            },
+            {
+              "skill": "Big Data",
+              "user_skill": "Machine Learning",
+              "proficiency": 95,
+              "match_score": 76
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "Statistics",
+              "priority": 0.6781573496758938
+            },
+            {
+              "skill": "Data Visualization",
+              "priority": 0.6612951517105103
+            },
+            {
+              "skill": "R",
+              "priority": 0.5985960602760314
+            }
+          ]
+        }
+      ]
+    },
+    "low_proficiency_profile": {
+      "input_skills": {
+        "Python": 45,
+        "Machine Learning": 40,
+        "Deep Learning": 30,
+        "Neural Networks": 35,
+        "TensorFlow": 30
+      },
+      "fields": [
+        {
+          "field": "Environmental Science",
+          "confidence": 51.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Conservation Scientist",
+          "field": "Environmental Science",
+          "confidence": 0.0,
+          "matched_skills": [],
+          "missing_skills": [
+            {
+              "skill": "Environmental Regulations",
+              "priority": 0.7940526254475117
+            },
+            {
+              "skill": "Ecology",
+              "priority": 0.7880181089043617
+            },
+            {
+              "skill": "Land Management",
+              "priority": 0.7406784601509571
+            },
+            {
+              "skill": "Conservation Planning",
+              "priority": 0.7367419242858887
+            },
+            {
+              "skill": "Field Work",
+              "priority": 0.7124847583472729
+            },
+            {
+              "skill": "GIS",
+              "priority": 0.6884082198143006
+            }
+          ]
+        }
+      ]
+    },
+    "misspelled_skills_profile": {
+      "input_skills": {
+        "Paithon": 85,
+        "Javascrpt": 80,
+        "Machine Lerning": 75,
+        "Data Analisys": 85
+      },
+      "fields": [
+        {
+          "field": "Environmental Science",
+          "confidence": 74.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Conservation Scientist",
+          "field": "Environmental Science",
+          "confidence": 0.0,
+          "matched_skills": [],
+          "missing_skills": [
+            {
+              "skill": "Ecology",
+              "priority": 0.8215009555220604
+            },
+            {
+              "skill": "Land Management",
+              "priority": 0.7888585891574621
+            },
+            {
+              "skill": "Environmental Regulations",
+              "priority": 0.7816751822829247
+            },
+            {
+              "skill": "Conservation Planning",
+              "priority": 0.7625960379838944
+            },
+            {
+              "skill": "Field Work",
+              "priority": 0.7427615843713283
+            },
+            {
+              "skill": "GIS",
+              "priority": 0.7115079164505005
+            }
+          ]
+        }
+      ]
+    },
+    "irrelevant_skills_profile": {
+      "input_skills": {
+        "Cooking": 90,
+        "Gardening": 85,
+        "Knitting": 80,
+        "Bird Watching": 95
+      },
+      "fields": [
+        {
+          "field": "Cybersecurity",
+          "confidence": 100.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Information Security Manager",
+          "field": "Cybersecurity",
+          "confidence": 0.0,
+          "matched_skills": [],
+          "missing_skills": [
+            {
+              "skill": "Security Policy",
+              "priority": 0.8484068881720305
+            },
+            {
+              "skill": "Risk Management",
+              "priority": 0.7816540617495775
+            },
+            {
+              "skill": "Compliance",
+              "priority": 0.7788112126290798
+            },
+            {
+              "skill": "Security Architecture",
+              "priority": 0.752286782860756
+            },
+            {
+              "skill": "Team Leadership",
+              "priority": 0.7375454649329185
+            },
+            {
+              "skill": "Incident Management",
+              "priority": 0.7174530386924745
+            },
+            {
+              "skill": "Security Awareness",
+              "priority": 0.694214103743434
+            }
+          ]
+        }
+      ]
+    },
+    "highly_specialized_profile": {
+      "input_skills": {
+        "Kubernetes": 90,
+        "Docker": 95,
+        "AWS": 85,
+        "Terraform": 80,
+        "DevOps": 95,
+        "CI/CD": 90,
+        "Jenkins": 85
+      },
+      "fields": [
+        {
+          "field": "Computer Science",
+          "confidence": 85.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "DevOps Engineer",
+          "field": "Computer Science",
+          "confidence": 0.9053115356002598,
+          "matched_skills": [
+            {
+              "skill": "CI/CD",
+              "user_skill": "CI/CD",
+              "proficiency": 90,
+              "match_score": 100
+            },
+            {
+              "skill": "Docker",
+              "user_skill": "Docker",
+              "proficiency": 95,
+              "match_score": 100
+            },
+            {
+              "skill": "Kubernetes",
+              "user_skill": "Kubernetes",
+              "proficiency": 90,
+              "match_score": 100
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "Shell Scripting",
+              "priority": 0.6417740508913994
+            },
+            {
+              "skill": "Infrastructure as Code",
+              "priority": 0.6359157800674439
+            },
+            {
+              "skill": "Monitoring Tools",
+              "priority": 0.6070785745978355
+            },
+            {
+              "skill": "Cloud Services",
+              "priority": 0.5630929470062256
+            }
+          ]
+        },
+        {
+          "specialization": "Cloud Architect",
+          "field": "Computer Science",
+          "confidence": 0.4800700887999056,
+          "matched_skills": [
+            {
+              "skill": "AWS",
+              "user_skill": "AWS",
+              "proficiency": 85,
+              "match_score": 100
+            }
+          ],
+          "missing_skills": [
+            {
+              "skill": "Serverless Architecture",
+              "priority": 0.6715462580323219
+            },
+            {
+              "skill": "Azure",
+              "priority": 0.6631748169660568
+            },
+            {
+              "skill": "Distributed Systems",
+              "priority": 0.6486139655113221
+            },
+            {
+              "skill": "Google Cloud",
+              "priority": 0.6292058050632476
+            },
+            {
+              "skill": "Networking",
+              "priority": 0.6275313198566437
+            },
+            {
+              "skill": "Cloud Security",
+              "priority": 0.6220947861671449
+            }
+          ]
+        },
+        {
+          "specialization": "Mobile App Developer",
+          "field": "Computer Science",
+          "confidence": 0.0,
+          "matched_skills": [],
+          "missing_skills": [
+            {
+              "skill": "React Native",
+              "priority": 0.7408755898475647
+            },
+            {
+              "skill": "Swift",
+              "priority": 0.7255744859576225
+            },
+            {
+              "skill": "Kotlin",
+              "priority": 0.7105086870491505
+            },
+            {
+              "skill": "Mobile UI Design",
+              "priority": 0.6906945761293173
+            },
+            {
+              "skill": "Flutter",
+              "priority": 0.6527262091636659
+            },
+            {
+              "skill": "API Integration",
+              "priority": 0.6114274933934212
+            },
+            {
+              "skill": "App Store Deployment",
+              "priority": 0.5334189914166928
+            }
+          ]
+        }
+      ]
+    },
+    "incomplete_field_skills_profile": {
+      "input_skills": {
+        "Programming": 80,
+        "Data Structures": 80
+      },
+      "fields": [
+        {
+          "field": "Cybersecurity",
+          "confidence": 68.0,
+          "matched_skills": 0
+        }
+      ],
+      "top_specializations": [
+        {
+          "specialization": "Information Security Manager",
+          "field": "Cybersecurity",
+          "confidence": 0.0,
+          "matched_skills": [],
+          "missing_skills": [
+            {
+              "skill": "Security Policy",
+              "priority": 0.8027596972882748
+            },
+            {
+              "skill": "Compliance",
+              "priority": 0.7669445127248764
+            },
+            {
+              "skill": "Team Leadership",
+              "priority": 0.7651421871036291
+            },
+            {
+              "skill": "Risk Management",
+              "priority": 0.7447806566953659
+            },
+            {
+              "skill": "Incident Management",
+              "priority": 0.7073841631412506
+            },
+            {
+              "skill": "Security Awareness",
+              "priority": 0.6868090331554413
+            },
+            {
+              "skill": "Security Architecture",
+              "priority": 0.6580688834190369
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

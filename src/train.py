@@ -92,7 +92,7 @@ def validate_data_consistency(fields, specializations, skill_weights):
     if missing_skills:
         logger.warning(f"Some skills in specializations are not in skill_weights: {', '.join(missing_skills)}")
 
-def generate_synthetic_users(fields, specializations, skill_weights, num_users=15000):
+def generate_synthetic_users(fields, specializations, skill_weights, num_users=50000):
     """
     Generate synthetic user data for training the recommender
     with balanced representation across all fields
@@ -337,7 +337,7 @@ if __name__ == "__main__":
         fields, specializations, skill_weights = load_data()
         
         logger.info("Generating synthetic users for training...")
-        users = generate_synthetic_users(fields, specializations, skill_weights, num_users=15000)
+        users = generate_synthetic_users(fields, specializations, skill_weights, num_users=50000)
         logger.info(f"Generated {len(users)} synthetic user profiles")
         
         logger.info("Preparing data for training...")

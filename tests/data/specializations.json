@@ -26,8 +26,47 @@
             "Web Security": 70
         }
     },
-    "Data Scientist": {
+    "Mobile App Developer": {
         "field": "Computer Science",
+        "description": "Develops applications for mobile devices",
+        "core_skills": {
+            "Swift": 85,
+            "Kotlin": 85,
+            "React Native": 80,
+            "Flutter": 80,
+            "Mobile UI Design": 75,
+            "API Integration": 70,
+            "App Store Deployment": 65
+        }
+    },
+    "DevOps Engineer": {
+        "field": "Computer Science",
+        "description": "Implements and manages continuous delivery systems and methodologies",
+        "core_skills": {
+            "CI/CD": 90,
+            "Docker": 85,
+            "Kubernetes": 85,
+            "Cloud Services": 80,
+            "Shell Scripting": 75,
+            "Infrastructure as Code": 80,
+            "Monitoring Tools": 70
+        }
+    },
+    "Cloud Architect": {
+        "field": "Computer Science",
+        "description": "Designs and oversees cloud computing infrastructure",
+        "core_skills": {
+            "AWS": 90,
+            "Azure": 85,
+            "Google Cloud": 85,
+            "Cloud Security": 80,
+            "Networking": 75,
+            "Distributed Systems": 80,
+            "Serverless Architecture": 75
+        }
+    },
+    "Data Scientist": {
+        "field": "Data Science",
         "description": "Uses advanced analytics and statistical methods to interpret data",
         "core_skills": {
             "Python": 85,
@@ -37,6 +76,123 @@
             "Data Analysis": 90,
             "Big Data": 75,
             "Data Visualization": 80
+        }
+    },
+    "Data Engineer": {
+        "field": "Data Science",
+        "description": "Builds and maintains data pipelines and infrastructure",
+        "core_skills": {
+            "SQL": 90,
+            "ETL Processes": 85,
+            "Data Warehousing": 85,
+            "Big Data Technologies": 80,
+            "Python": 80,
+            "Data Modeling": 85,
+            "Cloud Platforms": 75
+        }
+    },
+    "Machine Learning Engineer": {
+        "field": "Data Science",
+        "description": "Designs and implements machine learning models and systems",
+        "core_skills": {
+            "Machine Learning Algorithms": 90,
+            "Deep Learning": 85,
+            "Python": 85,
+            "TensorFlow/PyTorch": 80,
+            "Feature Engineering": 80,
+            "Model Deployment": 75,
+            "Data Processing": 80
+        }
+    },
+    "Business Intelligence Analyst": {
+        "field": "Data Science",
+        "description": "Analyzes data to improve business decision-making",
+        "core_skills": {
+            "SQL": 85,
+            "Data Visualization": 90,
+            "Tableau/Power BI": 85,
+            "Business Analysis": 80,
+            "Statistical Analysis": 75,
+            "Reporting": 80,
+            "Data Modeling": 70
+        }
+    },
+    "Security Analyst": {
+        "field": "Cybersecurity",
+        "description": "Monitors and protects systems from cybersecurity threats",
+        "core_skills": {
+            "Threat Detection": 90,
+            "Security Tools": 85,
+            "Network Security": 85,
+            "Incident Response": 80,
+            "Vulnerability Assessment": 85,
+            "Security Monitoring": 80,
+            "Risk Analysis": 75
+        }
+    },
+    "Penetration Tester": {
+        "field": "Cybersecurity",
+        "description": "Tests security by attempting to breach systems and networks",
+        "core_skills": {
+            "Ethical Hacking": 90,
+            "Network Exploitation": 85,
+            "Social Engineering": 80,
+            "Security Tools": 85,
+            "Vulnerability Research": 80,
+            "Reporting": 75,
+            "Programming": 70
+        }
+    },
+    "Information Security Manager": {
+        "field": "Cybersecurity",
+        "description": "Oversees organization's information security strategy",
+        "core_skills": {
+            "Security Policy": 90,
+            "Risk Management": 85,
+            "Compliance": 85,
+            "Security Architecture": 80,
+            "Team Leadership": 85,
+            "Incident Management": 80,
+            "Security Awareness": 75
+        }
+    },
+    "Digital Marketing Specialist": {
+        "field": "Digital Marketing",
+        "description": "Implements digital marketing strategies across platforms",
+        "core_skills": {
+            "SEO": 85,
+            "PPC Advertising": 80,
+            "Social Media Marketing": 90,
+            "Content Marketing": 85,
+            "Analytics": 80,
+            "Email Marketing": 75,
+            "Marketing Automation": 70
+        }
+    },
+    "SEO Specialist": {
+        "field": "Digital Marketing",
+        "description": "Optimizes websites for better search engine visibility",
+        "core_skills": {
+            "Keyword Research": 90,
+            "On-Page SEO": 85,
+            "Off-Page SEO": 85,
+            "SEO Tools": 80,
+            "Content Optimization": 85,
+            "Analytics": 80,
+            "Link Building": 75
+        }
+    },
+    "Social Media Manager": {
+        "field": "Digital Marketing",
+        "description": "Manages brand presence and engagement on social media platforms",
+        "core_skills": {
+            "Content Creation": 90,
+            "Community Management": 85,
+            "Social Media Platforms": 90,
+            "Analytics": 80,
+            "Campaign Management": 85,
+            "Brand Voice": 80,
+            "Audience Growth": 75
         }
     },
     "Accountant": {
@@ -63,6 +219,45 @@
             "Communication": 75
         }
     },
+    "Financial Analyst": {
+        "field": "Finance",
+        "description": "Analyzes financial data to guide business decisions",
+        "core_skills": {
+            "Financial Modeling": 90,
+            "Data Analysis": 85,
+            "Excel": 90,
+            "Financial Reporting": 85,
+            "Forecasting": 80,
+            "Valuation": 85,
+            "Business Acumen": 80
+        }
+    },
+    "Investment Banker": {
+        "field": "Finance",
+        "description": "Assists clients with raising capital and financial transactions",
+        "core_skills": {
+            "Financial Analysis": 90,
+            "Valuation": 90,
+            "Deal Structuring": 85,
+            "Negotiation": 85,
+            "Financial Modeling": 85,
+            "Client Management": 80,
+            "Market Knowledge": 85
+        }
+    },
+    "Portfolio Manager": {
+        "field": "Finance",
+        "description": "Manages investment portfolios to meet client goals",
+        "core_skills": {
+            "Asset Allocation": 90,
+            "Investment Analysis": 90,
+            "Risk Management": 85,
+            "Market Research": 85,
+            "Performance Reporting": 80,
+            "Client Communication": 80,
+            "Financial Planning": 75
+        }
+    },
     "Civil Engineer": {
         "field": "Engineering",
         "description": "Designs and supervises construction of infrastructure projects",
@@ -87,6 +282,18 @@
             "CAD Software": 85
         }
     },
+    "Electrical Engineer": {
+        "field": "Engineering",
+        "description": "Designs and develops electrical systems and equipment",
+        "core_skills": {
+            "Circuit Design": 90,
+            "Electronics": 85,
+            "Power Systems": 80,
+            "Technical Design": 85,
+            "Problem Solving": 85,
+            "Testing and Validation": 80
+        }
+    },
     "Lawyer": {
         "field": "Law",
         "description": "Advises and represents clients in legal matters",
@@ -109,6 +316,18 @@
             "Analysis": 85,
             "Ethics": 80,
             "Industry Knowledge": 85
+        }
+    },
+    "Patent Attorney": {
+        "field": "Law",
+        "description": "Specializes in intellectual property and patent law",
+        "core_skills": {
+            "Patent Law": 90,
+            "Technical Knowledge": 85,
+            "Legal Writing": 85,
+            "Analysis": 85,
+            "Client Counseling": 80,
+            "Negotiation": 75
         }
     },
     "Criminologist": {
@@ -159,6 +378,18 @@
             "Communication": 85
         }
     },
+    "Clinical Nurse Specialist": {
+        "field": "Nursing",
+        "description": "Expert clinician in a specialized area of nursing practice",
+        "core_skills": {
+            "Specialized Care": 90,
+            "Clinical Expertise": 90,
+            "Education": 85,
+            "Research": 80,
+            "Leadership": 85,
+            "Quality Improvement": 80
+        }
+    },
     "Physician": {
         "field": "Medicine",
         "description": "Diagnoses and treats illnesses and injuries",
@@ -181,6 +412,18 @@
             "Critical Thinking": 90,
             "Decision Making": 90,
             "Ethics": 85
+        }
+    },
+    "Psychiatrist": {
+        "field": "Medicine",
+        "description": "Diagnoses and treats mental health disorders",
+        "core_skills": {
+            "Psychiatric Assessment": 90,
+            "Medical Knowledge": 90,
+            "Psychopharmacology": 85,
+            "Communication": 90,
+            "Empathy": 90,
+            "Analysis": 85
         }
     },
     "Hotel Manager": {
@@ -231,6 +474,18 @@
             "Destination Knowledge": 85
         }
     },
+    "Destination Manager": {
+        "field": "Tourism",
+        "description": "Oversees tourism development and marketing for specific locations",
+        "core_skills": {
+            "Marketing": 85,
+            "Event Planning": 80,
+            "Cultural Knowledge": 85,
+            "Business Development": 80,
+            "Communication": 85,
+            "Project Management": 80
+        }
+    },
     "Clinical Psychologist": {
         "field": "Psychology",
         "description": "Assesses and treats mental, emotional, and behavioral disorders",
@@ -253,6 +508,18 @@
             "Critical Thinking": 85,
             "Technical Writing": 80,
             "Ethics": 85
+        }
+    },
+    "Organizational Psychologist": {
+        "field": "Psychology",
+        "description": "Applies psychological principles to workplace issues",
+        "core_skills": {
+            "Organizational Behavior": 90,
+            "Assessment": 85,
+            "Consulting": 85,
+            "Data Analysis": 80,
+            "Communication": 85,
+            "Human Resources": 80
         }
     },
     "Medical Laboratory Technologist": {
@@ -325,6 +592,210 @@
             "Critical Thinking": 90,
             "Assessment": 80,
             "Technical Writing": 85
+        }
+    },
+    "Special Education Teacher": {
+        "field": "Education",
+        "description": "Works with students who have learning, mental, emotional, or physical disabilities",
+        "core_skills": {
+            "Specialized Teaching Methods": 90,
+            "Patience": 95,
+            "Assessment": 85,
+            "IEP Development": 85,
+            "Adaptability": 90,
+            "Communication": 90
+        }
+    },
+    "Environmental Scientist": {
+        "field": "Environmental Science",
+        "description": "Studies, develops, and implements solutions to environmental problems",
+        "core_skills": {
+            "Research Methods": 90,
+            "Data Analysis": 85,
+            "Field Research": 85,
+            "Environmental Sampling": 80,
+            "Technical Writing": 80,
+            "Sustainability": 85
+        }
+    },
+    "Conservation Scientist": {
+        "field": "Environmental Science",
+        "description": "Manages the overall land quality of forests, parks, and other natural resources",
+        "core_skills": {
+            "Ecology": 90,
+            "Land Management": 85,
+            "Environmental Regulations": 85,
+            "GIS": 80,
+            "Field Work": 85,
+            "Conservation Planning": 80
+        }
+    },
+    "Graphic Designer": {
+        "field": "Graphic Design",
+        "description": "Creates visual concepts to communicate ideas",
+        "core_skills": {
+            "Adobe Creative Suite": 90,
+            "Typography": 85,
+            "Color Theory": 85,
+            "Layout Design": 90,
+            "Visual Communication": 90,
+            "Brand Development": 80
+        }
+    },
+    "Illustrator": {
+        "field": "Graphic Design",
+        "description": "Creates original artwork using digital and traditional methods",
+        "core_skills": {
+            "Drawing": 95,
+            "Digital Illustration": 90,
+            "Creative Concept Development": 85,
+            "Color Theory": 85,
+            "Adobe Illustrator": 90,
+            "Visual Storytelling": 80
+        }
+    },
+    "UX Designer": {
+        "field": "UX/UI Design",
+        "description": "Focuses on optimizing user experience with digital products",
+        "core_skills": {
+            "User Research": 90,
+            "Wireframing": 85,
+            "Prototyping": 90,
+            "Usability Testing": 85,
+            "User Flows": 85,
+            "Information Architecture": 80
+        }
+    },
+    "UI Designer": {
+        "field": "UX/UI Design",
+        "description": "Creates visually appealing interfaces for digital products",
+        "core_skills": {
+            "Visual Design": 90,
+            "UI Patterns": 85,
+            "Prototyping": 85,
+            "Interactive Design": 90,
+            "Typography": 80,
+            "Color Theory": 85
+        }
+    },
+    "HR Manager": {
+        "field": "Human Resources",
+        "description": "Oversees hiring, administration, and training of employees",
+        "core_skills": {
+            "Recruitment": 85,
+            "Employee Relations": 90,
+            "HR Policies": 85,
+            "Conflict Resolution": 85,
+            "Performance Management": 80,
+            "Employment Law": 80
+        }
+    },
+    "Talent Acquisition Specialist": {
+        "field": "Human Resources",
+        "description": "Focuses on recruiting and hiring qualified candidates",
+        "core_skills": {
+            "Recruiting": 95,
+            "Interviewing": 90,
+            "Candidate Assessment": 85,
+            "Employer Branding": 80,
+            "Job Market Knowledge": 85,
+            "Networking": 80
+        }
+    },
+    "Supply Chain Manager": {
+        "field": "Supply Chain Management",
+        "description": "Oversees and coordinates all supply chain activities",
+        "core_skills": {
+            "Supply Chain Planning": 90,
+            "Logistics Management": 85,
+            "Procurement": 85,
+            "Inventory Management": 85,
+            "Vendor Management": 80,
+            "Cost Analysis": 80
+        }
+    },
+    "Logistics Coordinator": {
+        "field": "Supply Chain Management",
+        "description": "Manages the transportation and distribution of goods",
+        "core_skills": {
+            "Transportation Management": 90,
+            "Routing Optimization": 85,
+            "Shipment Tracking": 85,
+            "Customs Knowledge": 80,
+            "Problem Solving": 85,
+            "Communication": 80
+        }
+    },
+    "Biotechnologist": {
+        "field": "Biotechnology",
+        "description": "Applies biological processes to develop products and tools",
+        "core_skills": {
+            "Laboratory Techniques": 90,
+            "Molecular Biology": 85,
+            "Cell Culture": 85,
+            "Data Analysis": 80,
+            "Research Design": 85,
+            "Documentation": 80
+        }
+    },
+    "Biomedical Engineer": {
+        "field": "Biotechnology",
+        "description": "Designs and develops biological systems and products for medical use",
+        "core_skills": {
+            "Engineering Design": 90,
+            "Medical Device Knowledge": 85,
+            "Biomaterials": 85,
+            "Research Methods": 80,
+            "Problem Solving": 85,
+            "Regulatory Affairs": 75
+        }
+    },
+    "Architect": {
+        "field": "Architecture",
+        "description": "Designs buildings and structures, supervising their construction",
+        "core_skills": {
+            "Architectural Design": 95,
+            "Building Codes": 85,
+            "CAD Software": 90,
+            "Project Management": 80,
+            "3D Modeling": 85,
+            "Technical Drawing": 85
+        }
+    },
+    "Landscape Architect": {
+        "field": "Architecture",
+        "description": "Plans and designs land areas for parks, recreational facilities, and other outdoor spaces",
+        "core_skills": {
+            "Landscape Design": 90,
+            "Site Planning": 85,
+            "Plant Knowledge": 85,
+            "CAD Software": 80,
+            "Environmental Analysis": 80,
+            "Visualization": 85
+        }
+    },
+    "Journalist": {
+        "field": "Journalism",
+        "description": "Researches, writes, and reports news stories",
+        "core_skills": {
+            "Reporting": 90,
+            "Writing": 95,
+            "Research": 85,
+            "Interviewing": 90,
+            "Fact-Checking": 85,
+            "Editing": 80
+        }
+    },
+    "Photojournalist": {
+        "field": "Journalism",
+        "description": "Tells news stories through photographs",
+        "core_skills": {
+            "Photography": 95,
+            "Visual Storytelling": 90,
+            "News Judgment": 85,
+            "Photo Editing": 85,
+            "Ethics": 80,
+            "Technical Camera Skills": 90
         }
     }
 }

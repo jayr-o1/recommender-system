@@ -128,5 +128,125 @@
             "Assessment": 80,
             "Empathy": 80
         }
+    },
+    "Data Science": {
+        "description": "Field focused on extracting knowledge and insights from structured and unstructured data",
+        "core_skills": {
+            "Machine Learning": 90,
+            "Statistics": 85,
+            "Data Analysis": 90,
+            "Programming": 80,
+            "Data Visualization": 85
+        }
+    },
+    "Cybersecurity": {
+        "description": "Field focused on protecting systems, networks, and programs from digital attacks",
+        "core_skills": {
+            "Network Security": 90,
+            "Threat Analysis": 85,
+            "Security Protocols": 85,
+            "Penetration Testing": 80,
+            "Cryptography": 75
+        }
+    },
+    "Digital Marketing": {
+        "description": "Field using digital channels to promote products and services",
+        "core_skills": {
+            "SEO": 85,
+            "Social Media Marketing": 90,
+            "Content Creation": 85,
+            "Analytics": 80,
+            "Marketing Strategy": 85
+        }
+    },
+    "Finance": {
+        "description": "Field managing money, investments, and other financial assets",
+        "core_skills": {
+            "Financial Analysis": 90,
+            "Investment Management": 85,
+            "Risk Assessment": 85,
+            "Financial Planning": 80,
+            "Market Analysis": 85
+        }
+    },
+    "Environmental Science": {
+        "description": "Field studying the environment and solutions to environmental problems",
+        "core_skills": {
+            "Environmental Analysis": 90,
+            "Research Methods": 85,
+            "Data Collection": 85,
+            "Environmental Policy": 80,
+            "Sustainability": 85
+        }
+    },
+    "Graphic Design": {
+        "description": "Field creating visual content to communicate messages",
+        "core_skills": {
+            "Visual Design": 90,
+            "Typography": 85,
+            "Color Theory": 85,
+            "Adobe Creative Suite": 85,
+            "Layout Design": 80
+        }
+    },
+    "UX/UI Design": {
+        "description": "Field focused on creating meaningful and relevant experiences for users",
+        "core_skills": {
+            "User Research": 90,
+            "Wireframing": 85,
+            "Prototyping": 85,
+            "Interaction Design": 85,
+            "Usability Testing": 80
+        }
+    },
+    "Human Resources": {
+        "description": "Field managing the human capital of an organization",
+        "core_skills": {
+            "Recruitment": 85,
+            "Employee Relations": 85,
+            "Performance Management": 80,
+            "HR Policies": 80,
+            "Training and Development": 85
+        }
+    },
+    "Supply Chain Management": {
+        "description": "Field overseeing the flow of goods, services, and information from raw materials to consumers",
+        "core_skills": {
+            "Logistics Management": 90,
+            "Inventory Control": 85,
+            "Procurement": 85,
+            "Supply Chain Optimization": 85,
+            "Demand Planning": 80
+        }
+    },
+    "Biotechnology": {
+        "description": "Field using biological systems and organisms to develop products",
+        "core_skills": {
+            "Laboratory Techniques": 90,
+            "Molecular Biology": 85,
+            "Research Methods": 85,
+            "Data Analysis": 80,
+            "Experimental Design": 85
+        }
+    },
+    "Architecture": {
+        "description": "Field designing buildings and other physical structures",
+        "core_skills": {
+            "Architectural Design": 90,
+            "3D Modeling": 85,
+            "Building Codes": 80,
+            "Technical Drawing": 85,
+            "Project Management": 75
+        }
+    },
+    "Journalism": {
+        "description": "Field gathering, assessing, creating, and presenting news and information",
+        "core_skills": {
+            "Reporting": 90,
+            "Writing": 90,
+            "Research": 85,
+            "Interviewing": 85,
+            "Media Ethics": 80
+        }
     }
 }

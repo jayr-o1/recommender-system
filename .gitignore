@@ -34,9 +34,20 @@ logs/
 *.swp
 *.swo
 
-# Data and model files
+# Data files
 data/*.json
-models/*.pkl
+
+# Model files - exclude large models but keep metadata
+model/*.joblib
+!model/feature_names.joblib
+!model/le_spec.joblib
+!model/le_field.joblib
+model/*.h5
+model/*.pkl
+model/*.bin
+model/*.onnx
+model/*.pt
+model/*.pth
 
 # Docker
 .dockerignore

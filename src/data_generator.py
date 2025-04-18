@@ -56,6 +56,48 @@ class DataGenerator:
             "Infrastructure as Code"
         ]
         
+        # Add new skill categories for enhanced specializations
+        self.finance_skills = [
+            "Financial Analysis", "Investment Management", "Risk Assessment",
+            "Portfolio Management", "Financial Modeling", "Accounting",
+            "Budgeting", "Financial Reporting", "Tax Planning", "Valuation"
+        ]
+        
+        self.healthcare_skills = [
+            "Patient Care", "Clinical Assessment", "Medical Terminology", 
+            "Healthcare Compliance", "Electronic Health Records", "Medical Coding",
+            "Patient Education", "Medical Research", "Vital Signs Monitoring",
+            "Treatment Planning", "Infection Control", "Diagnostic Procedures"
+        ]
+        
+        self.art_design_skills = [
+            "Graphic Design", "UI Design", "UX Design", "Photography", 
+            "3D Modeling", "Animation", "Video Editing", "Illustration", 
+            "Typography", "Color Theory", "Branding", "Creative Direction",
+            "Adobe Creative Suite", "Figma", "Sketch"
+        ]
+        
+        self.marketing_skills = [
+            "Digital Marketing", "Content Marketing", "Social Media Marketing",
+            "SEO", "SEM", "Email Marketing", "Marketing Analytics", "Brand Management",
+            "Market Research", "Campaign Management", "CRM", "Customer Acquisition",
+            "Copywriting", "Public Relations", "Growth Hacking"
+        ]
+        
+        self.science_skills = [
+            "Laboratory Techniques", "Experimental Design", "Scientific Writing",
+            "Research Methods", "Data Collection", "Hypothesis Testing",
+            "Statistical Analysis", "Microscopy", "Spectroscopy", "Chemical Analysis",
+            "Genetic Analysis", "Field Research", "Literature Review"
+        ]
+        
+        self.manufacturing_skills = [
+            "Quality Control", "Lean Manufacturing", "Six Sigma", "Supply Chain Management",
+            "Inventory Management", "Process Improvement", "Production Planning",
+            "Equipment Maintenance", "Safety Protocols", "Regulatory Compliance",
+            "CAD/CAM", "Industrial Design", "Automation"
+        ]
+        
     def generate_fields(self) -> Dict[str, Any]:
         """
         Generate career fields with core skills
@@ -193,6 +235,126 @@ class DataGenerator:
                     "Assessment": 80,
                     "Empathy": 80
                 }
+            },
+            "Data Science": {
+                "description": "Field focused on extracting knowledge and insights from structured and unstructured data",
+                "core_skills": {
+                    "Machine Learning": 90,
+                    "Statistics": 85,
+                    "Data Analysis": 90,
+                    "Programming": 80,
+                    "Data Visualization": 85
+                }
+            },
+            "Cybersecurity": {
+                "description": "Field focused on protecting systems, networks, and programs from digital attacks",
+                "core_skills": {
+                    "Network Security": 90,
+                    "Threat Analysis": 85,
+                    "Security Protocols": 85,
+                    "Penetration Testing": 80,
+                    "Cryptography": 75
+                }
+            },
+            "Digital Marketing": {
+                "description": "Field using digital channels to promote products and services",
+                "core_skills": {
+                    "SEO": 85,
+                    "Social Media Marketing": 90,
+                    "Content Creation": 85,
+                    "Analytics": 80,
+                    "Marketing Strategy": 85
+                }
+            },
+            "Finance": {
+                "description": "Field managing money, investments, and other financial assets",
+                "core_skills": {
+                    "Financial Analysis": 90,
+                    "Investment Management": 85,
+                    "Risk Assessment": 85,
+                    "Financial Planning": 80,
+                    "Market Analysis": 85
+                }
+            },
+            "Environmental Science": {
+                "description": "Field studying the environment and solutions to environmental problems",
+                "core_skills": {
+                    "Environmental Analysis": 90,
+                    "Research Methods": 85,
+                    "Data Collection": 85,
+                    "Environmental Policy": 80,
+                    "Sustainability": 85
+                }
+            },
+            "Graphic Design": {
+                "description": "Field creating visual content to communicate messages",
+                "core_skills": {
+                    "Visual Design": 90,
+                    "Typography": 85,
+                    "Color Theory": 85,
+                    "Adobe Creative Suite": 85,
+                    "Layout Design": 80
+                }
+            },
+            "UX/UI Design": {
+                "description": "Field focused on creating meaningful and relevant experiences for users",
+                "core_skills": {
+                    "User Research": 90,
+                    "Wireframing": 85,
+                    "Prototyping": 85,
+                    "Interaction Design": 85,
+                    "Usability Testing": 80
+                }
+            },
+            "Human Resources": {
+                "description": "Field managing the human capital of an organization",
+                "core_skills": {
+                    "Recruitment": 85,
+                    "Employee Relations": 85,
+                    "Performance Management": 80,
+                    "HR Policies": 80,
+                    "Training and Development": 85
+                }
+            },
+            "Supply Chain Management": {
+                "description": "Field overseeing the flow of goods, services, and information from raw materials to consumers",
+                "core_skills": {
+                    "Logistics Management": 90,
+                    "Inventory Control": 85,
+                    "Procurement": 85,
+                    "Supply Chain Optimization": 85,
+                    "Demand Planning": 80
+                }
+            },
+            "Biotechnology": {
+                "description": "Field using biological systems and organisms to develop products",
+                "core_skills": {
+                    "Laboratory Techniques": 90,
+                    "Molecular Biology": 85,
+                    "Research Methods": 85,
+                    "Data Analysis": 80,
+                    "Experimental Design": 85
+                }
+            },
+            "Architecture": {
+                "description": "Field designing buildings and other physical structures",
+                "core_skills": {
+                    "Architectural Design": 90,
+                    "3D Modeling": 85,
+                    "Building Codes": 80,
+                    "Technical Drawing": 85,
+                    "Project Management": 75
+                }
+            },
+            "Journalism": {
+                "description": "Field gathering, assessing, creating, and presenting news and information",
+                "core_skills": {
+                    "Reporting": 90,
+                    "Writing": 90,
+                    "Research": 85,
+                    "Interviewing": 85,
+                    "Media Ethics": 80
+                }
             }
         }
         
@@ -237,8 +399,47 @@ class DataGenerator:
                     "Web Security": 70
                 }
             },
-            "Data Scientist": {
+            "Mobile App Developer": {
                 "field": "Computer Science",
+                "description": "Develops applications for mobile devices",
+                "core_skills": {
+                    "Swift": 85,
+                    "Kotlin": 85,
+                    "React Native": 80,
+                    "Flutter": 80,
+                    "Mobile UI Design": 75,
+                    "API Integration": 70,
+                    "App Store Deployment": 65
+                }
+            },
+            "DevOps Engineer": {
+                "field": "Computer Science",
+                "description": "Implements and manages continuous delivery systems and methodologies",
+                "core_skills": {
+                    "CI/CD": 90,
+                    "Docker": 85,
+                    "Kubernetes": 85,
+                    "Cloud Services": 80,
+                    "Shell Scripting": 75,
+                    "Infrastructure as Code": 80,
+                    "Monitoring Tools": 70
+                }
+            },
+            "Cloud Architect": {
+                "field": "Computer Science",
+                "description": "Designs and oversees cloud computing infrastructure",
+                "core_skills": {
+                    "AWS": 90,
+                    "Azure": 85,
+                    "Google Cloud": 85,
+                    "Cloud Security": 80,
+                    "Networking": 75,
+                    "Distributed Systems": 80,
+                    "Serverless Architecture": 75
+                }
+            },
+            "Data Scientist": {
+                "field": "Data Science",
                 "description": "Uses advanced analytics and statistical methods to interpret data",
                 "core_skills": {
                     "Python": 85,
@@ -248,6 +449,123 @@ class DataGenerator:
                     "Data Analysis": 90,
                     "Big Data": 75,
                     "Data Visualization": 80
+                }
+            },
+            "Data Engineer": {
+                "field": "Data Science",
+                "description": "Builds and maintains data pipelines and infrastructure",
+                "core_skills": {
+                    "SQL": 90,
+                    "ETL Processes": 85,
+                    "Data Warehousing": 85,
+                    "Big Data Technologies": 80,
+                    "Python": 80,
+                    "Data Modeling": 85,
+                    "Cloud Platforms": 75
+                }
+            },
+            "Machine Learning Engineer": {
+                "field": "Data Science",
+                "description": "Designs and implements machine learning models and systems",
+                "core_skills": {
+                    "Machine Learning Algorithms": 90,
+                    "Deep Learning": 85,
+                    "Python": 85,
+                    "TensorFlow/PyTorch": 80,
+                    "Feature Engineering": 80,
+                    "Model Deployment": 75,
+                    "Data Processing": 80
+                }
+            },
+            "Business Intelligence Analyst": {
+                "field": "Data Science",
+                "description": "Analyzes data to improve business decision-making",
+                "core_skills": {
+                    "SQL": 85,
+                    "Data Visualization": 90,
+                    "Tableau/Power BI": 85,
+                    "Business Analysis": 80,
+                    "Statistical Analysis": 75,
+                    "Reporting": 80,
+                    "Data Modeling": 70
+                }
+            },
+            "Security Analyst": {
+                "field": "Cybersecurity",
+                "description": "Monitors and protects systems from cybersecurity threats",
+                "core_skills": {
+                    "Threat Detection": 90,
+                    "Security Tools": 85,
+                    "Network Security": 85,
+                    "Incident Response": 80,
+                    "Vulnerability Assessment": 85,
+                    "Security Monitoring": 80,
+                    "Risk Analysis": 75
+                }
+            },
+            "Penetration Tester": {
+                "field": "Cybersecurity",
+                "description": "Tests security by attempting to breach systems and networks",
+                "core_skills": {
+                    "Ethical Hacking": 90,
+                    "Network Exploitation": 85,
+                    "Social Engineering": 80,
+                    "Security Tools": 85,
+                    "Vulnerability Research": 80,
+                    "Reporting": 75,
+                    "Programming": 70
+                }
+            },
+            "Information Security Manager": {
+                "field": "Cybersecurity",
+                "description": "Oversees organization's information security strategy",
+                "core_skills": {
+                    "Security Policy": 90,
+                    "Risk Management": 85,
+                    "Compliance": 85,
+                    "Security Architecture": 80,
+                    "Team Leadership": 85,
+                    "Incident Management": 80,
+                    "Security Awareness": 75
+                }
+            },
+            "Digital Marketing Specialist": {
+                "field": "Digital Marketing",
+                "description": "Implements digital marketing strategies across platforms",
+                "core_skills": {
+                    "SEO": 85,
+                    "PPC Advertising": 80,
+                    "Social Media Marketing": 90,
+                    "Content Marketing": 85,
+                    "Analytics": 80,
+                    "Email Marketing": 75,
+                    "Marketing Automation": 70
+                }
+            },
+            "SEO Specialist": {
+                "field": "Digital Marketing",
+                "description": "Optimizes websites for better search engine visibility",
+                "core_skills": {
+                    "Keyword Research": 90,
+                    "On-Page SEO": 85,
+                    "Off-Page SEO": 85,
+                    "SEO Tools": 80,
+                    "Content Optimization": 85,
+                    "Analytics": 80,
+                    "Link Building": 75
+                }
+            },
+            "Social Media Manager": {
+                "field": "Digital Marketing",
+                "description": "Manages brand presence and engagement on social media platforms",
+                "core_skills": {
+                    "Content Creation": 90,
+                    "Community Management": 85,
+                    "Social Media Platforms": 90,
+                    "Analytics": 80,
+                    "Campaign Management": 85,
+                    "Brand Voice": 80,
+                    "Audience Growth": 75
                 }
             },
             "Accountant": {
@@ -274,6 +592,45 @@ class DataGenerator:
                     "Communication": 75
                 }
             },
+            "Financial Analyst": {
+                "field": "Finance",
+                "description": "Analyzes financial data to guide business decisions",
+                "core_skills": {
+                    "Financial Modeling": 90,
+                    "Data Analysis": 85,
+                    "Excel": 90,
+                    "Financial Reporting": 85,
+                    "Forecasting": 80,
+                    "Valuation": 85,
+                    "Business Acumen": 80
+                }
+            },
+            "Investment Banker": {
+                "field": "Finance",
+                "description": "Assists clients with raising capital and financial transactions",
+                "core_skills": {
+                    "Financial Analysis": 90,
+                    "Valuation": 90,
+                    "Deal Structuring": 85,
+                    "Negotiation": 85,
+                    "Financial Modeling": 85,
+                    "Client Management": 80,
+                    "Market Knowledge": 85
+                }
+            },
+            "Portfolio Manager": {
+                "field": "Finance",
+                "description": "Manages investment portfolios to meet client goals",
+                "core_skills": {
+                    "Asset Allocation": 90,
+                    "Investment Analysis": 90,
+                    "Risk Management": 85,
+                    "Market Research": 85,
+                    "Performance Reporting": 80,
+                    "Client Communication": 80,
+                    "Financial Planning": 75
+                }
+            },
             "Civil Engineer": {
                 "field": "Engineering",
                 "description": "Designs and supervises construction of infrastructure projects",
@@ -298,6 +655,18 @@ class DataGenerator:
                     "CAD Software": 85
                 }
             },
+            "Electrical Engineer": {
+                "field": "Engineering",
+                "description": "Designs and develops electrical systems and equipment",
+                "core_skills": {
+                    "Circuit Design": 90,
+                    "Electronics": 85,
+                    "Power Systems": 80,
+                    "Technical Design": 85,
+                    "Problem Solving": 85,
+                    "Testing and Validation": 80
+                }
+            },
             "Lawyer": {
                 "field": "Law",
                 "description": "Advises and represents clients in legal matters",
@@ -320,6 +689,18 @@ class DataGenerator:
                     "Analysis": 85,
                     "Ethics": 80,
                     "Industry Knowledge": 85
+                }
+            },
+            "Patent Attorney": {
+                "field": "Law",
+                "description": "Specializes in intellectual property and patent law",
+                "core_skills": {
+                    "Patent Law": 90,
+                    "Technical Knowledge": 85,
+                    "Legal Writing": 85,
+                    "Analysis": 85,
+                    "Client Counseling": 80,
+                    "Negotiation": 75
                 }
             },
             "Criminologist": {
@@ -370,6 +751,18 @@ class DataGenerator:
                     "Communication": 85
                 }
             },
+            "Clinical Nurse Specialist": {
+                "field": "Nursing",
+                "description": "Expert clinician in a specialized area of nursing practice",
+                "core_skills": {
+                    "Specialized Care": 90,
+                    "Clinical Expertise": 90,
+                    "Education": 85,
+                    "Research": 80,
+                    "Leadership": 85,
+                    "Quality Improvement": 80
+                }
+            },
             "Physician": {
                 "field": "Medicine",
                 "description": "Diagnoses and treats illnesses and injuries",
@@ -392,6 +785,18 @@ class DataGenerator:
                     "Critical Thinking": 90,
                     "Decision Making": 90,
                     "Ethics": 85
+                }
+            },
+            "Psychiatrist": {
+                "field": "Medicine",
+                "description": "Diagnoses and treats mental health disorders",
+                "core_skills": {
+                    "Psychiatric Assessment": 90,
+                    "Medical Knowledge": 90,
+                    "Psychopharmacology": 85,
+                    "Communication": 90,
+                    "Empathy": 90,
+                    "Analysis": 85
                 }
             },
             "Hotel Manager": {
@@ -442,6 +847,18 @@ class DataGenerator:
                     "Destination Knowledge": 85
                 }
             },
+            "Destination Manager": {
+                "field": "Tourism",
+                "description": "Oversees tourism development and marketing for specific locations",
+                "core_skills": {
+                    "Marketing": 85,
+                    "Event Planning": 80,
+                    "Cultural Knowledge": 85,
+                    "Business Development": 80,
+                    "Communication": 85,
+                    "Project Management": 80
+                }
+            },
             "Clinical Psychologist": {
                 "field": "Psychology",
                 "description": "Assesses and treats mental, emotional, and behavioral disorders",
@@ -464,6 +881,18 @@ class DataGenerator:
                     "Critical Thinking": 85,
                     "Technical Writing": 80,
                     "Ethics": 85
+                }
+            },
+            "Organizational Psychologist": {
+                "field": "Psychology",
+                "description": "Applies psychological principles to workplace issues",
+                "core_skills": {
+                    "Organizational Behavior": 90,
+                    "Assessment": 85,
+                    "Consulting": 85,
+                    "Data Analysis": 80,
+                    "Communication": 85,
+                    "Human Resources": 80
                 }
             },
             "Medical Laboratory Technologist": {
@@ -537,6 +966,210 @@ class DataGenerator:
                     "Assessment": 80,
                     "Technical Writing": 85
                 }
+            },
+            "Special Education Teacher": {
+                "field": "Education",
+                "description": "Works with students who have learning, mental, emotional, or physical disabilities",
+                "core_skills": {
+                    "Specialized Teaching Methods": 90,
+                    "Patience": 95,
+                    "Assessment": 85,
+                    "IEP Development": 85,
+                    "Adaptability": 90,
+                    "Communication": 90
+                }
+            },
+            "Environmental Scientist": {
+                "field": "Environmental Science",
+                "description": "Studies, develops, and implements solutions to environmental problems",
+                "core_skills": {
+                    "Research Methods": 90,
+                    "Data Analysis": 85,
+                    "Field Research": 85,
+                    "Environmental Sampling": 80,
+                    "Technical Writing": 80,
+                    "Sustainability": 85
+                }
+            },
+            "Conservation Scientist": {
+                "field": "Environmental Science",
+                "description": "Manages the overall land quality of forests, parks, and other natural resources",
+                "core_skills": {
+                    "Ecology": 90,
+                    "Land Management": 85,
+                    "Environmental Regulations": 85,
+                    "GIS": 80,
+                    "Field Work": 85,
+                    "Conservation Planning": 80
+                }
+            },
+            "Graphic Designer": {
+                "field": "Graphic Design",
+                "description": "Creates visual concepts to communicate ideas",
+                "core_skills": {
+                    "Adobe Creative Suite": 90,
+                    "Typography": 85,
+                    "Color Theory": 85,
+                    "Layout Design": 90,
+                    "Visual Communication": 90,
+                    "Brand Development": 80
+                }
+            },
+            "Illustrator": {
+                "field": "Graphic Design",
+                "description": "Creates original artwork using digital and traditional methods",
+                "core_skills": {
+                    "Drawing": 95,
+                    "Digital Illustration": 90,
+                    "Creative Concept Development": 85,
+                    "Color Theory": 85,
+                    "Adobe Illustrator": 90,
+                    "Visual Storytelling": 80
+                }
+            },
+            "UX Designer": {
+                "field": "UX/UI Design",
+                "description": "Focuses on optimizing user experience with digital products",
+                "core_skills": {
+                    "User Research": 90,
+                    "Wireframing": 85,
+                    "Prototyping": 90,
+                    "Usability Testing": 85,
+                    "User Flows": 85,
+                    "Information Architecture": 80
+                }
+            },
+            "UI Designer": {
+                "field": "UX/UI Design",
+                "description": "Creates visually appealing interfaces for digital products",
+                "core_skills": {
+                    "Visual Design": 90,
+                    "UI Patterns": 85,
+                    "Prototyping": 85,
+                    "Interactive Design": 90,
+                    "Typography": 80,
+                    "Color Theory": 85
+                }
+            },
+            "HR Manager": {
+                "field": "Human Resources",
+                "description": "Oversees hiring, administration, and training of employees",
+                "core_skills": {
+                    "Recruitment": 85,
+                    "Employee Relations": 90,
+                    "HR Policies": 85,
+                    "Conflict Resolution": 85,
+                    "Performance Management": 80,
+                    "Employment Law": 80
+                }
+            },
+            "Talent Acquisition Specialist": {
+                "field": "Human Resources",
+                "description": "Focuses on recruiting and hiring qualified candidates",
+                "core_skills": {
+                    "Recruiting": 95,
+                    "Interviewing": 90,
+                    "Candidate Assessment": 85,
+                    "Employer Branding": 80,
+                    "Job Market Knowledge": 85,
+                    "Networking": 80
+                }
+            },
+            "Supply Chain Manager": {
+                "field": "Supply Chain Management",
+                "description": "Oversees and coordinates all supply chain activities",
+                "core_skills": {
+                    "Supply Chain Planning": 90,
+                    "Logistics Management": 85,
+                    "Procurement": 85,
+                    "Inventory Management": 85,
+                    "Vendor Management": 80,
+                    "Cost Analysis": 80
+                }
+            },
+            "Logistics Coordinator": {
+                "field": "Supply Chain Management",
+                "description": "Manages the transportation and distribution of goods",
+                "core_skills": {
+                    "Transportation Management": 90,
+                    "Routing Optimization": 85,
+                    "Shipment Tracking": 85,
+                    "Customs Knowledge": 80,
+                    "Problem Solving": 85,
+                    "Communication": 80
+                }
+            },
+            "Biotechnologist": {
+                "field": "Biotechnology",
+                "description": "Applies biological processes to develop products and tools",
+                "core_skills": {
+                    "Laboratory Techniques": 90,
+                    "Molecular Biology": 85,
+                    "Cell Culture": 85,
+                    "Data Analysis": 80,
+                    "Research Design": 85,
+                    "Documentation": 80
+                }
+            },
+            "Biomedical Engineer": {
+                "field": "Biotechnology",
+                "description": "Designs and develops biological systems and products for medical use",
+                "core_skills": {
+                    "Engineering Design": 90,
+                    "Medical Device Knowledge": 85,
+                    "Biomaterials": 85,
+                    "Research Methods": 80,
+                    "Problem Solving": 85,
+                    "Regulatory Affairs": 75
+                }
+            },
+            "Architect": {
+                "field": "Architecture",
+                "description": "Designs buildings and structures, supervising their construction",
+                "core_skills": {
+                    "Architectural Design": 95,
+                    "Building Codes": 85,
+                    "CAD Software": 90,
+                    "Project Management": 80,
+                    "3D Modeling": 85,
+                    "Technical Drawing": 85
+                }
+            },
+            "Landscape Architect": {
+                "field": "Architecture",
+                "description": "Plans and designs land areas for parks, recreational facilities, and other outdoor spaces",
+                "core_skills": {
+                    "Landscape Design": 90,
+                    "Site Planning": 85,
+                    "Plant Knowledge": 85,
+                    "CAD Software": 80,
+                    "Environmental Analysis": 80,
+                    "Visualization": 85
+                }
+            },
+            "Journalist": {
+                "field": "Journalism",
+                "description": "Researches, writes, and reports news stories",
+                "core_skills": {
+                    "Reporting": 90,
+                    "Writing": 95,
+                    "Research": 85,
+                    "Interviewing": 90,
+                    "Fact-Checking": 85,
+                    "Editing": 80
+                }
+            },
+            "Photojournalist": {
+                "field": "Journalism",
+                "description": "Tells news stories through photographs",
+                "core_skills": {
+                    "Photography": 95,
+                    "Visual Storytelling": 90,
+                    "News Judgment": 85,
+                    "Photo Editing": 85,
+                    "Ethics": 80,
+                    "Technical Camera Skills": 90
+                }
             }
         }
         
@@ -548,67 +1181,140 @@ class DataGenerator:
     
     def generate_skill_weights(self) -> Dict[str, Any]:
         """
-        Generate skill weights for importance in career fields
+        Generate skill weights for recommendations
         
         Returns:
-            Dictionary of skills with their weights
+            Dictionary of skills with their global and field-specific weights
         """
-        # Combine all skills and assign global importance weights
         all_skills = {}
         
-        # Programming languages
-        for skill in self.programming_languages:
-            all_skills[skill] = {"global_weight": random.randint(70, 90)}
+        # Add base programming languages
+        for lang in self.programming_languages:
+            all_skills[lang] = {"global_weight": random.randint(70, 90)}
             
-        # Data skills
+        # Add data skills
         for skill in self.data_skills:
             all_skills[skill] = {"global_weight": random.randint(70, 90)}
             
-        # ML skills
+        # Add ML skills
         for skill in self.ml_skills:
-            all_skills[skill] = {"global_weight": random.randint(75, 95)}
+            all_skills[skill] = {"global_weight": random.randint(75, 90)}
             
-        # Web skills
+        # Add web skills
         for skill in self.web_skills:
             all_skills[skill] = {"global_weight": random.randint(70, 90)}
             
-        # Soft skills
+        # Add soft skills
         for skill in self.soft_skills:
-            all_skills[skill] = {"global_weight": random.randint(60, 85)}
+            all_skills[skill] = {"global_weight": random.randint(80, 95)}
             
-        # Cloud skills
+        # Add cloud skills
         for skill in self.cloud_skills:
             all_skills[skill] = {"global_weight": random.randint(75, 90)}
             
-        # Additional skills for new fields
+        # Add finance skills
+        for skill in self.finance_skills:
+            all_skills[skill] = {"global_weight": random.randint(70, 90)}
+            
+        # Add healthcare skills
+        for skill in self.healthcare_skills:
+            all_skills[skill] = {"global_weight": random.randint(70, 90)}
+            
+        # Add art and design skills
+        for skill in self.art_design_skills:
+            all_skills[skill] = {"global_weight": random.randint(70, 90)}
+            
+        # Add marketing skills
+        for skill in self.marketing_skills:
+            all_skills[skill] = {"global_weight": random.randint(70, 90)}
+            
+        # Add science skills
+        for skill in self.science_skills:
+            all_skills[skill] = {"global_weight": random.randint(70, 90)}
+            
+        # Add manufacturing skills
+        for skill in self.manufacturing_skills:
+            all_skills[skill] = {"global_weight": random.randint(70, 90)}
+            
+        # Add additional skills that don't fit in the above categories
         additional_skills = {
-            "Financial Analysis": {"global_weight": random.randint(75, 90)},
-            "Auditing": {"global_weight": random.randint(70, 85)},
+            "Mathematics": {"global_weight": random.randint(70, 85)},
+            "Statistics": {"global_weight": random.randint(70, 85)},
+            "Data Structures": {"global_weight": random.randint(75, 90)},
+            "Algorithms": {"global_weight": random.randint(75, 90)},
+            "Software Design": {"global_weight": random.randint(75, 90)},
+            "Testing": {"global_weight": random.randint(70, 85)},
+            "Version Control": {"global_weight": random.randint(70, 85)},
+            "Financial Analysis": {"global_weight": random.randint(70, 85)},
             "Bookkeeping": {"global_weight": random.randint(70, 85)},
-            "Tax Knowledge": {"global_weight": random.randint(75, 90)},
-            "Business Ethics": {"global_weight": random.randint(70, 85)},
-            "Technical Design": {"global_weight": random.randint(75, 90)},
-            "Legal Research": {"global_weight": random.randint(80, 95)},
-            "Ethics": {"global_weight": random.randint(70, 85)},
-            "Criminal Justice": {"global_weight": random.randint(75, 90)},
-            "Patient Care": {"global_weight": random.randint(80, 95)},
-            "Medical Knowledge": {"global_weight": random.randint(80, 95)},
-            "Empathy": {"global_weight": random.randint(70, 85)},
-            "Diagnosis": {"global_weight": random.randint(80, 95)},
+            "Tax Knowledge": {"global_weight": random.randint(70, 85)},
+            "Auditing": {"global_weight": random.randint(70, 85)},
+            "Risk Assessment": {"global_weight": random.randint(70, 85)},
+            "Technical Design": {"global_weight": random.randint(70, 85)},
+            "CAD Software": {"global_weight": random.randint(70, 85)},
+            "Structural Analysis": {"global_weight": random.randint(70, 85)},
+            "Thermodynamics": {"global_weight": random.randint(70, 85)},
+            "Material Science": {"global_weight": random.randint(70, 85)},
+            "Legal Research": {"global_weight": random.randint(70, 85)},
+            "Ethics": {"global_weight": random.randint(75, 90)},
+            "Negotiation": {"global_weight": random.randint(70, 85)},
+            "Criminal Justice": {"global_weight": random.randint(70, 85)},
+            "Patient Care": {"global_weight": random.randint(75, 90)},
+            "Medical Knowledge": {"global_weight": random.randint(75, 90)},
+            "Empathy": {"global_weight": random.randint(75, 90)},
+            "Diagnosis": {"global_weight": random.randint(75, 90)},
+            "Surgical Skills": {"global_weight": random.randint(75, 90)},
             "Customer Service": {"global_weight": random.randint(75, 90)},
-            "Management": {"global_weight": random.randint(75, 90)},
-            "Organization": {"global_weight": random.randint(70, 85)},
             "Geography": {"global_weight": random.randint(70, 85)},
             "Cultural Awareness": {"global_weight": random.randint(70, 85)},
-            "Laboratory Skills": {"global_weight": random.randint(80, 95)},
+            "Organization": {"global_weight": random.randint(75, 90)},
+            "Laboratory Skills": {"global_weight": random.randint(70, 85)},
             "Analytical Thinking": {"global_weight": random.randint(75, 90)},
-            "Attention to Detail": {"global_weight": random.randint(75, 90)},
-            "Technical Skills": {"global_weight": random.randint(75, 90)},
-            "Research Methods": {"global_weight": random.randint(80, 95)},
+            "Technical Skills": {"global_weight": random.randint(70, 85)},
+            "Research Methods": {"global_weight": random.randint(70, 85)},
             "Technical Writing": {"global_weight": random.randint(70, 85)},
-            "Subject Knowledge": {"global_weight": random.randint(80, 95)},
-            "Lesson Planning": {"global_weight": random.randint(75, 90)},
-            "Assessment": {"global_weight": random.randint(70, 85)}
+            "Subject Knowledge": {"global_weight": random.randint(75, 90)},
+            "Lesson Planning": {"global_weight": random.randint(70, 85)},
+            "Assessment": {"global_weight": random.randint(70, 85)},
+            "Network Security": {"global_weight": random.randint(70, 85)},
+            "Threat Analysis": {"global_weight": random.randint(70, 85)},
+            "Penetration Testing": {"global_weight": random.randint(70, 85)},
+            "Cryptography": {"global_weight": random.randint(70, 85)},
+            "SEO": {"global_weight": random.randint(70, 85)},
+            "Content Creation": {"global_weight": random.randint(70, 85)},
+            "Marketing Strategy": {"global_weight": random.randint(70, 85)},
+            "Investment Management": {"global_weight": random.randint(70, 85)},
+            "Financial Planning": {"global_weight": random.randint(70, 85)},
+            "Market Analysis": {"global_weight": random.randint(70, 85)},
+            "Environmental Analysis": {"global_weight": random.randint(70, 85)},
+            "Environmental Policy": {"global_weight": random.randint(70, 85)},
+            "Sustainability": {"global_weight": random.randint(70, 85)},
+            "Visual Design": {"global_weight": random.randint(70, 85)},
+            "Typography": {"global_weight": random.randint(70, 85)},
+            "Layout Design": {"global_weight": random.randint(70, 85)},
+            "User Research": {"global_weight": random.randint(70, 85)},
+            "Wireframing": {"global_weight": random.randint(70, 85)},
+            "Prototyping": {"global_weight": random.randint(70, 85)},
+            "Interaction Design": {"global_weight": random.randint(70, 85)},
+            "Usability Testing": {"global_weight": random.randint(70, 85)},
+            "Recruitment": {"global_weight": random.randint(70, 85)},
+            "Employee Relations": {"global_weight": random.randint(70, 85)},
+            "HR Policies": {"global_weight": random.randint(70, 85)},
+            "Training and Development": {"global_weight": random.randint(70, 85)},
+            "Logistics Management": {"global_weight": random.randint(70, 85)},
+            "Inventory Control": {"global_weight": random.randint(70, 85)},
+            "Procurement": {"global_weight": random.randint(70, 85)},
+            "Supply Chain Optimization": {"global_weight": random.randint(70, 85)},
+            "Demand Planning": {"global_weight": random.randint(70, 85)},
+            "Molecular Biology": {"global_weight": random.randint(70, 85)},
+            "Experimental Design": {"global_weight": random.randint(70, 85)},
+            "Architectural Design": {"global_weight": random.randint(70, 85)},
+            "Building Codes": {"global_weight": random.randint(70, 85)},
+            "Technical Drawing": {"global_weight": random.randint(70, 85)},
+            "Reporting": {"global_weight": random.randint(70, 85)},
+            "Writing": {"global_weight": random.randint(70, 85)},
+            "Interviewing": {"global_weight": random.randint(70, 85)},
+            "Media Ethics": {"global_weight": random.randint(70, 85)}
         }
         
         all_skills.update(additional_skills)
@@ -669,11 +1375,69 @@ class DataGenerator:
             if skill in ["Communication", "Subject Knowledge", "Lesson Planning", "Assessment", "Empathy"]:
                 field_weights["Education"] = random.randint(80, 95)
             
+            # Data Science field weights
+            if skill in ["Machine Learning", "Statistics", "Data Analysis", "Python", "Data Visualization"] or skill in self.ml_skills or skill in self.data_skills:
+                field_weights["Data Science"] = random.randint(80, 95)
+            
+            # Cybersecurity field weights
+            if skill in ["Network Security", "Threat Analysis", "Security Protocols", "Penetration Testing", "Cryptography"]:
+                field_weights["Cybersecurity"] = random.randint(80, 95)
+            
+            # Digital Marketing field weights
+            if skill in ["SEO", "Social Media Marketing", "Content Creation", "Analytics", "Marketing Strategy"] or skill in self.marketing_skills:
+                field_weights["Digital Marketing"] = random.randint(80, 95)
+            
+            # Finance field weights
+            if skill in ["Financial Analysis", "Investment Management", "Risk Assessment", "Financial Planning", "Market Analysis"] or skill in self.finance_skills:
+                field_weights["Finance"] = random.randint(80, 95)
+            
+            # Environmental Science field weights
+            if skill in ["Environmental Analysis", "Research Methods", "Data Collection", "Environmental Policy", "Sustainability"] or skill in self.science_skills:
+                field_weights["Environmental Science"] = random.randint(80, 95)
+            
+            # Graphic Design field weights
+            if skill in ["Visual Design", "Typography", "Color Theory", "Adobe Creative Suite", "Layout Design"] or skill in self.art_design_skills:
+                field_weights["Graphic Design"] = random.randint(80, 95)
+            
+            # UX/UI Design field weights
+            if skill in ["User Research", "Wireframing", "Prototyping", "Interaction Design", "Usability Testing"] or skill in self.art_design_skills:
+                field_weights["UX/UI Design"] = random.randint(80, 95)
+            
+            # Human Resources field weights
+            if skill in ["Recruitment", "Employee Relations", "Performance Management", "HR Policies", "Training and Development"]:
+                field_weights["Human Resources"] = random.randint(80, 95)
+            
+            # Supply Chain Management field weights
+            if skill in ["Logistics Management", "Inventory Control", "Procurement", "Supply Chain Optimization", "Demand Planning"] or skill in self.manufacturing_skills:
+                field_weights["Supply Chain Management"] = random.randint(80, 95)
+            
+            # Biotechnology field weights
+            if skill in ["Laboratory Techniques", "Molecular Biology", "Research Methods", "Data Analysis", "Experimental Design"] or skill in self.science_skills:
+                field_weights["Biotechnology"] = random.randint(80, 95)
+            
+            # Architecture field weights
+            if skill in ["Architectural Design", "3D Modeling", "Building Codes", "Technical Drawing", "Project Management"]:
+                field_weights["Architecture"] = random.randint(80, 95)
+            
+            # Journalism field weights
+            if skill in ["Reporting", "Writing", "Research", "Interviewing", "Media Ethics"]:
+                field_weights["Journalism"] = random.randint(80, 95)
+            
+            # Web development field weights - add this section to properly associate web skills
+            if skill in self.web_skills:
+                field_weights["Computer Science"] = random.randint(80, 95)
+                field_weights["Digital Marketing"] = random.randint(70, 85)
+                field_weights["UX/UI Design"] = random.randint(75, 90)
+                field_weights["Graphic Design"] = random.randint(65, 80)
+            
             # Common skills that apply across multiple fields
             if skill in self.soft_skills:
                 for field in ["Computer Science", "Business Accountancy", "Engineering", "Law", "Criminology", 
                               "Nursing", "Medicine", "Hospitality Management", "Tourism", "Psychology", 
-                              "Medical Technology", "Research", "Education"]:
+                              "Medical Technology", "Research", "Education", "Data Science", "Cybersecurity",
+                              "Digital Marketing", "Finance", "Environmental Science", "Graphic Design", 
+                              "UX/UI Design", "Human Resources", "Supply Chain Management", "Biotechnology",
+                              "Architecture", "Journalism"]:
                     if field not in field_weights:
                         field_weights[field] = random.randint(60, 80)
             
