@@ -25,6 +25,9 @@ class SemanticMatcher:
     # Cache for skill matching results
     _match_cache = {}
     
+    # Flag to control progress bar display (should be disabled for API)
+    _show_progress_bars = True
+    
     # Specialized domain terms by category
     DOMAIN_TERMS = {
         "chemistry": {
@@ -54,6 +57,17 @@ class SemanticMatcher:
             "access control", "authentication", "cryptography", "security governance", "compliance"
         }
     }
+    
+    @classmethod
+    def set_progress_bars(cls, show_progress: bool):
+        """
+        Set whether to show progress bars during model encoding.
+        
+        Args:
+            show_progress: Whether to show progress bars
+        """
+        cls._show_progress_bars = show_progress
+        logger.info(f"Progress bars {'enabled' if show_progress else 'disabled'}")
     
     @classmethod
     def get_model(cls):
@@ -100,7 +114,12 @@ class SemanticMatcher:
             return None
             
         try:
-            embedding = model.encode(text, convert_to_tensor=False)
+            # Pass show_progress_bar flag to control whether progress bars are shown
+            embedding = model.encode(
+                text, 
+                convert_to_tensor=False, 
+                show_progress_bar=cls._show_progress_bars
+            )
             cls._embedding_cache[text] = embedding
             return embedding
         except Exception as e:

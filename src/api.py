@@ -7,13 +7,19 @@ from datetime import datetime
 import logging
 import os
 import traceback
+import asyncio
 
 # Import the actual CareerRecommender
 from .recommender import CareerRecommender
+# Import the SemanticMatcher to configure progress bars
+from utils.semantic_matcher import SemanticMatcher
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Disable progress bars for API mode
+SemanticMatcher.set_progress_bars(False)
 
 # Initialize the FastAPI app with enhanced metadata
 app = FastAPI(
@@ -116,7 +122,10 @@ async def get_recommendations(skills: Dict[str, int], params: RecommendationPara
         
         # Try to use the ML-based recommendation if models are loaded
         try:
-            result = recommender.full_recommendation(
+            # Run the synchronous recommendation function in a separate thread
+            # to prevent blocking the event loop
+            result = await asyncio.to_thread(
+                recommender.full_recommendation,
                 skills=skills,
                 top_fields=params.top_fields,
                 top_specs=params.top_specializations
@@ -131,7 +140,13 @@ async def get_recommendations(skills: Dict[str, int], params: RecommendationPara
         except ValueError as e:
             if "Models not loaded" in str(e):
                 logger.warning("Falling back to rule-based recommendations")
-                fallback_result = fallback_recommendation(skills, params.top_fields, params.top_specializations)
+                # Run the fallback recommendation in a separate thread as well
+                fallback_result = await asyncio.to_thread(
+                    fallback_recommendation,
+                    skills,
+                    params.top_fields,
+                    params.top_specializations
+                )
                 
                 # Return either a simplified response for frontend or the detailed response
                 if params.simplified_response:
@@ -398,8 +413,9 @@ async def match_skill(input_data: SkillMatchInput):
         # Set use_semantic in the recommender
         recommender.use_semantic = input_data.use_semantic
         
-        # Call the skill matching method
-        is_match, score = recommender._match_skill_improved(
+        # Call the skill matching method in a separate thread to avoid blocking
+        is_match, score = await asyncio.to_thread(
+            recommender._match_skill_improved,
             input_data.user_skill, 
             input_data.standard_skill
         )
