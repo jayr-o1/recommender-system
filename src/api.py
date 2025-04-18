@@ -217,173 +217,102 @@ async def recommend(
     
     return await get_recommendations(skills, params)
 
-# Keep this endpoint for backward compatibility, but it will redirect to the main endpoint
-@app.post("/api/recommend", summary="Get simplified career recommendations for frontend")
-async def simple_recommend(
-    request: Dict[str, Any] = Body(...)
-):
+def format_simplified_specialization_response(engine_result, original_skills):
     """
-    Frontend-friendly endpoint for career recommendations based on skills and proficiency.
-    This is a compatibility endpoint that redirects to the main /recommend endpoint.
-    
-    You can provide skills in the same formats as the /recommend endpoint.
-    """
-    # Create RecommendationParams with simplified_response=True
-    params = RecommendationParams(simplified_response=True)
-    
-    # Check if request contains direct skills or a nested skills object
-    if "skills" in request and isinstance(request["skills"], dict):
-        # Nested format: {"skills": {"Python": 90, ...}}
-        skills = request["skills"]
-    elif all(isinstance(val, int) for val in request.values()):
-        # Direct format: {"Python": 90, ...}
-        skills = request
-    else:
-        raise HTTPException(
-            status_code=422, 
-            detail="Invalid request format. Provide skills either directly or in a 'skills' object."
-        )
-    
-    logger.info(f"Received frontend recommendation request with {len(skills)} skills")
-    return await get_recommendations(skills, params)
-
-def derive_fields_from_specializations(specializations):
-    """
-    Create field recommendations from specialization data when fields are empty
+    Format the engine result with specializations as the primary focus
+    and fields as supporting information. This creates a flatter structure
+    optimized for card-based UI display.
     
     Args:
-        specializations: List of specialization objects
+        engine_result: The raw recommendation engine result
+        original_skills: The original skills input by the user
         
     Returns:
-        List of derived field objects
+        Formatted response with specialization-focused structure
     """
-    field_map = {}
+    # Extract all specializations
+    spec_list = []
+    
+    # Get specializations from either key that might exist
+    specializations = engine_result.get("specializations", []) or engine_result.get("top_specializations", [])
     
     for spec in specializations:
-        field_name = spec.get('field', 'General')
+        # Get basic info
+        spec_name = spec.get("specialization", "Unknown")
+        field_name = spec.get("field", "General")
+        confidence = spec.get("confidence", 0)
         
-        if field_name not in field_map:
-            field_map[field_name] = {
-                'field': field_name,
-                'confidence': 0,
-                'matching_skills': [],
-                'missing_skills': []
-            }
-        
-        # Update confidence
-        field_map[field_name]['confidence'] = max(
-            field_map[field_name]['confidence'],
-            spec.get('confidence', 0)
-        )
-        
-        # Collect unique matching skills
-        if spec.get('matched_skills'):
-            for skill in spec['matched_skills']:
-                skill_name = skill.get('skill', '') if isinstance(skill, dict) else skill
-                if skill_name and skill_name not in field_map[field_name]['matching_skills']:
-                    field_map[field_name]['matching_skills'].append(skill_name)
-        
-        # Collect unique missing skills
-        if spec.get('missing_skills'):
-            for skill in spec['missing_skills']:
-                skill_obj = {'skill': skill, 'priority': 50} if isinstance(skill, str) else skill
-                if not any(s.get('skill') == skill_obj.get('skill') for s in field_map[field_name]['missing_skills']):
-                    field_map[field_name]['missing_skills'].append(skill_obj)
-    
-    # Convert field map to list and sort by confidence
-    return sorted(list(field_map.values()), key=lambda x: x.get('confidence', 0), reverse=True)
-
-def format_frontend_response(engine_result, original_skills):
-    """Format the engine result for frontend consumption"""
-    formatted_fields = []
-    for field in engine_result.get("top_fields", []):
-        # Handle both integer and list format for matched_skills
-        matching_skills = []
-        if isinstance(field.get("matched_skills"), int):
-            # If it's just a count, use the original skills
-            matching_skills = original_skills[:min(field.get("matched_skills", 0), len(original_skills))]
-        else:
-            # Otherwise extract the skill names
-            matching_skills = [skill.get("skill") for skill in field.get("matched_skills", [])]
-            if not matching_skills and field.get("matched_skill_details"):
-                matching_skills = [skill.get("skill") for skill in field.get("matched_skill_details", [])]
-        
-        # Handle missing skills which could be a list of strings or objects
-        missing_skills = []
-        if field.get("missing_skills"):
-            for skill in field.get("missing_skills", []):
-                if isinstance(skill, str):
-                    missing_skills.append({"skill": skill, "priority": 50})
-                elif isinstance(skill, dict) and "skill" in skill:
-                    missing_skills.append({
-                        "skill": skill["skill"],
-                        "priority": skill.get("priority", 50)
-                    })
-        
-        formatted_fields.append({
-            "field": field.get("field"),
-            "confidence": field.get("confidence", 0),
-            "matching_skills": matching_skills,
-            "missing_skills": missing_skills
-        })
-    
-    formatted_specs = []
-    for spec in engine_result.get("specializations", []) or engine_result.get("top_specializations", []):
-        # Extract matched skills
+        # Process matched skills with more detail
         matched_skills = []
         if spec.get("matched_skills"):
             for skill in spec.get("matched_skills", []):
                 if isinstance(skill, dict) and "skill" in skill:
                     matched_skills.append({
-                        "skill": skill.get("skill", ""),
+                        "name": skill.get("skill", ""),
                         "user_skill": skill.get("user_skill", skill.get("skill", "")),
                         "proficiency": skill.get("proficiency", 0),
                         "match_score": skill.get("match_score", 0)
                     })
+                elif isinstance(skill, str):
+                    # If it's just a string, create a simpler entry
+                    matched_skills.append({
+                        "name": skill,
+                        "proficiency": 50,  # Default value
+                        "match_score": 100  # Assume perfect match if no details
+                    })
         
-        # Also look for matched_skill_details if matched_skills is empty
+        # Also check matched_skill_details if matched_skills is empty
         if not matched_skills and spec.get("matched_skill_details"):
             for skill in spec.get("matched_skill_details", []):
                 matched_skills.append({
-                    "skill": skill.get("skill", ""),
+                    "name": skill.get("skill", ""),
                     "user_skill": skill.get("user_skill", skill.get("skill", "")),
                     "proficiency": skill.get("proficiency", 0),
                     "match_score": skill.get("match_score", 0)
                 })
         
-        # Extract missing skills
+        # Process missing skills with priority
         missing_skills = []
         if spec.get("missing_skills"):
             for skill in spec.get("missing_skills", []):
                 if isinstance(skill, str):
-                    missing_skills.append({"skill": skill, "priority": 50})
+                    missing_skills.append({
+                        "name": skill,
+                        "priority": 50  # Default priority
+                    })
                 elif isinstance(skill, dict) and "skill" in skill:
                     missing_skills.append({
-                        "skill": skill["skill"],
+                        "name": skill["skill"],
                         "priority": skill.get("priority", 50)
                     })
         
-        formatted_specs.append({
-            "specialization": spec.get("specialization"),
-            "field": spec.get("field", ""),
-            "confidence": spec.get("confidence", 0),
-            "matched_skills": matched_skills,
+        # Create the specialization card entry
+        spec_card = {
+            "title": spec_name,
+            "field": field_name,
+            "confidence": confidence,
+            "matching_skills": matched_skills,
             "missing_skills": missing_skills
-        })
+        }
+        
+        spec_list.append(spec_card)
     
-    # If fields array is empty but specializations exist, derive fields from specializations
-    if not formatted_fields and formatted_specs:
-        formatted_fields = derive_fields_from_specializations(formatted_specs)
-        logger.info(f"Derived {len(formatted_fields)} fields from specializations as original fields array was empty")
+    # Sort by confidence
+    spec_list.sort(key=lambda x: x["confidence"], reverse=True)
     
+    # Return the simplified card-based format
     return {
         "success": True,
         "recommendations": {
-            "fields": formatted_fields,
-            "specializations": formatted_specs,
+            "specialization_cards": spec_list,
             "timestamp": datetime.now().isoformat()
         }
     }
+
+def format_frontend_response(engine_result, original_skills):
+    """Format the engine result for frontend consumption"""
+    # Use the new specialization-focused format
+    return format_simplified_specialization_response(engine_result, original_skills)
 
 def fallback_recommendation(skills: Dict[str, int], top_fields: int = 3, top_specs: int = 3):
     """
@@ -565,6 +494,36 @@ async def output_recommendation(
     except Exception as e:
         logger.error(f"Error saving to JSON: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error saving to JSON: {str(e)}")
+
+# Keep this endpoint for backward compatibility, but it will redirect to the main endpoint
+@app.post("/api/recommend", summary="Get simplified career recommendations for frontend")
+async def simple_recommend(
+    request: Dict[str, Any] = Body(...)
+):
+    """
+    Frontend-friendly endpoint for career recommendations based on skills and proficiency.
+    This is a compatibility endpoint that redirects to the main /recommend endpoint.
+    
+    You can provide skills in the same formats as the /recommend endpoint.
+    """
+    # Create RecommendationParams with simplified_response=True
+    params = RecommendationParams(simplified_response=True)
+    
+    # Check if request contains direct skills or a nested skills object
+    if "skills" in request and isinstance(request["skills"], dict):
+        # Nested format: {"skills": {"Python": 90, ...}}
+        skills = request["skills"]
+    elif all(isinstance(val, int) for val in request.values()):
+        # Direct format: {"Python": 90, ...}
+        skills = request
+    else:
+        raise HTTPException(
+            status_code=422, 
+            detail="Invalid request format. Provide skills either directly or in a 'skills' object."
+        )
+    
+    logger.info(f"Received frontend recommendation request with {len(skills)} skills")
+    return await get_recommendations(skills, params)
 
 if __name__ == "__main__":
     uvicorn.run(
