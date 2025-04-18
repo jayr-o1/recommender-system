@@ -1,122 +1,60 @@
 # Career Recommender System
 
-A machine learning-based system that recommends career fields and specializations based on a user's skills and proficiency levels.
+An AI-powered recommendation engine that matches users to optimal career paths based on their skills and proficiency levels.
 
-## Features
+## Overview
 
--   **Skill-Based Recommendations**: Match skills and proficiency levels to career fields and specializations
--   **Confidence Scoring**: Calculate confidence scores for how well user skills match different careers
--   **Missing Skills Identification**: Identify skills that users should develop for specific careers
--   **Multiple Interface Options**:
-    -   RESTful API
-    -   Command Line Interface
-    -   Docker Deployment
+The Career Recommender System uses machine learning to analyze user skills and suggest the most suitable career fields and specializations. It provides detailed confidence scores, identifies skill gaps, and offers personalized development recommendations.
 
-## Recent Improvements
+### Key Features
 
-### Enhanced Data Science Recommendations
-
--   Improved confidence scoring for all Data Science specializations
--   Enhanced skill matching for specialized Machine Learning roles
--   Added robust matching for Data Engineering and Business Intelligence specific skills
--   Implemented better handling of technical Data Science terminology
--   Added comprehensive test suite for all Data Science specializations
-
-### Added Chemistry Field and Specializations
-
--   New Chemistry field with core skills like Laboratory Techniques, Toxicology, and Analytical Chemistry
--   Added specializations: Analytical Chemist, Toxicologist, and Organic Chemist
--   Expanded skill weights with chemistry-specialized skills
-
-### Improved Fuzzy Matching
-
--   Reduced default fuzzy threshold from 80 to 70 for better matching of specialized terms
--   Implemented token-based matching for multi-word skills
--   Added bonuses for specialized technical terms in matching algorithm
--   Improved handling of partial matches in specialized domains
-
-### Enhanced Training Process
-
--   Balanced training data generation across all fields
--   Increased synthetic user dataset size from 10,000 to 15,000
--   Ensured minimum representation for each field in the training data
--   Added weighting for specialized skills during training
-
-### Weighted Confidence Calculation
-
--   Specialized skills now have 50% more weight in confidence scoring
--   Improved multi-factor confidence calculation considering:
-    -   Skill match quality
-    -   Match score
-    -   Skill importance
-    -   Coverage of required skills
--   Better confidence scoring for specialized career paths
+-   **AI-Powered Matching**: ML models trained on extensive career data to provide accurate recommendations
+-   **Multi-Level Analysis**: Recommends both broad career fields and specific specializations
+-   **Skill Gap Analysis**: Identifies missing skills needed for career advancement
+-   **Confidence Scoring**: Calculates detailed confidence metrics for each recommendation
+-   **Flexible Interfaces**: Access via API, CLI, or containerized deployment
+-   **Semantic Matching**: Advanced NLP for understanding skill relationships and synonyms
 
 ## Getting Started
 
 ### Prerequisites
 
 -   Python 3.9+
+-   Required packages (see `requirements.txt`)
 -   Docker (optional, for containerized deployment)
 
-### Installation
-
-#### Option 1: Local Installation
-
-1. Clone the repository:
-
-    ```bash
-    git clone <repository_url>
-    cd career-recommender
-    ```
-
-2. Install dependencies:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. Generate sample data:
-
-    ```bash
-    python src/data_generator.py
-    ```
-
-4. Run the API server:
-    ```bash
-    uvicorn src.api:app --host 0.0.0.0 --port 8000 --reload
-    ```
-
-#### Option 2: Docker Deployment
-
-1. Clone the repository:
-
-    ```bash
-    git clone <repository_url>
-    cd career-recommender
-    ```
-
-2. Build and run with Docker Compose:
-    ```bash
-    docker-compose up -d
-    ```
-
-## Usage
-
-### API Endpoints
-
-Once the server is running, access the API at: http://localhost:8000
-
-Available endpoints:
-
--   `GET /`: API information
--   `GET /fields`: List all available career fields
--   `GET /specializations`: List all available specializations
--   `POST /recommend`: Get career recommendations based on skills
-
-#### Example API Request
+### Quick Installation
 
 ```bash
+# Clone repository
+git clone <repository_url>
+cd career-recommender
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Train the model (optional - pre-trained models included)
+python src/train.py
+
+# Start the API server
+uvicorn src.api:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### Docker Deployment
+
+```bash
+# Build and run with Docker Compose
+docker-compose up -d
+```
+
+## Usage Examples
+
+### REST API
+
+Access the API at http://localhost:8000 after starting the server.
+
+```bash
+# Get career recommendations
 curl -X POST \
   http://localhost:8000/recommend \
   -H 'Content-Type: application/json' \
@@ -133,18 +71,49 @@ curl -X POST \
 
 ### Command Line Interface
 
-The CLI provides a quick way to get recommendations:
-
 ```bash
+# Get recommendations via CLI
 python src/cli.py --skills "Python 90, SQL 80, Data Analysis 85, Machine Learning 80, Excel 75"
+
+# Output in JSON format
+python src/cli.py --skills "Python 90, SQL 80" --json
 ```
 
-Options:
+## System Architecture
 
--   `--skills`: Comma-separated list of skills with proficiency (required)
--   `--top-fields`: Number of top fields to display (default: 1)
--   `--top-specializations`: Number of top specializations to display (default: 3)
--   `--json`: Output results in JSON format
+### Components
+
+1. **Data Layer**
+
+    - Field definitions with core skills
+    - Specialization definitions with required skills
+    - Skill weight and importance mappings
+
+2. **ML Models**
+
+    - Field classifier (Random Forest, 100% accuracy)
+    - Specialization classifier (Random Forest, 99-100% accuracy)
+
+3. **Matching Engine**
+
+    - Fuzzy matching for misspelled skills
+    - Semantic matching for conceptually similar skills
+    - Confidence scoring algorithm with multi-factor analysis
+
+4. **Interfaces**
+    - RESTful API (FastAPI)
+    - Command-line interface
+    - Docker containerization
+
+### How It Works
+
+1. **Input Processing**: User skills are parsed and normalized
+2. **Skill Matching**: User skills are matched to known skills using fuzzy and semantic matching
+3. **Field Prediction**: ML models predict suitable career fields
+4. **Specialization Matching**: System identifies matching specializations within recommended fields
+5. **Confidence Calculation**: Multi-factor analysis generates confidence scores
+6. **Skill Gap Analysis**: Missing skills are identified and prioritized
+7. **Results Formatting**: Recommendations are packaged and returned
 
 ## Data Structure
 
@@ -152,7 +121,7 @@ Options:
 
 Skills have the following properties:
 
--   Name: The skill name (e.g. "Python", "Data Analysis")
+-   Name: The skill name (e.g., "Python", "Data Analysis")
 -   Proficiency: User's proficiency level from 1-100
 
 ### Fields
@@ -199,6 +168,19 @@ Example:
 }
 ```
 
+## Supported Fields & Specializations
+
+The system currently supports recommendations for the following fields:
+
+-   **Computer Science**: Software Engineer, Web Developer, Mobile App Developer, DevOps, Cloud Architect
+-   **Data Science**: Data Scientist, Data Engineer, Machine Learning Engineer, Business Intelligence Analyst
+-   **Cybersecurity**: Security Analyst, Penetration Tester, Information Security Manager
+-   **Law**: Lawyer, Legal Consultant, Patent Attorney
+-   **Finance**: Financial Analyst, Investment Banker, Portfolio Manager
+-   **Chemistry**: Analytical Chemist, Toxicologist, Organic Chemist
+-   **Healthcare**: Physician, Nurse Practitioner, Clinical Specialist
+-   **And many more fields with 65+ specializations**
+
 ## Project Structure
 
 -   `data/`: Contains JSON files defining career fields, specializations, and skill weights
@@ -210,76 +192,42 @@ Example:
     -   `train.py`: Script to train recommendation models
     -   `recommender.py`: Career recommendation engine
     -   `api.py`: FastAPI web API for serving recommendations
--   `test_model.py`: Simple script to test the recommendation models
--   `compare_profiles.py`: Script to compare recommendations for different skill profiles
+    -   `cli.py`: Command-line interface
+-   `tests/`: Testing framework
+    -   `test_recommendation_system.py`: Comprehensive test suite
+-   `utils/`: Utility modules
+    -   `semantic_matcher.py`: Advanced skill matching using NLP
 
-## How It Works
+## Testing Framework
 
-1. **Data Modeling**: The system uses JSON files to define career fields, specializations, and skills with their importance weights.
+The system includes a comprehensive testing framework:
 
-2. **Model Training**: The training process:
+### Automated Test Suite
 
-    - Loads field, specialization, and skill weight data
-    - Generates 10,000 synthetic user profiles with skills relevant to their specializations
-    - Trains Random Forest classifiers for field and specialization prediction
-    - Achieves high accuracy (100%) on the test set
+```bash
+# Run all recommendation system tests
+pytest tests/test_recommendation_system.py
 
-3. **Recommendation Engine**: Based on a user's skills and proficiency levels, the system:
+# Run tests for a specific field/specialization
+pytest tests/test_recommendation_system.py::test_case_1_data_scientist_profile
+```
 
-    - Predicts the most suitable career fields
-    - Recommends specializations within those fields
-    - Provides confidence scores for each recommendation
-    - Identifies matching and missing skills for each recommendation
+### Test Coverage
 
-4. **API**: The system exposes a FastAPI-based web API to:
-    - Get career recommendations based on skills
-    - Browse available fields and specializations
+-   **Field Recognition Tests**: Verify field identification accuracy
+-   **Specialization Mapping**: Ensure specializations are correctly matched
+-   **Edge Cases**: Test minimal skills, misspelled inputs, irrelevant skills
+-   **Field-Specific Tests**: Dedicated test suites for each major field (Data Science, Law, etc.)
 
-## Usage
+### Test Results Analysis
 
-1. **Install Dependencies**:
+Each test generates a detailed JSON report with:
 
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-2. **Train the Models** (optional, pre-trained models included):
-
-    ```bash
-    python -m src.train
-    ```
-
-3. **Test the Models**:
-
-    ```bash
-    python test_model.py
-    ```
-
-4. **Compare Different Profiles**:
-
-    ```bash
-    python compare_profiles.py
-    ```
-
-5. **Start the API Server**:
-
-    ```bash
-    python -m src.api
-    ```
-
-6. **Make Recommendation Requests**:
-    ```bash
-    curl -X POST "http://localhost:8000/recommend" \
-      -H "Content-Type: application/json" \
-      -d '{"skills": {"Python": 90, "JavaScript": 85, "Data Analysis": 80}}'
-    ```
-
-## Extending the System
-
-To add new fields, specializations, or skills:
-
-1. Edit the JSON files in the `data/` directory
-2. Retrain the models using `python -m src.train`
+-   Input skills and proficiency levels
+-   Matched fields with confidence scores
+-   Matched specializations with confidence scores
+-   Matched skills with match scores
+-   Missing skills with priority levels
 
 ## Model Performance
 
@@ -295,26 +243,88 @@ In the latest test suite:
 -   Machine Learning Engineer specialization achieved 69% confidence for specialized ML skills
 -   Business Intelligence Analyst specialization correctly matched BI-specific skills
 
-These high accuracy rates demonstrate the system's ability to correctly match skills to specialized roles, even with varying skill proficiency levels and partial skill sets.
+## Recent Improvements
 
-## Customization
+### Enhanced Data Science Recommendations
 
-You can customize the recommendation system by:
+-   Improved confidence scoring for Data Science specializations
+-   Enhanced matching for specialized Machine Learning roles
+-   Better handling of technical Data Science terminology
+-   Added comprehensive test suite for all Data Science specializations
 
-1. Modifying the data files in the `data/`
+### Chemistry Field Integration
+
+-   Added new Chemistry field with specialized roles (Analytical Chemist, Toxicologist, Organic Chemist)
+-   Expanded skill weights for chemistry domain
+
+### Matching Algorithm Enhancements
+
+-   Reduced fuzzy threshold from 80 to 70 for better specialized term matching
+-   Implemented token-based matching for multi-word skills
+-   Added bonuses for technical terminology
+-   Improved handling of partial matches in specialized domains
+
+### Training Process Improvements
+
+-   Balanced data generation across all fields
+-   Increased synthetic dataset to 50,000 profiles
+-   Ensured minimum representation for each field in the training data
+-   Added weighting for specialized skills during training
+
+### Weighted Confidence Calculation
+
+-   Specialized skills now have 50% more weight in confidence scoring
+-   Improved multi-factor confidence calculation considering:
+    -   Skill match quality
+    -   Match score
+    -   Skill importance
+    -   Coverage of required skills
+
+## Advanced Feature: SemanticMatcher
+
+The system includes a powerful semantic matching engine:
+
+```python
+from utils.semantic_matcher import SemanticMatcher
+
+# Match user skills against reference skills
+matched_skill, similarity = SemanticMatcher.match_skill(
+    "python programming",
+    ["python development", "javascript", "data analysis"]
+)
+```
+
+### SemanticMatcher Features
+
+-   **Model Selection**: Multiple pre-trained models (small, medium, large)
+-   **Batch Processing**: Efficient handling of large skill sets
+-   **Async Support**: Asynchronous processing for API use cases
+-   **Skill Clustering**: Group related skills semantically
+-   **Multi-language Support**: Process skills in different languages
+
+### Configuration Examples
+
+```python
+from utils.semantic_matcher import SemanticMatcher, ModelConfig
+
+# Configure model with custom settings
+SemanticMatcher.configure_model(ModelConfig(
+    model_name="medium",  # Use a more accurate model
+    warmup_on_init=True,  # Warm up model on initialization
+    enable_progress_bars=True  # Show progress bars
+))
+
+# Configure matching parameters
+SemanticMatcher.configure_matching({
+    "similarity_threshold": 0.7,  # Require higher similarity for matches
+    "partial_match_threshold": 0.5,  # Higher threshold for partial matches
+    "domain_bonus_cap": 0.4  # Lower the domain bonus cap
+})
+```
 
 ## Testing the API with Uvicorn
 
-The project now includes a test script that interacts with the API running on Uvicorn. The `test_api.py` script can:
-
-1. Start a Uvicorn server automatically
-2. Run tests against the API endpoints
-3. Test skill matching capabilities
-4. Compare fuzzy vs semantic matching through the API
-
-### Running the API tests
-
-To run the API tests with Uvicorn:
+The project includes a test script that interacts with the API running on Uvicorn:
 
 ```bash
 # Run all tests with default settings
@@ -328,312 +338,35 @@ python test_api.py --skills "Python:90,Data Analysis:85,Machine Learning:75"
 
 # Test with specific parameters
 python test_api.py --no-semantic --threshold 70 --top-fields 5 --top-specs 10
-
-# Only run the matching comparison
-python test_api.py --compare-only
-
-# Use a custom port
-python test_api.py --port 8080
 ```
 
 ### Command-line parameters
 
-The `test_api.py` script supports the following parameters:
-
--   `--skills`: Comma-separated list of skills with optional proficiency (e.g., "Python:90,Data Analysis:85")
+-   `--skills`: Comma-separated list of skills with optional proficiency
 -   `--no-semantic`: Disable semantic matching
 -   `--threshold`: Fuzzy matching threshold (0-100)
 -   `--top-fields`: Number of top fields to return (1-5)
 -   `--top-specs`: Number of top specializations to return (1-10)
 -   `--compare-only`: Only run the matching methods comparison
 -   `--port`: Port to run the API on (default: 8000)
--   `--host`: Host to run the API on (default: 127.0.0.1)
--   `--no-server`: Don't start the server (assume it's already running)
--   `--simple-test`: Run the simple API tests (test_recommend_direct, test_recommend_nested, test_api_recommend)
 
-### Starting the API with Uvicorn manually
+## Extending the System
 
-You can also start the API with Uvicorn manually using the provided PowerShell script:
+To add new fields, specializations, or skills:
 
-```powershell
-# Start the API with development reload enabled
-./start_api_uvicorn.ps1
-```
-
-Or directly with Python:
-
-```bash
-# Development mode with reload
-uvicorn src.api:app --reload
-
-# Production mode
-uvicorn src.api:app --host 0.0.0.0 --port 8000
-```
-
-# SemanticMatcher - Enhanced Skill Matching
-
-SemanticMatcher is an advanced tool for matching and analyzing skills using semantic similarity with transformer-based models. It provides accurate matching for specialized terminology by considering semantic meaning rather than just string similarity.
-
-## New Features
-
-The latest update includes the following improvements:
-
-### Model Management
-
--   **Model Warmup**: Added option to load and warm up the model on startup for faster initial queries
--   **Model Versioning**: Support for different model sizes (small, medium, large) and switching between models
--   **Custom Models**: Support for custom model paths and configurations
--   **Configuration Serialization**: Save and load model configurations from JSON files
-
-### Performance Enhancements
-
--   **Batch Processing**: Efficient batch processing for large skill sets
--   **Async Support**: Asynchronous methods for API use cases
--   **Optimized Caching**: Improved caching strategy for embeddings and match results
--   **Progress Tracking**: Configurable progress bars for long-running operations
-
-### Configuration Options
-
--   **Configurable Thresholds**: Customizable matching thresholds and weights
--   **Domain Customization**: Ability to add or modify domain-specific terminology
--   **Cross-Domain Mapping**: Enhanced cross-domain skill recognition
-
-### Enhanced Features
-
--   **Skill Clustering**: Group skills based on semantic similarity
--   **Temporal Analysis**: Analyze skill trends over time
--   **Skill Development Path**: Suggest skill development paths based on career goals
--   **Multi-language Support**: Process skills in different languages with translation capabilities
-
-### Testing & Benchmarking
-
--   **Unit Tests**: Comprehensive test suite for matching logic
--   **Benchmarks**: Performance comparison tools for optimization
-
-## Usage Examples
-
-### Basic Skill Matching
-
-```python
-from utils.semantic_matcher import SemanticMatcher
-
-# Match a user skill against reference skills
-matched_skill, similarity = SemanticMatcher.match_skill(
-    "python programming",
-    ["python development", "javascript", "data analysis"]
-)
-print(f"Matched: {matched_skill}, Similarity: {similarity:.2f}")
-```
-
-### Configuring the Model
-
-```python
-from utils.semantic_matcher import SemanticMatcher, ModelConfig
-
-# Configure model with custom settings
-SemanticMatcher.configure_model(ModelConfig(
-    model_name="medium",  # Use a more accurate model
-    warmup_on_init=True,  # Warm up model on initialization
-    enable_progress_bars=True  # Show progress bars
-))
-```
-
-### Batch Processing
-
-```python
-# Process multiple skills efficiently
-skills = ["python", "javascript", "machine learning", "data visualization"]
-embeddings = SemanticMatcher.get_embeddings_batch(skills)
-
-# Use embeddings for further processing
-for skill, embedding in embeddings.items():
-    print(f"Processed: {skill}")
-```
-
-### Async Processing
-
-```python
-import asyncio
-
-async def process_skills():
-    skills = ["python", "javascript", "machine learning"]
-
-    # Process skills asynchronously
-    embeddings = await SemanticMatcher.get_embeddings_batch_async(skills)
-
-    # Calculate similarities asynchronously
-    similarity = await SemanticMatcher.semantic_similarity_async("python", "python programming")
-
-    return embeddings, similarity
-
-# Run in an async context
-results = asyncio.run(process_skills())
-```
-
-### Customizing Matching Parameters
-
-```python
-# Configure matching parameters
-SemanticMatcher.configure_matching({
-    "similarity_threshold": 0.7,  # Require higher similarity for matches
-    "partial_match_threshold": 0.5,  # Higher threshold for partial matches
-    "domain_bonus_cap": 0.4  # Lower the domain bonus cap
-})
-```
-
-### Skill Clustering
-
-```python
-# Cluster skills based on semantic similarity
-skills = [
-    "python", "javascript", "java", "c++",
-    "data analysis", "machine learning", "deep learning",
-    "project management", "team leadership"
-]
-
-# Auto-determine number of clusters
-clusters = SemanticMatcher.cluster_skills(skills)
-
-for cluster_name, cluster_skills in clusters.items():
-    print(f"\n{cluster_name}:")
-    for skill in cluster_skills:
-        print(f"  - {skill}")
-```
-
-### Skill Trend Analysis
-
-```python
-# Analyze skill trends over time
-skill_snapshots = {
-    "2021-01": {
-        "python": 60,
-        "javascript": 50,
-        "sql": 40
-    },
-    "2022-01": {
-        "python": 70,
-        "javascript": 60,
-        "sql": 50,
-        "machine learning": 30
-    },
-    "2023-01": {
-        "python": 80,
-        "javascript": 70,
-        "machine learning": 50,
-        "data visualization": 40
-    }
-}
-
-trends = SemanticMatcher.analyze_skill_trends(skill_snapshots)
-
-print("Emerging Skills:", trends["emerging_skills"])
-print("New Skills:", trends["new_skills"])
-print("Declining Skills:", trends["declining_skills"])
-```
-
-### Multi-language Support
-
-```python
-# Translate a skill between languages
-translated_skill = SemanticMatcher.translate_skill(
-    "machine learning",
-    source_lang="en",
-    target_lang="es"
-)
-print(f"Translated: {translated_skill}")  # "aprendizaje automático"
-
-# Detect language of a skill
-lang = SemanticMatcher.detect_skill_language("programación")
-print(f"Detected language: {lang}")  # "es"
-```
-
-## Performance Benchmarks
-
-The performance improvements can be measured using the benchmarking tools:
-
-```bash
-python benchmarks/benchmark_semantic_matcher.py
-```
-
-This will generate performance metrics and plots comparing:
-
--   Batch vs. individual processing
--   Effect of model warmup
--   Performance of different matching methods
-
-## Running Tests
-
-Run tests to verify functionality:
-
-```bash
-python -m unittest tests/test_semantic_matcher.py
-```
+1. Edit the JSON files in the `data/` directory
+2. Retrain the models using `python -m src.train`
 
 ## Dependencies
 
 -   numpy
+-   scikit-learn
+-   fastapi
+-   uvicorn
 -   sentence-transformers
 -   fuzzywuzzy
--   scikit-learn (optional, for advanced clustering)
--   matplotlib (for benchmarking)
--   langdetect (optional, for language detection)
+-   pytest
 
 ## License
 
 MIT License
-
-## Comprehensive Testing Framework
-
-The system now includes a robust testing framework to ensure accurate field and specialization recommendations:
-
-### Automated Test Cases
-
--   **Field Accuracy Tests**: Verify that relevant fields are identified with appropriate confidence levels
--   **Specialization Matching**: Ensure specializations are correctly matched based on skill sets
--   **Skill Set Variations**: Test different variations of skill combinations and proficiency levels
--   **Edge Cases**: Handle minimal skill sets, misspelled skills, and irrelevant skills
-
-### Data Science Field Testing
-
-The Data Science field has been thoroughly tested with dedicated test cases:
-
--   **Data Scientist Profile**: Tests core Data Science skills like Python, Machine Learning, Statistics
--   **Data Engineer Profile**: Validates ETL, SQL, and Data Warehousing skill recognition
--   **Machine Learning Engineer**: Tests specialized ML skills like Neural Networks and Deep Learning
--   **Business Intelligence Analyst**: Validates BI-specific skills like Data Visualization and Tableau/Power BI
-
-### Test Results Analysis
-
--   Each test generates a detailed JSON report with:
-    -   Input skills and proficiency levels
-    -   Matched fields with confidence scores
-    -   Matched specializations with confidence scores
-    -   Matched skills with match scores
-    -   Missing skills with priority levels
--   These reports help identify any mismatches or areas for improvement
-
-### Running the Test Suite
-
-```bash
-# Run all recommendation system tests
-pytest tests/test_recommendation_system.py
-
-# Run tests for a specific field
-pytest tests/test_recommendation_system.py::test_case_1_data_scientist_profile
-```
-
-### Multi-language Support
-
-```python
-# Translate a skill between languages
-translated_skill = SemanticMatcher.translate_skill(
-    "machine learning",
-    source_lang="en",
-    target_lang="es"
-)
-print(f"Translated: {translated_skill}")  # "aprendizaje automático"
-
-# Detect language of a skill
-lang = SemanticMatcher.detect_skill_language("programación")
-print(f"Detected language: {lang}")  # "es"
-```
