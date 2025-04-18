@@ -1,30 +1,4 @@
 {
-    "Data Analyst": {
-        "field": "Data Science",
-        "description": "Collects, processes, and performs statistical analysis on large datasets",
-        "core_skills": {
-            "Python": 80,
-            "SQL": 90,
-            "Data Analysis": 95,
-            "Data Visualization": 85,
-            "Statistics": 80,
-            "Excel": 75,
-            "Problem Solving": 70
-        }
-    },
-    "Data Scientist": {
-        "field": "Data Science",
-        "description": "Uses advanced analytics, machine learning and statistical methods to interpret data",
-        "core_skills": {
-            "Python": 85,
-            "R": 70,
-            "Machine Learning": 90,
-            "Statistics": 85,
-            "Data Analysis": 90,
-            "Big Data": 75,
-            "Data Visualization": 80
-        }
-    },
     "Software Engineer": {
         "field": "Computer Science",
         "description": "Designs, develops, and maintains software systems",
@@ -40,7 +14,7 @@
         }
     },
     "Web Developer": {
-        "field": "Web Development",
+        "field": "Computer Science",
         "description": "Creates and maintains websites",
         "core_skills": {
             "HTML": 95,
@@ -52,84 +26,305 @@
             "Web Security": 70
         }
     },
-    "Machine Learning Engineer": {
-        "field": "Artificial Intelligence",
-        "description": "Designs and implements machine learning models",
-        "core_skills": {
-            "Python": 90,
-            "Machine Learning": 95,
-            "Deep Learning": 85,
-            "TensorFlow": 80,
-            "PyTorch": 80,
-            "Mathematics": 85,
-            "Feature Engineering": 80,
-            "Model Deployment": 75
-        }
-    },
-    "AI Engineer": {
-        "field": "Artificial Intelligence",
-        "description": "Develops AI solutions and implements machine learning algorithms",
+    "Data Scientist": {
+        "field": "Computer Science",
+        "description": "Uses advanced analytics and statistical methods to interpret data",
         "core_skills": {
             "Python": 85,
+            "R": 70,
             "Machine Learning": 90,
-            "Deep Learning": 85,
-            "NLP": 80,
-            "Computer Vision": 80,
-            "Neural Networks": 85,
-            "Mathematics": 80
+            "Statistics": 85,
+            "Data Analysis": 90,
+            "Big Data": 75,
+            "Data Visualization": 80
         }
     },
-    "DevOps Engineer": {
-        "field": "Computer Science",
-        "description": "Implements and manages software development lifecycle",
+    "Accountant": {
+        "field": "Business Accountancy",
+        "description": "Prepares and examines financial records",
         "core_skills": {
-            "Linux": 85,
-            "Docker": 90,
-            "Kubernetes": 85,
-            "CI/CD": 90,
-            "Cloud Platforms": 85,
-            "Scripting": 80,
-            "Version Control": 80,
-            "Infrastructure as Code": 85
+            "Financial Analysis": 90,
+            "Bookkeeping": 85,
+            "Tax Knowledge": 80,
+            "Attention to Detail": 90,
+            "Excel": 80,
+            "Business Ethics": 75
         }
     },
-    "Security Analyst": {
-        "field": "Cybersecurity",
-        "description": "Monitors and protects systems and networks from security threats",
+    "Auditor": {
+        "field": "Business Accountancy",
+        "description": "Examines financial statements and records for accuracy and compliance",
         "core_skills": {
-            "Network Security": 90,
-            "Security Tools": 85,
-            "Threat Analysis": 90,
-            "Vulnerability Assessment": 85,
-            "Cryptography": 75,
-            "Incident Response": 80,
-            "Security Frameworks": 75
+            "Auditing": 95,
+            "Financial Analysis": 85,
+            "Risk Assessment": 80,
+            "Attention to Detail": 90,
+            "Business Ethics": 85,
+            "Communication": 75
         }
     },
-    "Frontend Developer": {
-        "field": "Web Development",
-        "description": "Develops user interfaces and user experience for websites",
+    "Civil Engineer": {
+        "field": "Engineering",
+        "description": "Designs and supervises construction of infrastructure projects",
         "core_skills": {
-            "HTML": 95,
-            "CSS": 95,
-            "JavaScript": 90,
-            "React": 85,
-            "UI/UX": 85,
-            "Responsive Design": 90,
-            "Web Performance": 80
+            "Mathematics": 85,
+            "Technical Design": 90,
+            "Problem Solving": 85,
+            "Project Management": 80,
+            "Structural Analysis": 85,
+            "CAD Software": 80
         }
     },
-    "Backend Developer": {
-        "field": "Web Development",
-        "description": "Develops server-side logic and databases for web applications",
+    "Mechanical Engineer": {
+        "field": "Engineering",
+        "description": "Designs and develops mechanical systems and products",
         "core_skills": {
-            "Python": 80,
-            "Node.js": 80,
-            "SQL": 85,
-            "REST APIs": 90,
-            "Database Design": 85,
-            "Authentication": 80,
-            "Server Management": 75
+            "Mathematics": 85,
+            "Technical Design": 90,
+            "Problem Solving": 85,
+            "Thermodynamics": 80,
+            "Material Science": 80,
+            "CAD Software": 85
+        }
+    },
+    "Lawyer": {
+        "field": "Law",
+        "description": "Advises and represents clients in legal matters",
+        "core_skills": {
+            "Legal Research": 90,
+            "Critical Thinking": 85,
+            "Communication": 90,
+            "Analysis": 85,
+            "Ethics": 85,
+            "Negotiation": 80
+        }
+    },
+    "Legal Consultant": {
+        "field": "Law",
+        "description": "Provides expert legal advice to organizations",
+        "core_skills": {
+            "Legal Research": 85,
+            "Critical Thinking": 80,
+            "Communication": 85,
+            "Analysis": 85,
+            "Ethics": 80,
+            "Industry Knowledge": 85
+        }
+    },
+    "Criminologist": {
+        "field": "Criminology",
+        "description": "Studies criminal behavior and societal responses to crime",
+        "core_skills": {
+            "Research": 90,
+            "Analysis": 85,
+            "Criminal Justice": 90,
+            "Psychology": 80,
+            "Statistics": 75,
+            "Ethics": 80
+        }
+    },
+    "Criminal Investigator": {
+        "field": "Criminology",
+        "description": "Investigates crimes and gathers evidence",
+        "core_skills": {
+            "Criminal Justice": 90,
+            "Analysis": 85,
+            "Attention to Detail": 90,
+            "Critical Thinking": 85,
+            "Communication": 80,
+            "Ethics": 85
+        }
+    },
+    "Registered Nurse": {
+        "field": "Nursing",
+        "description": "Provides direct patient care and health education",
+        "core_skills": {
+            "Patient Care": 95,
+            "Medical Knowledge": 85,
+            "Communication": 90,
+            "Critical Thinking": 85,
+            "Empathy": 90,
+            "Assessment": 85
+        }
+    },
+    "Nurse Practitioner": {
+        "field": "Nursing",
+        "description": "Advanced practice nurse who can diagnose and prescribe treatments",
+        "core_skills": {
+            "Patient Care": 90,
+            "Medical Knowledge": 90,
+            "Diagnosis": 85,
+            "Critical Thinking": 90,
+            "Empathy": 85,
+            "Communication": 85
+        }
+    },
+    "Physician": {
+        "field": "Medicine",
+        "description": "Diagnoses and treats illnesses and injuries",
+        "core_skills": {
+            "Medical Knowledge": 95,
+            "Diagnosis": 95,
+            "Patient Care": 90,
+            "Critical Thinking": 90,
+            "Ethics": 85,
+            "Communication": 85
+        }
+    },
+    "Surgeon": {
+        "field": "Medicine",
+        "description": "Performs surgical procedures to treat injuries and diseases",
+        "core_skills": {
+            "Medical Knowledge": 95,
+            "Surgical Skills": 95,
+            "Attention to Detail": 95,
+            "Critical Thinking": 90,
+            "Decision Making": 90,
+            "Ethics": 85
+        }
+    },
+    "Hotel Manager": {
+        "field": "Hospitality Management",
+        "description": "Oversees operations and staff of hotels and accommodations",
+        "core_skills": {
+            "Management": 90,
+            "Customer Service": 90,
+            "Communication": 85,
+            "Organization": 85,
+            "Problem Solving": 85,
+            "Financial Management": 80
+        }
+    },
+    "Restaurant Manager": {
+        "field": "Hospitality Management",
+        "description": "Oversees food service operations and staff",
+        "core_skills": {
+            "Management": 90,
+            "Customer Service": 90,
+            "Food Safety": 85,
+            "Organization": 85,
+            "Problem Solving": 80,
+            "Staff Training": 80
+        }
+    },
+    "Tour Guide": {
+        "field": "Tourism",
+        "description": "Leads groups on tours of attractions and places of interest",
+        "core_skills": {
+            "Communication": 95,
+            "Customer Service": 90,
+            "Geography": 85,
+            "Cultural Awareness": 90,
+            "Organization": 80,
+            "History Knowledge": 85
+        }
+    },
+    "Travel Consultant": {
+        "field": "Tourism",
+        "description": "Helps clients plan travel arrangements and accommodations",
+        "core_skills": {
+            "Customer Service": 90,
+            "Geography": 85,
+            "Organization": 85,
+            "Communication": 90,
+            "Problem Solving": 80,
+            "Destination Knowledge": 85
+        }
+    },
+    "Clinical Psychologist": {
+        "field": "Psychology",
+        "description": "Assesses and treats mental, emotional, and behavioral disorders",
+        "core_skills": {
+            "Assessment": 90,
+            "Therapy Techniques": 90,
+            "Communication": 90,
+            "Empathy": 95,
+            "Critical Thinking": 85,
+            "Ethics": 90
+        }
+    },
+    "Research Psychologist": {
+        "field": "Psychology",
+        "description": "Conducts research on psychological processes and behavior",
+        "core_skills": {
+            "Research Methods": 90,
+            "Statistics": 85,
+            "Analysis": 90,
+            "Critical Thinking": 85,
+            "Technical Writing": 80,
+            "Ethics": 85
+        }
+    },
+    "Medical Laboratory Technologist": {
+        "field": "Medical Technology",
+        "description": "Performs medical tests and analyses in a laboratory setting",
+        "core_skills": {
+            "Laboratory Skills": 95,
+            "Analytical Thinking": 90,
+            "Attention to Detail": 95,
+            "Medical Knowledge": 85,
+            "Technical Skills": 85,
+            "Quality Control": 85
+        }
+    },
+    "Radiologic Technologist": {
+        "field": "Medical Technology",
+        "description": "Performs medical imaging exams for diagnosis and treatment",
+        "core_skills": {
+            "Technical Skills": 90,
+            "Patient Care": 85,
+            "Attention to Detail": 90,
+            "Medical Knowledge": 85,
+            "Equipment Operation": 90,
+            "Safety Protocols": 85
+        }
+    },
+    "Research Scientist": {
+        "field": "Research",
+        "description": "Conducts original research in scientific fields",
+        "core_skills": {
+            "Research Methods": 95,
+            "Data Analysis": 90,
+            "Critical Thinking": 90,
+            "Technical Writing": 85,
+            "Problem Solving": 85,
+            "Laboratory Skills": 85
+        }
+    },
+    "Market Research Analyst": {
+        "field": "Research",
+        "description": "Analyzes market conditions to examine potential sales of products or services",
+        "core_skills": {
+            "Research Methods": 90,
+            "Data Analysis": 90,
+            "Statistics": 85,
+            "Critical Thinking": 85,
+            "Communication": 80,
+            "Industry Knowledge": 80
+        }
+    },
+    "Elementary School Teacher": {
+        "field": "Education",
+        "description": "Teaches young students basic academic and social skills",
+        "core_skills": {
+            "Communication": 90,
+            "Subject Knowledge": 85,
+            "Lesson Planning": 90,
+            "Assessment": 85,
+            "Empathy": 90,
+            "Classroom Management": 85
+        }
+    },
+    "University Professor": {
+        "field": "Education",
+        "description": "Teaches and conducts research at higher education institutions",
+        "core_skills": {
+            "Subject Knowledge": 95,
+            "Research": 90,
+            "Communication": 85,
+            "Critical Thinking": 90,
+            "Assessment": 80,
+            "Technical Writing": 85
         }
     }
 }

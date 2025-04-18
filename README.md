@@ -354,3 +354,215 @@ uvicorn src.api:app --reload
 # Production mode
 uvicorn src.api:app --host 0.0.0.0 --port 8000
 ```
+
+# SemanticMatcher - Enhanced Skill Matching
+
+SemanticMatcher is an advanced tool for matching and analyzing skills using semantic similarity with transformer-based models. It provides accurate matching for specialized terminology by considering semantic meaning rather than just string similarity.
+
+## New Features
+
+The latest update includes the following improvements:
+
+### Model Management
+
+-   **Model Warmup**: Added option to load and warm up the model on startup for faster initial queries
+-   **Model Versioning**: Support for different model sizes (small, medium, large) and switching between models
+-   **Custom Models**: Support for custom model paths and configurations
+-   **Configuration Serialization**: Save and load model configurations from JSON files
+
+### Performance Enhancements
+
+-   **Batch Processing**: Efficient batch processing for large skill sets
+-   **Async Support**: Asynchronous methods for API use cases
+-   **Optimized Caching**: Improved caching strategy for embeddings and match results
+-   **Progress Tracking**: Configurable progress bars for long-running operations
+
+### Configuration Options
+
+-   **Configurable Thresholds**: Customizable matching thresholds and weights
+-   **Domain Customization**: Ability to add or modify domain-specific terminology
+-   **Cross-Domain Mapping**: Enhanced cross-domain skill recognition
+
+### Enhanced Features
+
+-   **Skill Clustering**: Group skills based on semantic similarity
+-   **Temporal Analysis**: Analyze skill trends over time
+-   **Skill Development Path**: Suggest skill development paths based on career goals
+-   **Multi-language Support**: Process skills in different languages with translation capabilities
+
+### Testing & Benchmarking
+
+-   **Unit Tests**: Comprehensive test suite for matching logic
+-   **Benchmarks**: Performance comparison tools for optimization
+
+## Usage Examples
+
+### Basic Skill Matching
+
+```python
+from utils.semantic_matcher import SemanticMatcher
+
+# Match a user skill against reference skills
+matched_skill, similarity = SemanticMatcher.match_skill(
+    "python programming",
+    ["python development", "javascript", "data analysis"]
+)
+print(f"Matched: {matched_skill}, Similarity: {similarity:.2f}")
+```
+
+### Configuring the Model
+
+```python
+from utils.semantic_matcher import SemanticMatcher, ModelConfig
+
+# Configure model with custom settings
+SemanticMatcher.configure_model(ModelConfig(
+    model_name="medium",  # Use a more accurate model
+    warmup_on_init=True,  # Warm up model on initialization
+    enable_progress_bars=True  # Show progress bars
+))
+```
+
+### Batch Processing
+
+```python
+# Process multiple skills efficiently
+skills = ["python", "javascript", "machine learning", "data visualization"]
+embeddings = SemanticMatcher.get_embeddings_batch(skills)
+
+# Use embeddings for further processing
+for skill, embedding in embeddings.items():
+    print(f"Processed: {skill}")
+```
+
+### Async Processing
+
+```python
+import asyncio
+
+async def process_skills():
+    skills = ["python", "javascript", "machine learning"]
+
+    # Process skills asynchronously
+    embeddings = await SemanticMatcher.get_embeddings_batch_async(skills)
+
+    # Calculate similarities asynchronously
+    similarity = await SemanticMatcher.semantic_similarity_async("python", "python programming")
+
+    return embeddings, similarity
+
+# Run in an async context
+results = asyncio.run(process_skills())
+```
+
+### Customizing Matching Parameters
+
+```python
+# Configure matching parameters
+SemanticMatcher.configure_matching({
+    "similarity_threshold": 0.7,  # Require higher similarity for matches
+    "partial_match_threshold": 0.5,  # Higher threshold for partial matches
+    "domain_bonus_cap": 0.4  # Lower the domain bonus cap
+})
+```
+
+### Skill Clustering
+
+```python
+# Cluster skills based on semantic similarity
+skills = [
+    "python", "javascript", "java", "c++",
+    "data analysis", "machine learning", "deep learning",
+    "project management", "team leadership"
+]
+
+# Auto-determine number of clusters
+clusters = SemanticMatcher.cluster_skills(skills)
+
+for cluster_name, cluster_skills in clusters.items():
+    print(f"\n{cluster_name}:")
+    for skill in cluster_skills:
+        print(f"  - {skill}")
+```
+
+### Skill Trend Analysis
+
+```python
+# Analyze skill trends over time
+skill_snapshots = {
+    "2021-01": {
+        "python": 60,
+        "javascript": 50,
+        "sql": 40
+    },
+    "2022-01": {
+        "python": 70,
+        "javascript": 60,
+        "sql": 50,
+        "machine learning": 30
+    },
+    "2023-01": {
+        "python": 80,
+        "javascript": 70,
+        "machine learning": 50,
+        "data visualization": 40
+    }
+}
+
+trends = SemanticMatcher.analyze_skill_trends(skill_snapshots)
+
+print("Emerging Skills:", trends["emerging_skills"])
+print("New Skills:", trends["new_skills"])
+print("Declining Skills:", trends["declining_skills"])
+```
+
+### Multi-language Support
+
+```python
+# Translate a skill between languages
+translated_skill = SemanticMatcher.translate_skill(
+    "machine learning",
+    source_lang="en",
+    target_lang="es"
+)
+print(f"Translated: {translated_skill}")  # "aprendizaje automático"
+
+# Detect language of a skill
+lang = SemanticMatcher.detect_skill_language("programación")
+print(f"Detected language: {lang}")  # "es"
+```
+
+## Performance Benchmarks
+
+The performance improvements can be measured using the benchmarking tools:
+
+```bash
+python benchmarks/benchmark_semantic_matcher.py
+```
+
+This will generate performance metrics and plots comparing:
+
+-   Batch vs. individual processing
+-   Effect of model warmup
+-   Performance of different matching methods
+
+## Running Tests
+
+Run tests to verify functionality:
+
+```bash
+python -m unittest tests/test_semantic_matcher.py
+```
+
+## Dependencies
+
+-   numpy
+-   sentence-transformers
+-   fuzzywuzzy
+-   scikit-learn (optional, for advanced clustering)
+-   matplotlib (for benchmarking)
+-   langdetect (optional, for language detection)
+
+## License
+
+MIT License

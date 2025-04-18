@@ -247,6 +247,52 @@ async def simple_recommend(
     logger.info(f"Received frontend recommendation request with {len(skills)} skills")
     return await get_recommendations(skills, params)
 
+def derive_fields_from_specializations(specializations):
+    """
+    Create field recommendations from specialization data when fields are empty
+    
+    Args:
+        specializations: List of specialization objects
+        
+    Returns:
+        List of derived field objects
+    """
+    field_map = {}
+    
+    for spec in specializations:
+        field_name = spec.get('field', 'General')
+        
+        if field_name not in field_map:
+            field_map[field_name] = {
+                'field': field_name,
+                'confidence': 0,
+                'matching_skills': [],
+                'missing_skills': []
+            }
+        
+        # Update confidence
+        field_map[field_name]['confidence'] = max(
+            field_map[field_name]['confidence'],
+            spec.get('confidence', 0)
+        )
+        
+        # Collect unique matching skills
+        if spec.get('matched_skills'):
+            for skill in spec['matched_skills']:
+                skill_name = skill.get('skill', '') if isinstance(skill, dict) else skill
+                if skill_name and skill_name not in field_map[field_name]['matching_skills']:
+                    field_map[field_name]['matching_skills'].append(skill_name)
+        
+        # Collect unique missing skills
+        if spec.get('missing_skills'):
+            for skill in spec['missing_skills']:
+                skill_obj = {'skill': skill, 'priority': 50} if isinstance(skill, str) else skill
+                if not any(s.get('skill') == skill_obj.get('skill') for s in field_map[field_name]['missing_skills']):
+                    field_map[field_name]['missing_skills'].append(skill_obj)
+    
+    # Convert field map to list and sort by confidence
+    return sorted(list(field_map.values()), key=lambda x: x.get('confidence', 0), reverse=True)
+
 def format_frontend_response(engine_result, original_skills):
     """Format the engine result for frontend consumption"""
     formatted_fields = []
@@ -267,60 +313,75 @@ def format_frontend_response(engine_result, original_skills):
         if field.get("missing_skills"):
             for skill in field.get("missing_skills", []):
                 if isinstance(skill, str):
-                    missing_skills.append(skill)
+                    missing_skills.append({"skill": skill, "priority": 50})
                 elif isinstance(skill, dict) and "skill" in skill:
-                    missing_skills.append(skill["skill"])
+                    missing_skills.append({
+                        "skill": skill["skill"],
+                        "priority": skill.get("priority", 50)
+                    })
         
         formatted_fields.append({
             "field": field.get("field"),
-            "match_percentage": field.get("confidence", 0),
+            "confidence": field.get("confidence", 0),
             "matching_skills": matching_skills,
             "missing_skills": missing_skills
         })
     
     formatted_specs = []
-    for spec in engine_result.get("specializations", []):
+    for spec in engine_result.get("specializations", []) or engine_result.get("top_specializations", []):
         # Extract matched skills
         matched_skills = []
         if spec.get("matched_skills"):
             for skill in spec.get("matched_skills", []):
                 if isinstance(skill, dict) and "skill" in skill:
-                    matched_skills.append(skill["skill"])
+                    matched_skills.append({
+                        "skill": skill.get("skill", ""),
+                        "user_skill": skill.get("user_skill", skill.get("skill", "")),
+                        "proficiency": skill.get("proficiency", 0),
+                        "match_score": skill.get("match_score", 0)
+                    })
         
         # Also look for matched_skill_details if matched_skills is empty
         if not matched_skills and spec.get("matched_skill_details"):
-            matched_skills = [skill.get("skill") for skill in spec.get("matched_skill_details", [])]
+            for skill in spec.get("matched_skill_details", []):
+                matched_skills.append({
+                    "skill": skill.get("skill", ""),
+                    "user_skill": skill.get("user_skill", skill.get("skill", "")),
+                    "proficiency": skill.get("proficiency", 0),
+                    "match_score": skill.get("match_score", 0)
+                })
         
         # Extract missing skills
         missing_skills = []
         if spec.get("missing_skills"):
             for skill in spec.get("missing_skills", []):
                 if isinstance(skill, str):
-                    missing_skills.append(skill)
+                    missing_skills.append({"skill": skill, "priority": 50})
                 elif isinstance(skill, dict) and "skill" in skill:
-                    missing_skills.append(skill["skill"])
+                    missing_skills.append({
+                        "skill": skill["skill"],
+                        "priority": skill.get("priority", 50)
+                    })
         
         formatted_specs.append({
             "specialization": spec.get("specialization"),
             "field": spec.get("field", ""),
-            "match_percentage": spec.get("confidence", 0),
-            "matching_skills": matched_skills,
+            "confidence": spec.get("confidence", 0),
+            "matched_skills": matched_skills,
             "missing_skills": missing_skills
         })
+    
+    # If fields array is empty but specializations exist, derive fields from specializations
+    if not formatted_fields and formatted_specs:
+        formatted_fields = derive_fields_from_specializations(formatted_specs)
+        logger.info(f"Derived {len(formatted_fields)} fields from specializations as original fields array was empty")
     
     return {
         "success": True,
         "recommendations": {
-            "top_fields": formatted_fields,
-            "top_specializations": formatted_specs,
-            "explanation": {
-                "summary": "Career recommendations based on your skill profile",
-                "details": "These recommendations are generated by analyzing your skills against our career path database.",
-                "skill_analysis": {
-                    "key_strengths": [{"skill": s, "relevance": "high"} for s in original_skills[:3]],
-                    "development_areas": []
-                }
-            }
+            "fields": formatted_fields,
+            "specializations": formatted_specs,
+            "timestamp": datetime.now().isoformat()
         }
     }
 
@@ -432,6 +493,78 @@ async def match_skill(input_data: SkillMatchInput):
         logger.error(f"Skill matching error: {str(e)}")
         logger.error(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/output_recommendation", summary="Get career recommendations and output to JSON file")
+async def output_recommendation(
+    request: Dict[str, Any] = Body(...),
+    params: Optional[RecommendationParams] = None
+):
+    """
+    Get career recommendations based on skills and proficiency and output to a JSON file.
+    
+    This endpoint accepts a dictionary of skills and their proficiency levels (1-100)
+    and returns recommendations for career fields and specializations.
+    
+    You can provide skills in two formats:
+    
+    1. Direct format:
+    ```json
+    {
+        "Python": 90,
+        "JavaScript": 85,
+        "Data Analysis": 70
+    }
+    ```
+    
+    2. Nested format:
+    ```json
+    {
+        "skills": {
+            "Python": 90,
+            "JavaScript": 85, 
+            "Data Analysis": 70
+        }
+    }
+    ```
+    
+    The response will include fields, specializations, matching skills, and missing skills
+    with confidence scores. The result will also be saved to a JSON file.
+    """
+    if params is None:
+        params = RecommendationParams()
+    
+    # Check if request contains direct skills or a nested skills object
+    if "skills" in request and isinstance(request["skills"], dict):
+        # Nested format: {"skills": {"Python": 90, ...}}
+        skills = request["skills"]
+    elif all(isinstance(val, int) for val in request.values()):
+        # Direct format: {"Python": 90, ...}
+        skills = request
+    else:
+        raise HTTPException(
+            status_code=422, 
+            detail="Invalid request format. Provide skills either directly or in a 'skills' object."
+        )
+    
+    # Get recommendations
+    result = await get_recommendations(skills, params)
+    
+    # Save to JSON file
+    try:
+        import json
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"career_recommendation_{timestamp}.json"
+        
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(result, f, indent=2)
+        
+        # Add filename to result
+        result["output_file"] = filename
+        
+        return result
+    except Exception as e:
+        logger.error(f"Error saving to JSON: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error saving to JSON: {str(e)}")
 
 if __name__ == "__main__":
     uvicorn.run(
