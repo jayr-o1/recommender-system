@@ -513,6 +513,40 @@ def save_results_to_json():
     print(f"\n\nTest results saved to {output_file}")
     return output_file
 
+def test_case_11_core_computer_science_skills(recommender):
+    """Test that core CS skills get appropriately high confidence scores"""
+    skills = {
+        "Programming": 85,
+        "Data Structures": 90,
+        "Algorithms": 95,
+        "Software Development": 80
+    }
+    
+    # Get recommendations
+    result = recommender.full_recommendation(skills)
+    
+    # Save test result
+    save_test_result("core_computer_science_skills_profile", skills, result)
+    
+    # Validate structure
+    validate_recommendation_structure(result)
+    
+    # Check if Computer Science field is recognized with high confidence
+    cs_field = next((field for field in result["fields"] if field["field"] == "Computer Science"), None)
+    if cs_field:
+        confidence = cs_field["confidence"]
+        print(f"Computer Science confidence with core skills: {confidence}")
+        assert confidence >= 70, "Computer Science with core skills should have 70%+ confidence"
+    
+    # Check that relevant specializations like Software Engineer are recommended
+    if result["top_specializations"]:
+        cs_spec = next((spec for spec in result["top_specializations"] 
+                       if spec["specialization"] in ["Software Engineer", "Web Developer"]), None)
+        if cs_spec:
+            spec_confidence = cs_spec["confidence"]
+            print(f"{cs_spec['specialization']} specialization confidence: {spec_confidence}")
+            assert spec_confidence >= 0.7, "CS specialization should have high confidence (≥0.7)"
+
 def pytest_sessionfinish(session, exitstatus):
     """Save all test results to JSON file after all tests have completed"""
     save_results_to_json() 

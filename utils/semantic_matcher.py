@@ -131,12 +131,14 @@ class SemanticMatcher:
     
     # Default matching thresholds and weights that can be configured
     DEFAULT_MATCHING_CONFIG = {
-        "similarity_threshold": 0.85,
-        "partial_match_threshold": 0.6,
-        "domain_bonus_cap": 0.35,
-        "cross_domain_bonus": 0.15,
+        "similarity_threshold": 0.87,           # Increased from 0.85
+        "partial_match_threshold": 0.65,        # Increased from 0.60
+        "domain_bonus_cap": 0.30,               # Reduced from 0.35
+        "cross_domain_bonus": 0.10,             # Reduced from 0.15
+        "cross_domain_penalty": 0.35,           # Increased from 0.20 to be more strict
         "exact_match_score": 1.0,
-        "special_mapping_score": 0.95
+        "special_mapping_score": 0.95,
+        "specialization_threshold": 0.75        # New parameter for specialization-specific matching
     }
     
     # Current matching configuration
@@ -815,222 +817,157 @@ class SemanticMatcher:
     def match_skill(cls, skill: str, reference_skills: List[str], 
                    threshold: float = None, use_semantic: bool = True) -> Tuple[Optional[str], float]:
         """
-        Match a skill name to the closest reference skill using semantic similarity
+        Match a skill against a list of reference skills with domain awareness
         
         Args:
-            skill: Skill name to match
-            reference_skills: List of reference skill names
-            threshold: Minimum similarity score (0-1) to consider a match
-            use_semantic: Whether to use semantic matching or fall back to fuzzy
+            skill: The user's skill to match
+            reference_skills: List of reference skills to match against
+            threshold: Optional override for similarity threshold
+            use_semantic: Whether to use semantic matching (vs fuzzy string matching)
             
         Returns:
-            Tuple of (matched reference skill name or None, similarity score)
+            Tuple of (best_match, score) or (None, 0.0) if no match
         """
-        # Use configured threshold if none provided
-        if threshold is None:
-            threshold = cls._matching_config["similarity_threshold"]
+        # Use cached result if available - key includes all parameters
+        cache_key = f"{skill}::{','.join(sorted(reference_skills))}::{threshold}::{use_semantic}"
+        if cache_key in cls._match_cache:
+            return cls._match_cache[cache_key]
             
         if not reference_skills:
             return None, 0.0
             
-        # Create tuple for cache key
-        reference_tuple = tuple(sorted(reference_skills))
+        # Use configured threshold or default
+        match_threshold = threshold if threshold is not None else cls._matching_config["similarity_threshold"]
+        exact_score = cls._matching_config["exact_match_score"]
         
-        # Check for cached results
-        cache_key = (skill.lower(), reference_tuple, threshold, use_semantic)
-        if cache_key in cls._match_cache:
-            return cls._match_cache[cache_key]
-            
-        # Try direct match first (case-insensitive)
-        skill_lower = skill.lower()
+        # Try exact match first (case insensitive)
         for ref_skill in reference_skills:
-            if skill_lower == ref_skill.lower():
-                result = (ref_skill, cls._matching_config["exact_match_score"])
-                cls._match_cache[cache_key] = result
-                return result
-        
-        # Special case mappings for common alternative terms
-        special_mappings = {
-            "pentesting": "penetration testing",
-            "pen testing": "penetration testing",
-            "pentest": "penetration testing",
-            "ui/ux": "ui/ux design",
-            "ui design": "user interface design",
-            "ux design": "user experience design",
-            "graphic design": "visual design"
-        }
+            if skill.lower() == ref_skill.lower():
+                cls._match_cache[cache_key] = (ref_skill, exact_score)
+                return ref_skill, exact_score
         
         # Check for special mappings
-        if skill_lower in special_mappings:
-            mapped_skill = special_mappings[skill_lower]
+        special_mappings = cls.CROSS_DOMAIN_MAPPINGS
+        mapping_score = cls._matching_config["special_mapping_score"]
+        
+        for ref_skill in reference_skills:
+            if ref_skill in special_mappings and skill in special_mappings[ref_skill]:
+                cls._match_cache[cache_key] = (ref_skill, mapping_score)
+                return ref_skill, mapping_score
+                
+            # Also check the reverse direction
+            if skill in special_mappings and ref_skill in special_mappings[skill]:
+                cls._match_cache[cache_key] = (ref_skill, mapping_score)
+                return ref_skill, mapping_score
+        
+        # If semantic matching is disabled, fall back to fuzzy string matching
+        if not use_semantic:
+            best_match = None
+            best_score = 0.0
+            
             for ref_skill in reference_skills:
-                if mapped_skill == ref_skill.lower():
-                    result = (ref_skill, cls._matching_config["special_mapping_score"])  # Consider it a strong match
-                    cls._match_cache[cache_key] = result
-                    return result
+                # Use token_sort_ratio to handle word order differences
+                score = fuzz.token_sort_ratio(skill.lower(), ref_skill.lower()) / 100.0
+                
+                if score > best_score:
+                    best_match = ref_skill
+                    best_score = score
+            
+            # Only return a match if it exceeds the threshold
+            if best_score >= match_threshold:
+                cls._match_cache[cache_key] = (best_match, best_score)
+                return best_match, best_score
+            else:
+                cls._match_cache[cache_key] = (None, 0.0)
+                return None, 0.0
         
-        # Problematic cross-domain matches to explicitly handle
-        cross_domain_restrictions = {
-            "case management": {
-                "incident management": 0.5,  # Reduce match score between these terms
-                "ticket management": 0.6
-            },
-            "compliance": {
-                "security compliance": 0.6,
-                "regulatory compliance": 0.9  # Strong match within legal domain
-            },
-            "regulatory compliance": {
-                "compliance": 0.9  # Strong match within legal domain
-            }
-        }
-        
-        # Check for problematic cross-domain matches
-        for problem_term, restrictions in cross_domain_restrictions.items():
-            if problem_term in skill_lower:
-                for ref_skill in reference_skills:
-                    ref_lower = ref_skill.lower()
-                    for restricted_term, max_score in restrictions.items():
-                        if restricted_term in ref_lower:
-                            # Analyze domains to determine if cross-domain
-                            skill_domains = cls.get_prioritized_domains(skill)
-                            ref_domains = cls.get_prioritized_domains(ref_skill)
-                            
-                            # If they share a domain, don't restrict
-                            if not (set(skill_domains[:1]) & set(ref_domains[:1])):
-                                result = (None, max_score * 0.8)  # Return restricted match or no match
-                                cls._match_cache[cache_key] = result
-                                return result
-                            
-        # Check cross-domain mappings for potential matches
-        for primary_skill, related_skills in cls.CROSS_DOMAIN_MAPPINGS.items():
-            if skill_lower in [s.lower() for s in related_skills] or skill_lower == primary_skill.lower():
-                # Try to find matching reference skills that might be in a different domain
-                all_related = related_skills + [primary_skill]
-                for related in all_related:
-                    for ref_skill in reference_skills:
-                        if related.lower() == ref_skill.lower():
-                            result = (ref_skill, cls._matching_config["special_mapping_score"])
-                            cls._match_cache[cache_key] = result
-                            return result
-        
-        # Apply semantic matching
+        # Use semantic similarity for improved matching
         best_match = None
         best_score = 0.0
         
-        # Get domain bonuses for the input skill
-        domain_bonuses = cls.get_domain_bonus(skill)
-        
-        # Get skill domains
-        skill_domains = cls.get_prioritized_domains(skill)
-        
-        # Group reference skills by their domains
-        domain_grouped_refs = {}
+        # Compare the user skill to each reference skill
         for ref_skill in reference_skills:
-            ref_domains = cls.get_prioritized_domains(ref_skill)
-            for domain in ref_domains:
-                if domain not in domain_grouped_refs:
-                    domain_grouped_refs[domain] = []
-                domain_grouped_refs[domain].append(ref_skill)
-        
-        # Try to match within same domains first - strongly prefer same-domain matches
-        same_domain_matches = []
-        cross_domain_matches = []
-        
-        for ref_skill in reference_skills:
-            # Calculate base similarity score
-            if use_semantic:
-                similarity = cls.semantic_similarity(skill, ref_skill)
-            else:
-                # Fallback to fuzzy matching
-                similarity = fuzz.token_sort_ratio(skill_lower, ref_skill.lower()) / 100
+            # Compute semantic similarity between the user skill and reference skill
+            similarity = cls.semantic_similarity(skill, ref_skill)
             
-            # Get domains for reference skill
+            # Get domain bonuses
+            user_domains = cls.get_prioritized_domains(skill)
             ref_domains = cls.get_prioritized_domains(ref_skill)
             
-            # Check for domain overlap - if they share primary domains, this is a same-domain match
-            is_same_domain = bool(set(skill_domains[:1]) & set(ref_domains[:1]))
+            # Apply domain-specific logic
+            final_score = similarity
             
-            # Apply domain-specific bonuses
-            ref_skill_bonuses = cls.get_domain_bonus(ref_skill)
-            bonus = 0.0
-            
-            # If both skills have the same domain, apply bonus
-            for domain, score in domain_bonuses.items():
-                if domain in ref_skill_bonuses:
-                    bonus += min(score, ref_skill_bonuses[domain])
-            
-            # Cap the bonus
-            bonus = min(bonus, cls._matching_config["domain_bonus_cap"])
-            
-            # Higher threshold for cross-domain matches
-            effective_threshold = threshold
-            if not is_same_domain:
-                # Apply stricter threshold for cross-domain matches
-                effective_threshold = threshold * 1.2  # 20% higher threshold for cross-domain
+            # If domains are available for both skills
+            if user_domains and ref_domains:
+                common_domains = set(user_domains).intersection(set(ref_domains))
                 
-                # Check for specific cross-domain restrictions
-                if "case management" in skill_lower and "incident" in ref_skill.lower():
-                    effective_threshold = threshold * 1.3  # Even stricter for case → incident
-                elif "compliance" in skill_lower and "security" in ref_skill.lower():
-                    effective_threshold = threshold * 1.3  # Stricter for compliance → security
+                # Apply domain bonus for skills in the same domain
+                if common_domains:
+                    # Higher bonus for skills in same primary domain
+                    if user_domains[0] == ref_domains[0]:
+                        domain_bonus = min(cls._matching_config["domain_bonus_cap"], 
+                                         0.20 + (similarity * 0.15))  # Scaled by base similarity
+                        final_score = min(0.98, similarity + domain_bonus)
+                    else:
+                        # Lower bonus for skills in same secondary domain
+                        domain_bonus = min(cls._matching_config["domain_bonus_cap"] / 2, 
+                                         0.10 + (similarity * 0.10))
+                        final_score = min(0.95, similarity + domain_bonus)
+                else:
+                    # Skills are from different domains - apply PENALTY if they're completely unrelated
+                    # This is a key addition to prevent cross-domain matching
+                    incompatible_domains = {
+                        ("legal", "programming"),
+                        ("legal", "cybersecurity"),
+                        ("legal", "data_science"),
+                        ("legal", "engineering"),
+                        ("legal", "management"),  # Added management
+                        ("legal", "supply_chain"),
+                        ("legal", "operations"),  # Added operations
+                        ("healthcare", "programming"),
+                        ("healthcare", "cybersecurity"),  # Added healthcare-cybersecurity
+                        ("legal", "supply_chain"),
+                        ("arts", "cybersecurity"),
+                        ("arts", "engineering"),  # Added arts-engineering
+                        ("marketing", "cybersecurity"),  # Added marketing-cybersecurity
+                        ("marketing", "programming")  # Added marketing-programming
+                    }
+                    
+                    # Check for incompatible domain pairs - bidirectional check
+                    for user_domain in user_domains[:2]:  # Consider only top 2 domains
+                        for ref_domain in ref_domains[:2]:  # Consider only top 2 domains
+                            if (user_domain, ref_domain) in incompatible_domains or \
+                               (ref_domain, user_domain) in incompatible_domains:
+                                # Apply penalty for incompatible domains
+                                domain_penalty = cls._matching_config["cross_domain_penalty"]
+                                final_score = max(0.05, similarity - domain_penalty)
+                                break
+                                
+                    # Check for patent law special case
+                    if "patent" in ref_skill.lower() and "legal" in user_domains:
+                        # For patent law, require technical context
+                        if not any(d in user_domains for d in ["engineering", "programming", "data_science", "scientific"]):
+                            # Stronger penalty for non-technical legal skills matching to patent
+                            final_score = max(0.05, similarity - (cls._matching_config["cross_domain_penalty"] * 1.5))
             
-            # Apply bonus to similarity
-            adjusted_similarity = similarity + bonus
+            # Special case for "case management" to avoid matching to "supply chain management"
+            if "case management" in skill.lower() and "management" in ref_skill.lower():
+                if any(term in ref_skill.lower() for term in ["supply chain", "operations", "logistics"]):
+                    # Apply significant penalty for case management matching to supply chain
+                    final_score = max(0.05, similarity - (cls._matching_config["cross_domain_penalty"] * 1.5))
             
-            # Store match data differently for same vs cross domain
-            match_data = (ref_skill, adjusted_similarity, similarity, is_same_domain)
-            if is_same_domain:
-                same_domain_matches.append(match_data)
-            else:
-                cross_domain_matches.append(match_data)
-            
-            # Track best overall match
-            if adjusted_similarity > best_score:
-                effective_score = adjusted_similarity
-                
-                # If cross-domain, apply penalty
-                if not is_same_domain:
-                    effective_score = adjusted_similarity * 0.9  # 10% penalty for cross-domain
-                
-                # Check if this exceeds our best so far and threshold
-                if effective_score > best_score and effective_score >= effective_threshold:
-                    best_match = ref_skill
-                    best_score = effective_score
+            # Update best match if this is the highest score
+            if final_score > best_score:
+                best_match = ref_skill
+                best_score = final_score
         
-        # If no match found but we have same-domain near matches, consider using them
-        if not best_match and same_domain_matches:
-            # Sort by adjusted similarity
-            same_domain_matches.sort(key=lambda x: x[1], reverse=True)
-            best_same_domain = same_domain_matches[0]
-            
-            # Use a more lenient threshold for same-domain matches
-            lenient_threshold = threshold * 0.9  # 10% more lenient for same domain
-            if best_same_domain[1] >= lenient_threshold:
-                best_match = best_same_domain[0]
-                best_score = best_same_domain[1]
-        
-        # Final check for problematic matches that should be filtered
-        if best_match:
-            # Handle specific problematic pairs
-            problematic_pairs = [
-                ("case management", "incident management", 0.7),
-                ("legal compliance", "security compliance", 0.75),
-                ("regulatory", "security governance", 0.75),
-                ("contract", "network", 0.8)
-            ]
-            
-            for term1, term2, min_required in problematic_pairs:
-                if term1 in skill_lower and term2 in best_match.lower():
-                    # If match score is below higher threshold, reject
-                    if best_score < min_required:
-                        best_match = None
-                        best_score = 0.0
-                        break
-        
-        # Store result in cache
-        result = (best_match, best_score)
-        cls._match_cache[cache_key] = result
-        return result
+        # Apply threshold to ensure quality matches
+        if best_score >= match_threshold:
+            cls._match_cache[cache_key] = (best_match, best_score)
+            return best_match, best_score
+        else:
+            cls._match_cache[cache_key] = (None, 0.0)
+            return None, 0.0
     
     @classmethod
     def cluster_skills(cls, skills: List[str], n_clusters: Optional[int] = None, 

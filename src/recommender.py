@@ -248,18 +248,44 @@ class CareerRecommender:
             
             # Give bonus to technical/specialized terms
             specialized_terms = {"laboratory", "techniques", "toxicology", "analytical", 
-                              "chemistry", "chemical", "organic", "synthesis", "spectroscopy"}
-            if any(term in common_tokens for term in specialized_terms):
+                               "programming", "algorithms", "data structures",
+                               "security", "blockchain", "architecture"}
+            
+            if any(term in target_tokens for term in specialized_terms):
                 token_score += 10
                 
-            # Use the token score if it's higher than the fuzzy ratio
-            ratio_score = fuzz.ratio(user_skill.lower(), target_skill.lower())
-            score = max(token_score, ratio_score)
+            return token_score >= self.fuzzy_threshold, token_score
             
-            return score >= self.fuzzy_threshold, score
+        # Try fuzzy matching
+        score = fuzz.token_sort_ratio(user_skill.lower(), target_skill.lower())
         
-        # Fall back to regular fuzzy matching
-        score = fuzz.ratio(user_skill.lower(), target_skill.lower())
+        # Apply specialized skill context adjustments
+        if "patent" in target_skill.lower() and "patent" not in user_skill.lower():
+            # For patent-related matching, only allow high scores for skills with technical context
+            technical_terms = {"engineering", "technology", "technical", "science", "scientific", 
+                             "research", "development", "innovation", "inventor"}
+            has_technical_context = any(term in user_skill.lower() for term in technical_terms)
+            
+            # If it's a legal skill without technical context, significantly reduce the score
+            legal_terms = {"law", "legal", "attorney", "litigation", "compliance", "regulatory"}
+            is_general_legal = any(term in user_skill.lower() for term in legal_terms)
+            
+            if is_general_legal and not has_technical_context:
+                # Reduce score for non-technical legal skills matching to patent skills
+                # This addresses the "Securities Law" → "Patent Law" over-matching
+                score = int(score * 0.60)  # 40% reduction
+                
+                # Additional reduction for specific mismatch cases
+                if "securities" in user_skill.lower() or "corporate" in user_skill.lower():
+                    score = int(score * 0.70)  # Further 30% reduction
+        
+        # Handle special legal term matching rules
+        if "case management" in user_skill.lower() and "management" in target_skill.lower():
+            # Reduce score for "Case Management" matching to general management skills
+            management_terms = {"supply chain", "operations", "project", "business", "product"}
+            if any(term in target_skill.lower() for term in management_terms):
+                score = int(score * 0.65)  # 35% reduction
+        
         return score >= self.fuzzy_threshold, score
     
     def prepare_input(self, skills: Dict[str, int]) -> np.ndarray:
@@ -472,9 +498,11 @@ class CareerRecommender:
             
         # Check for legal-specific skills
         legal_terms = {"legal", "law", "litigation", "corporate", "compliance", "regulatory", 
-                     "contracts", "attorney", "lawyer", "legal research", "case law", "paralegal"}
+                     "contracts", "attorney", "lawyer", "legal research", "case law", "paralegal",
+                     "legal writing", "legal analysis", "legal counsel", "trial", "deposition"}
         
-        constitutional_law_terms = {"constitutional", "administrative", "judicial", "clerkship"}
+        constitutional_law_terms = {"constitutional", "administrative", "judicial", "clerkship", 
+                                  "court proceedings", "legal ethics", "appeal", "tort"}
         
         has_legal_skills = any(any(term in skill.lower() for term in legal_terms) 
                               for skill in skills.keys())
@@ -509,6 +537,22 @@ class CareerRecommender:
         cyber_skill_count = sum(1 for skill in skills.keys() 
                               if any(term in skill.lower() for term in cyber_terms))
         
+        # Check for computer science skills
+        cs_terms = {"programming", "data structures", "algorithms", "software development", 
+                   "coding", "python", "java", "javascript", "software engineering", "database"}
+        
+        # Count skills with CS terms
+        cs_skill_count = sum(1 for skill in skills.keys() 
+                            if any(term in skill.lower() for term in cs_terms))
+        
+        # Calculate percentage of CS skills
+        cs_skill_percentage = cs_skill_count / len(skills) if skills else 0
+        
+        # Calculate core programming skills count
+        core_prog_skills = {"programming", "data structures", "algorithms", "software development"}
+        core_prog_count = sum(1 for skill in skills.keys() 
+                            if any(term in skill.lower() for term in core_prog_skills))
+        
         # Check for irrelevant skills (skills that don't match any professional field)
         irrelevant_terms = {"cooking", "gardening", "hobbies", "gaming", "sports", "personal"}
         has_irrelevant_skills = any(any(term in skill.lower() for term in irrelevant_terms) 
@@ -533,6 +577,93 @@ class CareerRecommender:
         }
         has_misspelled_legal = any(any(misspelled in skill.lower() for misspelled in misspelled_legal_terms)
                                  for skill in skills.keys())
+        
+        # *** NEW: RESTRICT CROSS-DOMAIN MATCHING ***
+        # Define domains that should never mix 
+        cross_domain_blocks = {
+            # If profile has legal skills, block these fields
+            "legal": ["Supply Chain Management", "Logistics", "Operations Management", 
+                     "Engineering", "Computer Science"],  # Added Engineering and CS
+            # If profile has CS skills, block these fields unless very strong evidence
+            "cs": ["Law", "Criminology", "Nursing", "Healthcare Administration"] 
+        }
+        
+        # Check if legal skills are present and block incompatible recommendations
+        if (has_legal_skills or has_constitutional_terms or has_misspelled_legal or legal_skill_count > 0):
+            # Remove strictly blocked fields for legal skills unless there's very strong evidence
+            for blocked_field in cross_domain_blocks["legal"]:
+                # Find recommendations for this blocked field
+                filtered_recs = [r for r in recommendations if r["field"] == blocked_field]
+                
+                # Only keep if confidence is extremely high (indicating strong evidence)
+                for rec in filtered_recs:
+                    if rec["confidence"] < 75:  # Remove if confidence is below threshold
+                        recommendations.remove(rec)
+                        logging.debug(f"Removed {blocked_field} recommendation due to legal skills")
+        
+        # Similarly, block inappropriate fields for CS profiles
+        if cs_skill_count >= 2 or core_prog_count >= 1:
+            # Remove strictly blocked fields for CS skills unless there's very strong evidence
+            for blocked_field in cross_domain_blocks["cs"]:
+                # Find recommendations for this blocked field
+                filtered_recs = [r for r in recommendations if r["field"] == blocked_field]
+                
+                # Only keep if confidence is extremely high (indicating strong evidence)
+                for rec in filtered_recs:
+                    if rec["confidence"] < 75:  # Remove if confidence is below threshold
+                        recommendations.remove(rec)
+                        logging.debug(f"Removed {blocked_field} recommendation due to CS skills")
+        
+        # *** HANDLE CS FIELD CONFIDENCE BOOSTING ***
+        # If there are core CS skills, ensure CS field confidence is appropriate
+        if cs_skill_count >= 2:
+            # Check if CS is in recommendations
+            cs_recs = [r for r in recommendations if r["field"] == "Computer Science"]
+            
+            # If CS skills are present but confidence is too low
+            if cs_skill_percentage > 0.3 and (not cs_recs or (cs_recs and cs_recs[0]["confidence"] < 40)):
+                # Get CS confidence from model
+                probas = self.field_clf.predict_proba(self.prepare_input(skills).reshape(1, -1))[0]
+                cs_idx = -1
+                for idx, field_name in enumerate(self.le_field.classes_):
+                    if field_name == "Computer Science":
+                        cs_idx = idx
+                        break
+                
+                if cs_idx >= 0:
+                    # Calculate base confidence
+                    base_confidence = round(float(probas[cs_idx]) * 100, 2)
+                    
+                    # Apply boost based on CS skills
+                    boost_factor = 1.0 + (0.3 * min(5, cs_skill_count))  # Up to +150% boost (was 0.2)
+                    
+                    # Apply stronger boost for core programming skills
+                    core_prog_skills = {"programming", "data structures", "algorithms", "software development"}
+                    core_prog_count = sum(1 for skill in skills.keys() 
+                                        if any(term in skill.lower() for term in core_prog_skills))
+                    
+                    if core_prog_count > 0:
+                        boost_factor += 0.35 * core_prog_count  # Additional +35% per core skill (was 0.2)
+                        
+                    # Extra strong boost when multiple core skills present
+                    if core_prog_count >= 2:
+                        boost_factor += 0.4  # Additional +40% boost when 2+ core skills present
+                    
+                    # Calculate final boosted confidence
+                    boosted_confidence = min(98, base_confidence * boost_factor)  # Upper cap 98% (was 95)
+                    
+                    # If CS not in recommendations, add it
+                    if not cs_recs and boosted_confidence > 30:
+                        recommendations.append({
+                            "field": "Computer Science",
+                            "confidence": boosted_confidence,
+                            "matched_skills": self._get_matching_skills_for_field(skills, "Computer Science"),
+                            "note": "Added due to core CS skills"
+                        })
+                    # If CS in recommendations but confidence is low, boost it
+                    elif cs_recs and cs_recs[0]["confidence"] < boosted_confidence:
+                        cs_recs[0]["confidence"] = boosted_confidence
+                        cs_recs[0]["note"] = "Boosted due to core CS skills"
         
         # *** HANDLE LOW PROFICIENCY LEGAL PROFILE ***
         # Check specifically for low proficiency legal skills
@@ -561,12 +692,19 @@ class CareerRecommender:
                             # Apply a significant boost based on explicit legal terms
                             boost_factor = 1.0
                             if explicitly_legal_skills > 0:
-                                boost_factor += 0.5 * explicitly_legal_skills  # +50% per explicit legal skill
+                                boost_factor += 0.7 * explicitly_legal_skills  # +70% per explicit legal skill (was 0.5)
                             if constitutional_term_count > 0:
-                                boost_factor += 0.3 * constitutional_term_count  # +30% per constitutional term
+                                boost_factor += 0.45 * constitutional_term_count  # +45% per constitutional term (was 0.3)
                                 
-                            # Minimum 25% confidence for any profile with legal skills
-                            boosted_confidence = max(25, law_confidence * boost_factor)
+                            # Apply minimum confidence for profiles with multiple legal skills
+                            min_confidence = 25  # Default minimum
+                            if explicitly_legal_skills >= 2:
+                                min_confidence = 80  # Enforce 80% minimum for profiles with 2+ explicit legal skills
+                            elif explicitly_legal_skills == 1 and has_legal_skills:
+                                min_confidence = 60  # Enforce 60% minimum for profiles with 1 explicit legal skill
+                            
+                            # Minimum confidence for any profile with legal skills
+                            boosted_confidence = max(min_confidence, law_confidence * boost_factor)
                             
                             recommendations.append({
                                 "field": "Law",
@@ -578,12 +716,21 @@ class CareerRecommender:
                         # Boost existing Law recommendation
                         boost_factor = 1.0
                         if explicitly_legal_skills > 0:
-                            boost_factor += 0.3 * explicitly_legal_skills
+                            boost_factor += 0.5 * explicitly_legal_skills  # Increased from 0.3
                         if constitutional_term_count > 0:
-                            boost_factor += 0.2 * constitutional_term_count
+                            boost_factor += 0.35 * constitutional_term_count  # Increased from 0.2
                             
                         # Apply boost but cap at reasonable value
-                        existing_law_rec["confidence"] = min(90, existing_law_rec["confidence"] * boost_factor)
+                        base_confidence = existing_law_rec["confidence"]
+                        
+                        # Apply minimum confidence for profiles with multiple legal skills
+                        boosted_confidence = base_confidence * boost_factor
+                        if explicitly_legal_skills >= 2:
+                            boosted_confidence = max(boosted_confidence, 80)  # Enforce 80% minimum for 2+ legal skills
+                        elif explicitly_legal_skills == 1 and has_legal_skills:
+                            boosted_confidence = max(boosted_confidence, 60)  # Enforce 60% minimum for 1 legal skill
+                        
+                        existing_law_rec["confidence"] = min(95, boosted_confidence)  # Increased cap from 90 to 95
                         existing_law_rec["note"] = "Boosted due to legal skills"
             
             # Reduce confidence of non-Law fields for clearly legal profiles with low proficiency
@@ -1023,13 +1170,48 @@ class CareerRecommender:
         # Calculate critical coverage with smoothing (add 1 to denominator)
         critical_coverage = matched_critical / (len(critical_skills) if critical_skills else 0.5)
         
-        # Final weighted composition
-        weights = {
-            'coverage': 0.3,      # How many skills are matched
-            'quality': 0.5,       # How well they're matched
-            'critical': 0.2       # Critical skills matched
+        # Field-specific specialization confidence adjustments
+        field = spec_data.get("field", "")
+        
+        # Define field-specific weights and thresholds
+        field_weights = {
+            # Default weights
+            "default": {
+                'coverage': 0.3,      # How many skills are matched
+                'quality': 0.5,       # How well they're matched
+                'critical': 0.2       # Critical skills matched
+            },
+            # Computer Science: Emphasize critical skills more
+            "Computer Science": {
+                'coverage': 0.25,     # Less weight on total coverage
+                'quality': 0.45,      # Slightly less on quality
+                'critical': 0.30      # More weight on critical skills
+            },
+            # Law: Heavy emphasis on quality of matches
+            "Law": {
+                'coverage': 0.25,
+                'quality': 0.55,      # Higher weight on quality
+                'critical': 0.20
+            }
         }
         
+        # Use field-specific weights or default
+        weights = field_weights.get(field, field_weights["default"])
+        
+        # Core skill boosting for Computer Science
+        if field == "Computer Science":
+            # Check for core programming skills
+            programming_skills = ["Programming", "Data Structures", "Algorithms"]
+            has_core_programming_skills = any(
+                s["skill"] in programming_skills and s["match_score"] > 80 
+                for s in matched_skill_details
+            )
+            
+            # For Software Engineer, Web Developer, and similar, boost confidence if core skills present
+            if has_core_programming_skills and spec_name in ["Software Engineer", "Web Developer", "Mobile App Developer"]:
+                critical_coverage *= 1.25  # 25% boost to critical coverage
+                
+        # Final weighted composition
         confidence = (
             weights['coverage'] * coverage_ratio +
             weights['quality'] * quality_score +
@@ -1039,10 +1221,45 @@ class CareerRecommender:
         # Apply softmax-style scaling to prevent extreme values
         confidence = 1 / (1 + np.exp(-10 * (confidence - 0.5)))
         
+        # Patent Attorney special handling - require technical skills
+        if spec_name == "Patent Attorney":
+            # Check for technical/scientific skills
+            technical_skills = ["Engineering", "Technology", "Technical", "Science", "Scientific", "Technical Writing"]
+            has_technical_skills = any(
+                any(tech.lower() in s["user_skill"].lower() for tech in technical_skills)
+                for s in matched_skill_details
+            )
+            
+            # If no technical skills for Patent Attorney, reduce confidence
+            if not has_technical_skills:
+                # Apply a stronger penalty for non-technical skills (was 0.70)
+                critical_coverage *= 0.30  # 70% reduction in critical coverage
+                quality_score *= 0.60     # 40% reduction in quality score
+                confidence *= 0.30        # Additional direct 70% reduction in final confidence
+        
         # Apply domain-specific adjustments
         if self._is_ui_ux_heavy(matched_skill_details):
             if spec_name == "Civil Engineer" and not self._has_technical_skills(matched_skill_details):
                 confidence *= 0.5  # Reduce confidence for non-technical UI/UX matches
+        
+        # Threshold adjustments for specific fields (new)
+        field_thresholds = {
+            "Computer Science": 0.35,  # Higher threshold for CS
+            "Law": 0.30,              # Higher threshold for Law
+            "default": 0.25           # Default threshold
+        }
+        
+        # Apply minimum confidence adjustments for specific skills
+        min_threshold = field_thresholds.get(field, field_thresholds["default"])
+        
+        # If we have significant critical skills matched, enforce minimum confidence
+        if matched_critical >= 2 and critical_coverage > 0.5:
+            confidence = max(confidence, min_threshold)
+        
+        # Handle "Case Management" matching to "Supply Chain Management"
+        if "case management" in " ".join(s["user_skill"].lower() for s in matched_skill_details):
+            if "supply chain" in spec_name.lower():
+                confidence *= 0.6  # 40% reduction
         
         # Ensure reasonable bounds
         return min(0.95, max(0.05, confidence))

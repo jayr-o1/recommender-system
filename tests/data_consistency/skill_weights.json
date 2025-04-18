@@ -1,447 +1,1530 @@
 {
     "Python": {
-        "global_weight": 89,
+        "global_weight": 88,
         "field_weights": {
-            "Computer Science": 88,
-            "Data Science": 74,
-            "Web Development": 63,
-            "Artificial Intelligence": 86
+            "Computer Science": 82,
+            "Data Science": 92
         }
     },
     "JavaScript": {
-        "global_weight": 72,
+        "global_weight": 74,
         "field_weights": {
-            "Computer Science": 85,
-            "Data Science": 70,
-            "Web Development": 74,
-            "Artificial Intelligence": 82
+            "Computer Science": 86
         }
     },
     "Java": {
-        "global_weight": 74,
+        "global_weight": 79,
         "field_weights": {
-            "Computer Science": 86,
-            "Data Science": 83,
-            "Web Development": 68,
-            "Artificial Intelligence": 84
+            "Computer Science": 89
         }
     },
     "C++": {
         "global_weight": 79,
         "field_weights": {
-            "Computer Science": 80,
-            "Data Science": 78,
-            "Web Development": 80,
-            "Artificial Intelligence": 83
+            "Computer Science": 95
         }
     },
     "C#": {
-        "global_weight": 79,
+        "global_weight": 88,
         "field_weights": {
-            "Computer Science": 93,
-            "Data Science": 79,
-            "Web Development": 66,
-            "Artificial Intelligence": 81
+            "Computer Science": 85
         }
     },
     "Go": {
-        "global_weight": 73,
+        "global_weight": 90,
         "field_weights": {
-            "Computer Science": 89,
-            "Data Science": 84,
-            "Web Development": 76,
-            "Artificial Intelligence": 84
+            "Computer Science": 83
         }
     },
     "Rust": {
-        "global_weight": 72,
+        "global_weight": 87,
         "field_weights": {
-            "Computer Science": 82,
-            "Data Science": 77,
-            "Web Development": 81,
-            "Artificial Intelligence": 81
+            "Computer Science": 89
         }
     },
     "TypeScript": {
-        "global_weight": 82,
+        "global_weight": 88,
         "field_weights": {
-            "Computer Science": 86,
-            "Data Science": 76,
-            "Web Development": 71,
-            "Artificial Intelligence": 89
+            "Computer Science": 83
         }
     },
     "PHP": {
-        "global_weight": 79,
+        "global_weight": 86,
         "field_weights": {
-            "Computer Science": 87,
-            "Data Science": 75,
-            "Web Development": 64,
-            "Artificial Intelligence": 78
+            "Computer Science": 91
         }
     },
     "Swift": {
-        "global_weight": 72,
+        "global_weight": 88,
         "field_weights": {
-            "Computer Science": 87,
-            "Data Science": 83,
-            "Web Development": 88,
-            "Artificial Intelligence": 75
+            "Computer Science": 88
         }
     },
     "Kotlin": {
-        "global_weight": 75,
+        "global_weight": 88,
         "field_weights": {
-            "Computer Science": 93,
-            "Data Science": 83,
-            "Web Development": 64,
-            "Artificial Intelligence": 81
+            "Computer Science": 86
         }
     },
     "Ruby": {
-        "global_weight": 85,
+        "global_weight": 71,
         "field_weights": {
-            "Computer Science": 82,
-            "Data Science": 85,
-            "Web Development": 80,
-            "Artificial Intelligence": 81
+            "Computer Science": 89
         }
     },
     "SQL": {
-        "global_weight": 74,
+        "global_weight": 88,
         "field_weights": {
-            "Data Science": 80,
-            "Computer Science": 73
+            "Data Science": 94
         }
     },
     "Data Analysis": {
         "global_weight": 80,
         "field_weights": {
-            "Data Science": 80,
-            "Computer Science": 70
+            "Research": 83,
+            "Data Science": 93,
+            "Biotechnology": 93
         }
     },
     "Data Visualization": {
-        "global_weight": 73,
+        "global_weight": 77,
         "field_weights": {
-            "Data Science": 86,
-            "Computer Science": 64
+            "Data Science": 81
         }
     },
     "Data Modeling": {
-        "global_weight": 89,
+        "global_weight": 74,
         "field_weights": {
-            "Data Science": 95,
-            "Computer Science": 68
+            "Data Science": 94
         }
     },
     "ETL": {
-        "global_weight": 82,
+        "global_weight": 84,
         "field_weights": {
-            "Data Science": 89,
-            "Computer Science": 69
+            "Data Science": 90
         }
     },
     "Data Warehousing": {
         "global_weight": 74,
         "field_weights": {
-            "Data Science": 89,
-            "Computer Science": 64
+            "Data Science": 95
         }
     },
     "Big Data": {
-        "global_weight": 74,
+        "global_weight": 70,
         "field_weights": {
-            "Data Science": 80,
-            "Computer Science": 61
+            "Data Science": 89
         }
     },
     "Data Mining": {
-        "global_weight": 82,
+        "global_weight": 76,
         "field_weights": {
-            "Data Science": 89,
-            "Computer Science": 72
+            "Data Science": 89
         }
     },
     "Tableau": {
-        "global_weight": 76,
+        "global_weight": 90,
         "field_weights": {
-            "Data Science": 89,
-            "Computer Science": 60
+            "Data Science": 92
         }
     },
     "Power BI": {
-        "global_weight": 90,
+        "global_weight": 86,
         "field_weights": {
-            "Data Science": 84,
-            "Computer Science": 66
+            "Data Science": 82
         }
     },
     "Excel": {
-        "global_weight": 71,
+        "global_weight": 70,
         "field_weights": {
-            "Data Science": 85,
-            "Computer Science": 63
+            "Data Science": 86
         }
     },
     "Statistics": {
-        "global_weight": 88,
-        "field_weights": {
-            "Data Science": 94,
-            "Computer Science": 62
-        }
-    },
-    "Machine Learning": {
-        "global_weight": 94,
-        "field_weights": {
-            "Artificial Intelligence": 90,
-            "Data Science": 81
-        }
-    },
-    "Deep Learning": {
-        "global_weight": 90,
-        "field_weights": {
-            "Artificial Intelligence": 87,
-            "Data Science": 81
-        }
-    },
-    "NLP": {
         "global_weight": 77,
         "field_weights": {
-            "Artificial Intelligence": 92,
-            "Data Science": 75
-        }
-    },
-    "Computer Vision": {
-        "global_weight": 93,
-        "field_weights": {
-            "Artificial Intelligence": 95,
-            "Data Science": 87
-        }
-    },
-    "TensorFlow": {
-        "global_weight": 90,
-        "field_weights": {
-            "Artificial Intelligence": 88,
-            "Data Science": 90
-        }
-    },
-    "PyTorch": {
-        "global_weight": 77,
-        "field_weights": {
-            "Artificial Intelligence": 93,
             "Data Science": 85
         }
     },
-    "scikit-learn": {
-        "global_weight": 88,
+    "Machine Learning": {
+        "global_weight": 77,
         "field_weights": {
-            "Artificial Intelligence": 90,
-            "Data Science": 81
+            "Data Science": 86
         }
     },
-    "Neural Networks": {
-        "global_weight": 81,
-        "field_weights": {
-            "Artificial Intelligence": 85,
-            "Data Science": 78
-        }
-    },
-    "Reinforcement Learning": {
+    "Deep Learning": {
         "global_weight": 80,
         "field_weights": {
-            "Artificial Intelligence": 93,
-            "Data Science": 78
-        }
-    },
-    "Feature Engineering": {
-        "global_weight": 80,
-        "field_weights": {
-            "Artificial Intelligence": 88,
             "Data Science": 80
         }
     },
-    "Model Deployment": {
+    "NLP": {
         "global_weight": 84,
         "field_weights": {
-            "Artificial Intelligence": 88,
-            "Data Science": 75
+            "Data Science": 90
+        }
+    },
+    "Computer Vision": {
+        "global_weight": 78,
+        "field_weights": {
+            "Data Science": 80
+        }
+    },
+    "TensorFlow": {
+        "global_weight": 89,
+        "field_weights": {
+            "Data Science": 94
+        }
+    },
+    "PyTorch": {
+        "global_weight": 87,
+        "field_weights": {
+            "Data Science": 92
+        }
+    },
+    "scikit-learn": {
+        "global_weight": 79,
+        "field_weights": {
+            "Data Science": 90
+        }
+    },
+    "Neural Networks": {
+        "global_weight": 89,
+        "field_weights": {
+            "Data Science": 81
+        }
+    },
+    "Reinforcement Learning": {
+        "global_weight": 76,
+        "field_weights": {
+            "Data Science": 88
+        }
+    },
+    "Feature Engineering": {
+        "global_weight": 83,
+        "field_weights": {
+            "Data Science": 89
+        }
+    },
+    "Model Deployment": {
+        "global_weight": 79,
+        "field_weights": {
+            "Data Science": 82
         }
     },
     "HTML": {
-        "global_weight": 85,
+        "global_weight": 71,
         "field_weights": {
-            "Web Development": 91
+            "Computer Science": 88,
+            "Digital Marketing": 72,
+            "UX/UI Design": 75,
+            "Graphic Design": 71
         }
     },
     "CSS": {
-        "global_weight": 80,
+        "global_weight": 72,
         "field_weights": {
-            "Web Development": 92
+            "Computer Science": 82,
+            "Digital Marketing": 77,
+            "UX/UI Design": 89,
+            "Graphic Design": 78
         }
     },
     "React": {
-        "global_weight": 83,
+        "global_weight": 86,
         "field_weights": {
-            "Web Development": 91
+            "Computer Science": 94,
+            "Digital Marketing": 71,
+            "UX/UI Design": 87,
+            "Graphic Design": 72
         }
     },
     "Angular": {
-        "global_weight": 86,
+        "global_weight": 82,
         "field_weights": {
-            "Web Development": 92
+            "Computer Science": 91,
+            "Digital Marketing": 72,
+            "UX/UI Design": 89,
+            "Graphic Design": 69
         }
     },
     "Vue.js": {
-        "global_weight": 88,
+        "global_weight": 86,
         "field_weights": {
-            "Web Development": 89
+            "Computer Science": 82,
+            "Digital Marketing": 81,
+            "UX/UI Design": 75,
+            "Graphic Design": 68
         }
     },
     "Node.js": {
-        "global_weight": 85,
+        "global_weight": 76,
         "field_weights": {
-            "Web Development": 89
+            "Computer Science": 92,
+            "Digital Marketing": 73,
+            "UX/UI Design": 75,
+            "Graphic Design": 75
         }
     },
     "REST APIs": {
-        "global_weight": 74,
+        "global_weight": 83,
         "field_weights": {
-            "Web Development": 88
+            "Computer Science": 85,
+            "Digital Marketing": 81,
+            "UX/UI Design": 78,
+            "Graphic Design": 77
         }
     },
     "GraphQL": {
-        "global_weight": 77,
+        "global_weight": 70,
         "field_weights": {
-            "Web Development": 91
+            "Computer Science": 89,
+            "Digital Marketing": 76,
+            "UX/UI Design": 76,
+            "Graphic Design": 78
         }
     },
     "Responsive Design": {
-        "global_weight": 90,
+        "global_weight": 85,
         "field_weights": {
-            "Web Development": 93
+            "Computer Science": 87,
+            "Digital Marketing": 77,
+            "UX/UI Design": 86,
+            "Graphic Design": 67
         }
     },
     "UI/UX": {
-        "global_weight": 84,
+        "global_weight": 70,
         "field_weights": {
-            "Web Development": 86
+            "Computer Science": 81,
+            "Digital Marketing": 70,
+            "UX/UI Design": 89,
+            "Graphic Design": 69
         }
     },
     "Web Security": {
         "global_weight": 86,
         "field_weights": {
-            "Web Development": 90
+            "Computer Science": 92,
+            "Digital Marketing": 80,
+            "UX/UI Design": 88,
+            "Graphic Design": 68
         }
     },
     "Communication": {
-        "global_weight": 64,
-        "field_weights": {}
+        "global_weight": 95,
+        "field_weights": {
+            "Law": 84,
+            "Nursing": 92,
+            "Hospitality Management": 81,
+            "Tourism": 87,
+            "Psychology": 84,
+            "Education": 92,
+            "Computer Science": 71,
+            "Business Accountancy": 65,
+            "Engineering": 76,
+            "Criminology": 76,
+            "Medicine": 69,
+            "Medical Technology": 73,
+            "Research": 71,
+            "Data Science": 60,
+            "Cybersecurity": 62,
+            "Digital Marketing": 66,
+            "Finance": 61,
+            "Environmental Science": 77,
+            "Graphic Design": 72,
+            "UX/UI Design": 71,
+            "Human Resources": 67,
+            "Supply Chain Management": 70,
+            "Biotechnology": 73,
+            "Architecture": 63,
+            "Journalism": 71
+        }
     },
     "Problem Solving": {
-        "global_weight": 74,
-        "field_weights": {}
+        "global_weight": 89,
+        "field_weights": {
+            "Computer Science": 87,
+            "Engineering": 80,
+            "Hospitality Management": 88,
+            "Research": 93,
+            "Business Accountancy": 80,
+            "Law": 63,
+            "Criminology": 71,
+            "Nursing": 79,
+            "Medicine": 76,
+            "Tourism": 79,
+            "Psychology": 68,
+            "Medical Technology": 70,
+            "Education": 68,
+            "Data Science": 62,
+            "Cybersecurity": 60,
+            "Digital Marketing": 67,
+            "Finance": 71,
+            "Environmental Science": 69,
+            "Graphic Design": 74,
+            "UX/UI Design": 70,
+            "Human Resources": 61,
+            "Supply Chain Management": 68,
+            "Biotechnology": 70,
+            "Architecture": 63,
+            "Journalism": 72
+        }
     },
     "Project Management": {
-        "global_weight": 62,
-        "field_weights": {}
+        "global_weight": 93,
+        "field_weights": {
+            "Architecture": 90,
+            "Computer Science": 74,
+            "Business Accountancy": 66,
+            "Engineering": 60,
+            "Law": 65,
+            "Criminology": 79,
+            "Nursing": 65,
+            "Medicine": 62,
+            "Hospitality Management": 63,
+            "Tourism": 66,
+            "Psychology": 80,
+            "Medical Technology": 71,
+            "Research": 77,
+            "Education": 64,
+            "Data Science": 67,
+            "Cybersecurity": 63,
+            "Digital Marketing": 69,
+            "Finance": 77,
+            "Environmental Science": 66,
+            "Graphic Design": 80,
+            "UX/UI Design": 80,
+            "Human Resources": 72,
+            "Supply Chain Management": 64,
+            "Biotechnology": 80,
+            "Journalism": 71
+        }
     },
     "Teamwork": {
-        "global_weight": 73,
-        "field_weights": {}
+        "global_weight": 85,
+        "field_weights": {
+            "Computer Science": 78,
+            "Business Accountancy": 73,
+            "Engineering": 77,
+            "Law": 69,
+            "Criminology": 72,
+            "Nursing": 60,
+            "Medicine": 75,
+            "Hospitality Management": 60,
+            "Tourism": 71,
+            "Psychology": 75,
+            "Medical Technology": 65,
+            "Research": 72,
+            "Education": 69,
+            "Data Science": 62,
+            "Cybersecurity": 76,
+            "Digital Marketing": 75,
+            "Finance": 66,
+            "Environmental Science": 80,
+            "Graphic Design": 60,
+            "UX/UI Design": 62,
+            "Human Resources": 75,
+            "Supply Chain Management": 73,
+            "Biotechnology": 77,
+            "Architecture": 78,
+            "Journalism": 65
+        }
     },
     "Leadership": {
-        "global_weight": 78,
-        "field_weights": {}
+        "global_weight": 92,
+        "field_weights": {
+            "Computer Science": 79,
+            "Business Accountancy": 65,
+            "Engineering": 78,
+            "Law": 78,
+            "Criminology": 64,
+            "Nursing": 72,
+            "Medicine": 68,
+            "Hospitality Management": 65,
+            "Tourism": 66,
+            "Psychology": 75,
+            "Medical Technology": 62,
+            "Research": 62,
+            "Education": 77,
+            "Data Science": 76,
+            "Cybersecurity": 72,
+            "Digital Marketing": 66,
+            "Finance": 79,
+            "Environmental Science": 65,
+            "Graphic Design": 70,
+            "UX/UI Design": 67,
+            "Human Resources": 79,
+            "Supply Chain Management": 73,
+            "Biotechnology": 63,
+            "Architecture": 62,
+            "Journalism": 80
+        }
     },
     "Time Management": {
-        "global_weight": 75,
-        "field_weights": {}
+        "global_weight": 92,
+        "field_weights": {
+            "Computer Science": 63,
+            "Business Accountancy": 61,
+            "Engineering": 71,
+            "Law": 71,
+            "Criminology": 64,
+            "Nursing": 68,
+            "Medicine": 69,
+            "Hospitality Management": 68,
+            "Tourism": 80,
+            "Psychology": 75,
+            "Medical Technology": 62,
+            "Research": 63,
+            "Education": 75,
+            "Data Science": 78,
+            "Cybersecurity": 63,
+            "Digital Marketing": 75,
+            "Finance": 63,
+            "Environmental Science": 67,
+            "Graphic Design": 60,
+            "UX/UI Design": 60,
+            "Human Resources": 79,
+            "Supply Chain Management": 76,
+            "Biotechnology": 60,
+            "Architecture": 76,
+            "Journalism": 71
+        }
     },
     "Critical Thinking": {
+        "global_weight": 95,
+        "field_weights": {
+            "Engineering": 95,
+            "Law": 88,
+            "Nursing": 88,
+            "Medicine": 94,
+            "Psychology": 82,
+            "Research": 80,
+            "Computer Science": 60,
+            "Business Accountancy": 68,
+            "Criminology": 62,
+            "Hospitality Management": 61,
+            "Tourism": 71,
+            "Medical Technology": 78,
+            "Education": 62,
+            "Data Science": 65,
+            "Cybersecurity": 64,
+            "Digital Marketing": 68,
+            "Finance": 63,
+            "Environmental Science": 64,
+            "Graphic Design": 72,
+            "UX/UI Design": 72,
+            "Human Resources": 67,
+            "Supply Chain Management": 70,
+            "Biotechnology": 62,
+            "Architecture": 80,
+            "Journalism": 77
+        }
+    },
+    "Adaptability": {
+        "global_weight": 85,
+        "field_weights": {
+            "Computer Science": 64,
+            "Business Accountancy": 67,
+            "Engineering": 70,
+            "Law": 65,
+            "Criminology": 76,
+            "Nursing": 61,
+            "Medicine": 77,
+            "Hospitality Management": 71,
+            "Tourism": 64,
+            "Psychology": 65,
+            "Medical Technology": 72,
+            "Research": 78,
+            "Education": 70,
+            "Data Science": 70,
+            "Cybersecurity": 67,
+            "Digital Marketing": 71,
+            "Finance": 60,
+            "Environmental Science": 60,
+            "Graphic Design": 65,
+            "UX/UI Design": 65,
+            "Human Resources": 60,
+            "Supply Chain Management": 65,
+            "Biotechnology": 78,
+            "Architecture": 73,
+            "Journalism": 72
+        }
+    },
+    "Creativity": {
+        "global_weight": 83,
+        "field_weights": {
+            "Computer Science": 74,
+            "Business Accountancy": 72,
+            "Engineering": 69,
+            "Law": 74,
+            "Criminology": 60,
+            "Nursing": 70,
+            "Medicine": 72,
+            "Hospitality Management": 78,
+            "Tourism": 65,
+            "Psychology": 71,
+            "Medical Technology": 60,
+            "Research": 78,
+            "Education": 61,
+            "Data Science": 63,
+            "Cybersecurity": 79,
+            "Digital Marketing": 65,
+            "Finance": 66,
+            "Environmental Science": 68,
+            "Graphic Design": 75,
+            "UX/UI Design": 66,
+            "Human Resources": 74,
+            "Supply Chain Management": 68,
+            "Biotechnology": 69,
+            "Architecture": 66,
+            "Journalism": 70
+        }
+    },
+    "Attention to Detail": {
+        "global_weight": 83,
+        "field_weights": {
+            "Medical Technology": 89,
+            "Computer Science": 66,
+            "Business Accountancy": 69,
+            "Engineering": 70,
+            "Law": 72,
+            "Criminology": 77,
+            "Nursing": 67,
+            "Medicine": 62,
+            "Hospitality Management": 60,
+            "Tourism": 72,
+            "Psychology": 60,
+            "Research": 60,
+            "Education": 65,
+            "Data Science": 67,
+            "Cybersecurity": 69,
+            "Digital Marketing": 63,
+            "Finance": 69,
+            "Environmental Science": 66,
+            "Graphic Design": 73,
+            "UX/UI Design": 62,
+            "Human Resources": 64,
+            "Supply Chain Management": 66,
+            "Biotechnology": 61,
+            "Architecture": 79,
+            "Journalism": 78
+        }
+    },
+    "AWS": {
+        "global_weight": 87,
+        "field_weights": {}
+    },
+    "Azure": {
         "global_weight": 82,
         "field_weights": {}
     },
-    "Adaptability": {
-        "global_weight": 71,
-        "field_weights": {}
-    },
-    "Creativity": {
-        "global_weight": 66,
-        "field_weights": {}
-    },
-    "Attention to Detail": {
-        "global_weight": 63,
-        "field_weights": {}
-    },
-    "AWS": {
-        "global_weight": 85,
-        "field_weights": {
-            "Computer Science": 72,
-            "Cybersecurity": 83
-        }
-    },
-    "Azure": {
-        "global_weight": 79,
-        "field_weights": {
-            "Computer Science": 85,
-            "Cybersecurity": 77
-        }
-    },
     "Google Cloud": {
-        "global_weight": 78,
-        "field_weights": {
-            "Computer Science": 80,
-            "Cybersecurity": 80
-        }
+        "global_weight": 89,
+        "field_weights": {}
     },
     "Docker": {
         "global_weight": 88,
-        "field_weights": {
-            "Computer Science": 72,
-            "Cybersecurity": 82
-        }
+        "field_weights": {}
     },
     "Kubernetes": {
-        "global_weight": 87,
-        "field_weights": {
-            "Computer Science": 72,
-            "Cybersecurity": 78
-        }
+        "global_weight": 84,
+        "field_weights": {}
     },
     "Cloud Architecture": {
-        "global_weight": 86,
-        "field_weights": {
-            "Computer Science": 75,
-            "Cybersecurity": 83
-        }
+        "global_weight": 87,
+        "field_weights": {}
     },
     "Serverless": {
-        "global_weight": 79,
-        "field_weights": {
-            "Computer Science": 81,
-            "Cybersecurity": 79
-        }
+        "global_weight": 77,
+        "field_weights": {}
     },
     "DevOps": {
-        "global_weight": 79,
-        "field_weights": {
-            "Computer Science": 71,
-            "Cybersecurity": 77
-        }
+        "global_weight": 83,
+        "field_weights": {}
     },
     "CI/CD": {
-        "global_weight": 83,
-        "field_weights": {
-            "Computer Science": 73,
-            "Cybersecurity": 72
-        }
+        "global_weight": 78,
+        "field_weights": {}
     },
     "Infrastructure as Code": {
         "global_weight": 90,
+        "field_weights": {}
+    },
+    "Financial Analysis": {
+        "global_weight": 72,
         "field_weights": {
-            "Computer Science": 71,
-            "Cybersecurity": 72
+            "Business Accountancy": 94,
+            "Finance": 80
+        }
+    },
+    "Investment Management": {
+        "global_weight": 75,
+        "field_weights": {
+            "Finance": 89
+        }
+    },
+    "Risk Assessment": {
+        "global_weight": 82,
+        "field_weights": {
+            "Finance": 84
+        }
+    },
+    "Portfolio Management": {
+        "global_weight": 77,
+        "field_weights": {
+            "Finance": 91
+        }
+    },
+    "Financial Modeling": {
+        "global_weight": 77,
+        "field_weights": {
+            "Finance": 89
+        }
+    },
+    "Accounting": {
+        "global_weight": 80,
+        "field_weights": {
+            "Finance": 86
+        }
+    },
+    "Budgeting": {
+        "global_weight": 74,
+        "field_weights": {
+            "Finance": 85
+        }
+    },
+    "Financial Reporting": {
+        "global_weight": 77,
+        "field_weights": {
+            "Finance": 83
+        }
+    },
+    "Tax Planning": {
+        "global_weight": 87,
+        "field_weights": {
+            "Finance": 91
+        }
+    },
+    "Valuation": {
+        "global_weight": 77,
+        "field_weights": {
+            "Finance": 95
+        }
+    },
+    "Patient Care": {
+        "global_weight": 84,
+        "field_weights": {
+            "Nursing": 95,
+            "Medicine": 95
+        }
+    },
+    "Clinical Assessment": {
+        "global_weight": 85,
+        "field_weights": {}
+    },
+    "Medical Terminology": {
+        "global_weight": 79,
+        "field_weights": {}
+    },
+    "Healthcare Compliance": {
+        "global_weight": 89,
+        "field_weights": {}
+    },
+    "Electronic Health Records": {
+        "global_weight": 75,
+        "field_weights": {}
+    },
+    "Medical Coding": {
+        "global_weight": 82,
+        "field_weights": {}
+    },
+    "Patient Education": {
+        "global_weight": 77,
+        "field_weights": {}
+    },
+    "Medical Research": {
+        "global_weight": 74,
+        "field_weights": {}
+    },
+    "Vital Signs Monitoring": {
+        "global_weight": 83,
+        "field_weights": {}
+    },
+    "Treatment Planning": {
+        "global_weight": 81,
+        "field_weights": {}
+    },
+    "Infection Control": {
+        "global_weight": 89,
+        "field_weights": {}
+    },
+    "Diagnostic Procedures": {
+        "global_weight": 83,
+        "field_weights": {}
+    },
+    "Graphic Design": {
+        "global_weight": 89,
+        "field_weights": {
+            "Graphic Design": 84,
+            "UX/UI Design": 88
+        }
+    },
+    "UI Design": {
+        "global_weight": 75,
+        "field_weights": {
+            "Graphic Design": 93,
+            "UX/UI Design": 82
+        }
+    },
+    "UX Design": {
+        "global_weight": 88,
+        "field_weights": {
+            "Graphic Design": 88,
+            "UX/UI Design": 94
+        }
+    },
+    "Photography": {
+        "global_weight": 73,
+        "field_weights": {
+            "Graphic Design": 89,
+            "UX/UI Design": 92
+        }
+    },
+    "3D Modeling": {
+        "global_weight": 83,
+        "field_weights": {
+            "Graphic Design": 89,
+            "UX/UI Design": 81,
+            "Architecture": 81
+        }
+    },
+    "Animation": {
+        "global_weight": 76,
+        "field_weights": {
+            "Graphic Design": 87,
+            "UX/UI Design": 86
+        }
+    },
+    "Video Editing": {
+        "global_weight": 81,
+        "field_weights": {
+            "Graphic Design": 92,
+            "UX/UI Design": 84
+        }
+    },
+    "Illustration": {
+        "global_weight": 78,
+        "field_weights": {
+            "Graphic Design": 90,
+            "UX/UI Design": 91
+        }
+    },
+    "Typography": {
+        "global_weight": 72,
+        "field_weights": {
+            "Graphic Design": 86,
+            "UX/UI Design": 83
+        }
+    },
+    "Color Theory": {
+        "global_weight": 74,
+        "field_weights": {
+            "Graphic Design": 83,
+            "UX/UI Design": 87
+        }
+    },
+    "Branding": {
+        "global_weight": 75,
+        "field_weights": {
+            "Graphic Design": 91,
+            "UX/UI Design": 94
+        }
+    },
+    "Creative Direction": {
+        "global_weight": 84,
+        "field_weights": {
+            "Graphic Design": 94,
+            "UX/UI Design": 93
+        }
+    },
+    "Adobe Creative Suite": {
+        "global_weight": 85,
+        "field_weights": {
+            "Graphic Design": 84,
+            "UX/UI Design": 86
+        }
+    },
+    "Figma": {
+        "global_weight": 80,
+        "field_weights": {
+            "Graphic Design": 87,
+            "UX/UI Design": 93
+        }
+    },
+    "Sketch": {
+        "global_weight": 87,
+        "field_weights": {
+            "Graphic Design": 95,
+            "UX/UI Design": 92
+        }
+    },
+    "Digital Marketing": {
+        "global_weight": 82,
+        "field_weights": {
+            "Digital Marketing": 88
+        }
+    },
+    "Content Marketing": {
+        "global_weight": 75,
+        "field_weights": {
+            "Digital Marketing": 93
+        }
+    },
+    "Social Media Marketing": {
+        "global_weight": 72,
+        "field_weights": {
+            "Digital Marketing": 81
+        }
+    },
+    "SEO": {
+        "global_weight": 84,
+        "field_weights": {
+            "Digital Marketing": 90
+        }
+    },
+    "SEM": {
+        "global_weight": 90,
+        "field_weights": {
+            "Digital Marketing": 80
+        }
+    },
+    "Email Marketing": {
+        "global_weight": 74,
+        "field_weights": {
+            "Digital Marketing": 94
+        }
+    },
+    "Marketing Analytics": {
+        "global_weight": 90,
+        "field_weights": {
+            "Digital Marketing": 90
+        }
+    },
+    "Brand Management": {
+        "global_weight": 70,
+        "field_weights": {
+            "Digital Marketing": 93
+        }
+    },
+    "Market Research": {
+        "global_weight": 78,
+        "field_weights": {
+            "Digital Marketing": 89
+        }
+    },
+    "Campaign Management": {
+        "global_weight": 80,
+        "field_weights": {
+            "Digital Marketing": 95
+        }
+    },
+    "CRM": {
+        "global_weight": 84,
+        "field_weights": {
+            "Digital Marketing": 89
+        }
+    },
+    "Customer Acquisition": {
+        "global_weight": 79,
+        "field_weights": {
+            "Digital Marketing": 84
+        }
+    },
+    "Copywriting": {
+        "global_weight": 78,
+        "field_weights": {
+            "Digital Marketing": 85
+        }
+    },
+    "Public Relations": {
+        "global_weight": 84,
+        "field_weights": {
+            "Digital Marketing": 95
+        }
+    },
+    "Growth Hacking": {
+        "global_weight": 72,
+        "field_weights": {
+            "Digital Marketing": 93
+        }
+    },
+    "Laboratory Techniques": {
+        "global_weight": 70,
+        "field_weights": {
+            "Environmental Science": 87,
+            "Biotechnology": 93
+        }
+    },
+    "Experimental Design": {
+        "global_weight": 82,
+        "field_weights": {
+            "Environmental Science": 87,
+            "Biotechnology": 89
+        }
+    },
+    "Scientific Writing": {
+        "global_weight": 81,
+        "field_weights": {
+            "Environmental Science": 84,
+            "Biotechnology": 91
+        }
+    },
+    "Research Methods": {
+        "global_weight": 80,
+        "field_weights": {
+            "Research": 95,
+            "Environmental Science": 91,
+            "Biotechnology": 83
+        }
+    },
+    "Data Collection": {
+        "global_weight": 72,
+        "field_weights": {
+            "Environmental Science": 80,
+            "Biotechnology": 94
+        }
+    },
+    "Hypothesis Testing": {
+        "global_weight": 80,
+        "field_weights": {
+            "Environmental Science": 80,
+            "Biotechnology": 94
+        }
+    },
+    "Statistical Analysis": {
+        "global_weight": 73,
+        "field_weights": {
+            "Environmental Science": 92,
+            "Biotechnology": 89
+        }
+    },
+    "Microscopy": {
+        "global_weight": 87,
+        "field_weights": {
+            "Environmental Science": 89,
+            "Biotechnology": 86
+        }
+    },
+    "Spectroscopy": {
+        "global_weight": 81,
+        "field_weights": {
+            "Environmental Science": 83,
+            "Biotechnology": 81
+        }
+    },
+    "Chemical Analysis": {
+        "global_weight": 85,
+        "field_weights": {
+            "Environmental Science": 89,
+            "Biotechnology": 90
+        }
+    },
+    "Genetic Analysis": {
+        "global_weight": 71,
+        "field_weights": {
+            "Environmental Science": 90,
+            "Biotechnology": 93
+        }
+    },
+    "Field Research": {
+        "global_weight": 71,
+        "field_weights": {
+            "Environmental Science": 92,
+            "Biotechnology": 83
+        }
+    },
+    "Literature Review": {
+        "global_weight": 84,
+        "field_weights": {
+            "Environmental Science": 88,
+            "Biotechnology": 91
+        }
+    },
+    "Quality Control": {
+        "global_weight": 89,
+        "field_weights": {
+            "Supply Chain Management": 85
+        }
+    },
+    "Lean Manufacturing": {
+        "global_weight": 80,
+        "field_weights": {
+            "Supply Chain Management": 87
+        }
+    },
+    "Six Sigma": {
+        "global_weight": 81,
+        "field_weights": {
+            "Supply Chain Management": 82
+        }
+    },
+    "Supply Chain Management": {
+        "global_weight": 74,
+        "field_weights": {
+            "Supply Chain Management": 92
+        }
+    },
+    "Inventory Management": {
+        "global_weight": 84,
+        "field_weights": {
+            "Supply Chain Management": 84
+        }
+    },
+    "Process Improvement": {
+        "global_weight": 84,
+        "field_weights": {
+            "Supply Chain Management": 80
+        }
+    },
+    "Production Planning": {
+        "global_weight": 88,
+        "field_weights": {
+            "Supply Chain Management": 85
+        }
+    },
+    "Equipment Maintenance": {
+        "global_weight": 90,
+        "field_weights": {
+            "Supply Chain Management": 88
+        }
+    },
+    "Safety Protocols": {
+        "global_weight": 85,
+        "field_weights": {
+            "Supply Chain Management": 95
+        }
+    },
+    "Regulatory Compliance": {
+        "global_weight": 88,
+        "field_weights": {
+            "Supply Chain Management": 84
+        }
+    },
+    "CAD/CAM": {
+        "global_weight": 73,
+        "field_weights": {
+            "Supply Chain Management": 86
+        }
+    },
+    "Industrial Design": {
+        "global_weight": 70,
+        "field_weights": {
+            "Supply Chain Management": 86
+        }
+    },
+    "Automation": {
+        "global_weight": 90,
+        "field_weights": {
+            "Supply Chain Management": 90
+        }
+    },
+    "Mathematics": {
+        "global_weight": 73,
+        "field_weights": {
+            "Engineering": 85
+        }
+    },
+    "Data Structures": {
+        "global_weight": 83,
+        "field_weights": {
+            "Computer Science": 82
+        }
+    },
+    "Algorithms": {
+        "global_weight": 78,
+        "field_weights": {
+            "Computer Science": 89
+        }
+    },
+    "Software Design": {
+        "global_weight": 79,
+        "field_weights": {}
+    },
+    "Testing": {
+        "global_weight": 85,
+        "field_weights": {}
+    },
+    "Version Control": {
+        "global_weight": 74,
+        "field_weights": {}
+    },
+    "Bookkeeping": {
+        "global_weight": 83,
+        "field_weights": {
+            "Business Accountancy": 92
+        }
+    },
+    "Tax Knowledge": {
+        "global_weight": 71,
+        "field_weights": {
+            "Business Accountancy": 94
+        }
+    },
+    "Auditing": {
+        "global_weight": 74,
+        "field_weights": {
+            "Business Accountancy": 93
+        }
+    },
+    "Technical Design": {
+        "global_weight": 73,
+        "field_weights": {
+            "Engineering": 93
+        }
+    },
+    "CAD Software": {
+        "global_weight": 77,
+        "field_weights": {}
+    },
+    "Structural Analysis": {
+        "global_weight": 80,
+        "field_weights": {}
+    },
+    "Thermodynamics": {
+        "global_weight": 71,
+        "field_weights": {}
+    },
+    "Material Science": {
+        "global_weight": 73,
+        "field_weights": {}
+    },
+    "Legal Research": {
+        "global_weight": 77,
+        "field_weights": {
+            "Law": 92
+        }
+    },
+    "Ethics": {
+        "global_weight": 89,
+        "field_weights": {
+            "Law": 93,
+            "Criminology": 82,
+            "Medicine": 87
+        }
+    },
+    "Negotiation": {
+        "global_weight": 71,
+        "field_weights": {}
+    },
+    "Criminal Justice": {
+        "global_weight": 83,
+        "field_weights": {
+            "Criminology": 95
+        }
+    },
+    "Medical Knowledge": {
+        "global_weight": 81,
+        "field_weights": {
+            "Nursing": 87,
+            "Medicine": 81,
+            "Medical Technology": 80
+        }
+    },
+    "Empathy": {
+        "global_weight": 87,
+        "field_weights": {
+            "Nursing": 90,
+            "Psychology": 86,
+            "Education": 91
+        }
+    },
+    "Diagnosis": {
+        "global_weight": 75,
+        "field_weights": {
+            "Medicine": 84
+        }
+    },
+    "Surgical Skills": {
+        "global_weight": 84,
+        "field_weights": {}
+    },
+    "Customer Service": {
+        "global_weight": 85,
+        "field_weights": {
+            "Hospitality Management": 95,
+            "Tourism": 81
+        }
+    },
+    "Geography": {
+        "global_weight": 77,
+        "field_weights": {
+            "Tourism": 94
+        }
+    },
+    "Cultural Awareness": {
+        "global_weight": 70,
+        "field_weights": {
+            "Tourism": 80
+        }
+    },
+    "Organization": {
+        "global_weight": 84,
+        "field_weights": {
+            "Hospitality Management": 85,
+            "Tourism": 80
+        }
+    },
+    "Laboratory Skills": {
+        "global_weight": 75,
+        "field_weights": {
+            "Medical Technology": 93
+        }
+    },
+    "Analytical Thinking": {
+        "global_weight": 89,
+        "field_weights": {
+            "Medical Technology": 84
+        }
+    },
+    "Technical Skills": {
+        "global_weight": 82,
+        "field_weights": {
+            "Medical Technology": 87
+        }
+    },
+    "Technical Writing": {
+        "global_weight": 71,
+        "field_weights": {
+            "Research": 82
+        }
+    },
+    "Subject Knowledge": {
+        "global_weight": 76,
+        "field_weights": {
+            "Education": 85
+        }
+    },
+    "Lesson Planning": {
+        "global_weight": 72,
+        "field_weights": {
+            "Education": 80
+        }
+    },
+    "Assessment": {
+        "global_weight": 80,
+        "field_weights": {
+            "Education": 83
+        }
+    },
+    "Network Security": {
+        "global_weight": 71,
+        "field_weights": {
+            "Cybersecurity": 89
+        }
+    },
+    "Threat Analysis": {
+        "global_weight": 79,
+        "field_weights": {
+            "Cybersecurity": 87
+        }
+    },
+    "Penetration Testing": {
+        "global_weight": 75,
+        "field_weights": {
+            "Cybersecurity": 95
+        }
+    },
+    "Cryptography": {
+        "global_weight": 70,
+        "field_weights": {
+            "Cybersecurity": 85
+        }
+    },
+    "Content Creation": {
+        "global_weight": 75,
+        "field_weights": {
+            "Digital Marketing": 90
+        }
+    },
+    "Marketing Strategy": {
+        "global_weight": 71,
+        "field_weights": {
+            "Digital Marketing": 90
+        }
+    },
+    "Financial Planning": {
+        "global_weight": 85,
+        "field_weights": {
+            "Finance": 86
+        }
+    },
+    "Market Analysis": {
+        "global_weight": 73,
+        "field_weights": {
+            "Finance": 85
+        }
+    },
+    "Environmental Analysis": {
+        "global_weight": 81,
+        "field_weights": {
+            "Environmental Science": 95
+        }
+    },
+    "Environmental Policy": {
+        "global_weight": 74,
+        "field_weights": {
+            "Environmental Science": 94
+        }
+    },
+    "Sustainability": {
+        "global_weight": 81,
+        "field_weights": {
+            "Environmental Science": 85
+        }
+    },
+    "Visual Design": {
+        "global_weight": 77,
+        "field_weights": {
+            "Graphic Design": 91
+        }
+    },
+    "Layout Design": {
+        "global_weight": 82,
+        "field_weights": {
+            "Graphic Design": 80
+        }
+    },
+    "User Research": {
+        "global_weight": 81,
+        "field_weights": {
+            "UX/UI Design": 82
+        }
+    },
+    "Wireframing": {
+        "global_weight": 72,
+        "field_weights": {
+            "UX/UI Design": 89
+        }
+    },
+    "Prototyping": {
+        "global_weight": 72,
+        "field_weights": {
+            "UX/UI Design": 87
+        }
+    },
+    "Interaction Design": {
+        "global_weight": 75,
+        "field_weights": {
+            "UX/UI Design": 85
+        }
+    },
+    "Usability Testing": {
+        "global_weight": 76,
+        "field_weights": {
+            "UX/UI Design": 89
+        }
+    },
+    "Recruitment": {
+        "global_weight": 72,
+        "field_weights": {
+            "Human Resources": 87
+        }
+    },
+    "Employee Relations": {
+        "global_weight": 74,
+        "field_weights": {
+            "Human Resources": 80
+        }
+    },
+    "HR Policies": {
+        "global_weight": 84,
+        "field_weights": {
+            "Human Resources": 82
+        }
+    },
+    "Training and Development": {
+        "global_weight": 70,
+        "field_weights": {
+            "Human Resources": 82
+        }
+    },
+    "Logistics Management": {
+        "global_weight": 79,
+        "field_weights": {
+            "Supply Chain Management": 87
+        }
+    },
+    "Inventory Control": {
+        "global_weight": 72,
+        "field_weights": {
+            "Supply Chain Management": 95
+        }
+    },
+    "Procurement": {
+        "global_weight": 77,
+        "field_weights": {
+            "Supply Chain Management": 94
+        }
+    },
+    "Supply Chain Optimization": {
+        "global_weight": 77,
+        "field_weights": {
+            "Supply Chain Management": 86
+        }
+    },
+    "Demand Planning": {
+        "global_weight": 75,
+        "field_weights": {
+            "Supply Chain Management": 80
+        }
+    },
+    "Molecular Biology": {
+        "global_weight": 78,
+        "field_weights": {
+            "Biotechnology": 93
+        }
+    },
+    "Architectural Design": {
+        "global_weight": 73,
+        "field_weights": {
+            "Architecture": 86
+        }
+    },
+    "Building Codes": {
+        "global_weight": 85,
+        "field_weights": {
+            "Architecture": 89
+        }
+    },
+    "Technical Drawing": {
+        "global_weight": 81,
+        "field_weights": {
+            "Architecture": 94
+        }
+    },
+    "Reporting": {
+        "global_weight": 72,
+        "field_weights": {
+            "Journalism": 90
+        }
+    },
+    "Writing": {
+        "global_weight": 70,
+        "field_weights": {
+            "Journalism": 94
+        }
+    },
+    "Interviewing": {
+        "global_weight": 79,
+        "field_weights": {
+            "Journalism": 80
+        }
+    },
+    "Media Ethics": {
+        "global_weight": 74,
+        "field_weights": {
+            "Journalism": 91
         }
     }
 }

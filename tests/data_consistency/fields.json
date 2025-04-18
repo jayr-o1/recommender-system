@@ -2,51 +2,251 @@
     "Computer Science": {
         "description": "Field covering the theory and practice of computer technology and software development",
         "core_skills": {
-            "Programming": 90,
-            "Data Structures": 80,
-            "Algorithms": 80,
-            "Software Design": 70,
+            "Programming": 95,
+            "Data Structures": 90,
+            "Algorithms": 85,
+            "Software Design": 75,
             "Problem Solving": 85
         }
     },
-    "Data Science": {
-        "description": "Interdisciplinary field that uses scientific methods, processes, algorithms and systems to extract knowledge and insights from data",
+    "Business Accountancy": {
+        "description": "Field focusing on financial reporting, auditing and business accounting practices",
         "core_skills": {
-            "Statistics": 85,
-            "Mathematics": 75,
-            "Programming": 80,
-            "Data Analysis": 90,
-            "Machine Learning": 80
+            "Financial Analysis": 90,
+            "Auditing": 85,
+            "Bookkeeping": 80,
+            "Tax Knowledge": 85,
+            "Business Ethics": 75
         }
     },
-    "Web Development": {
-        "description": "Development of websites and web applications for the internet",
+    "Engineering": {
+        "description": "Field applying scientific and mathematical principles to design and build systems and structures",
         "core_skills": {
-            "HTML": 90,
-            "CSS": 90,
-            "JavaScript": 85,
-            "Web Frameworks": 80,
-            "Responsive Design": 75
+            "Mathematics": 90,
+            "Problem Solving": 85,
+            "Technical Design": 85,
+            "Critical Thinking": 80,
+            "Analysis": 80
+        }
+    },
+    "Law": {
+        "description": "Field focused on legal systems, regulations, and advocacy",
+        "core_skills": {
+            "Legal Research": 90,
+            "Critical Thinking": 85,
+            "Communication": 85,
+            "Analysis": 85,
+            "Ethics": 80
+        }
+    },
+    "Criminology": {
+        "description": "Study of crime, criminal behavior, and law enforcement systems",
+        "core_skills": {
+            "Criminal Justice": 85,
+            "Research": 80,
+            "Analysis": 85,
+            "Psychology": 75,
+            "Ethics": 80
+        }
+    },
+    "Nursing": {
+        "description": "Healthcare field focused on patient care and medical support",
+        "core_skills": {
+            "Patient Care": 90,
+            "Medical Knowledge": 85,
+            "Communication": 85,
+            "Critical Thinking": 80,
+            "Empathy": 85
+        }
+    },
+    "Medicine": {
+        "description": "Field focused on diagnosing, treating, and preventing diseases and injuries",
+        "core_skills": {
+            "Medical Knowledge": 95,
+            "Diagnosis": 90,
+            "Patient Care": 85,
+            "Critical Thinking": 85,
+            "Ethics": 80
+        }
+    },
+    "Hospitality Management": {
+        "description": "Field focused on management of hotels, restaurants, and other service-oriented businesses",
+        "core_skills": {
+            "Customer Service": 90,
+            "Management": 85,
+            "Communication": 85,
+            "Organization": 80,
+            "Problem Solving": 75
+        }
+    },
+    "Tourism": {
+        "description": "Field focused on travel, tourism services, and destination management",
+        "core_skills": {
+            "Customer Service": 85,
+            "Geography": 80,
+            "Cultural Awareness": 85,
+            "Communication": 85,
+            "Organization": 75
+        }
+    },
+    "Psychology": {
+        "description": "Study of the human mind and behavior",
+        "core_skills": {
+            "Research": 85,
+            "Analysis": 85,
+            "Communication": 80,
+            "Empathy": 85,
+            "Critical Thinking": 80
+        }
+    },
+    "Medical Technology": {
+        "description": "Field focused on laboratory testing and diagnostics in healthcare",
+        "core_skills": {
+            "Laboratory Skills": 90,
+            "Analytical Thinking": 85,
+            "Attention to Detail": 90,
+            "Medical Knowledge": 85,
+            "Technical Skills": 80
+        }
+    },
+    "Research": {
+        "description": "Field focused on systematic investigation to establish facts and develop new knowledge",
+        "core_skills": {
+            "Research Methods": 90,
+            "Data Analysis": 85,
+            "Critical Thinking": 85,
+            "Technical Writing": 80,
+            "Problem Solving": 80
+        }
+    },
+    "Education": {
+        "description": "Field focused on teaching, learning, and curriculum development",
+        "core_skills": {
+            "Communication": 90,
+            "Subject Knowledge": 85,
+            "Lesson Planning": 85,
+            "Assessment": 80,
+            "Empathy": 80
+        }
+    },
+    "Data Science": {
+        "description": "Field focused on extracting knowledge and insights from structured and unstructured data",
+        "core_skills": {
+            "Machine Learning": 90,
+            "Statistics": 85,
+            "Data Analysis": 90,
+            "Programming": 80,
+            "Data Visualization": 85
         }
     },
     "Cybersecurity": {
-        "description": "Protection of computer systems, networks, and data from digital attacks",
+        "description": "Field focused on protecting systems, networks, and programs from digital attacks",
         "core_skills": {
-            "Network Security": 85,
-            "Cryptography": 80,
-            "Security Assessment": 85,
-            "System Administration": 75,
-            "Security Tools": 80
+            "Network Security": 90,
+            "Threat Analysis": 85,
+            "Security Protocols": 85,
+            "Penetration Testing": 80,
+            "Cryptography": 75
         }
     },
-    "Artificial Intelligence": {
-        "description": "Development of intelligent machines that can perform tasks typically requiring human intelligence",
+    "Digital Marketing": {
+        "description": "Field using digital channels to promote products and services",
         "core_skills": {
-            "Machine Learning": 90,
-            "Deep Learning": 85,
-            "Neural Networks": 80,
-            "Mathematics": 85,
-            "Algorithm Design": 80
+            "SEO": 85,
+            "Social Media Marketing": 90,
+            "Content Creation": 85,
+            "Analytics": 80,
+            "Marketing Strategy": 85
+        }
+    },
+    "Finance": {
+        "description": "Field managing money, investments, and other financial assets",
+        "core_skills": {
+            "Financial Analysis": 90,
+            "Investment Management": 85,
+            "Risk Assessment": 85,
+            "Financial Planning": 80,
+            "Market Analysis": 85
+        }
+    },
+    "Environmental Science": {
+        "description": "Field studying the environment and solutions to environmental problems",
+        "core_skills": {
+            "Environmental Analysis": 90,
+            "Research Methods": 85,
+            "Data Collection": 85,
+            "Environmental Policy": 80,
+            "Sustainability": 85
+        }
+    },
+    "Graphic Design": {
+        "description": "Field creating visual content to communicate messages",
+        "core_skills": {
+            "Visual Design": 90,
+            "Typography": 85,
+            "Color Theory": 85,
+            "Adobe Creative Suite": 85,
+            "Layout Design": 80
+        }
+    },
+    "UX/UI Design": {
+        "description": "Field focused on creating meaningful and relevant experiences for users",
+        "core_skills": {
+            "User Research": 90,
+            "Wireframing": 85,
+            "Prototyping": 85,
+            "Interaction Design": 85,
+            "Usability Testing": 80
+        }
+    },
+    "Human Resources": {
+        "description": "Field managing the human capital of an organization",
+        "core_skills": {
+            "Recruitment": 85,
+            "Employee Relations": 85,
+            "Performance Management": 80,
+            "HR Policies": 80,
+            "Training and Development": 85
+        }
+    },
+    "Supply Chain Management": {
+        "description": "Field overseeing the flow of goods, services, and information from raw materials to consumers",
+        "core_skills": {
+            "Logistics Management": 90,
+            "Inventory Control": 85,
+            "Procurement": 85,
+            "Supply Chain Optimization": 85,
+            "Demand Planning": 80
+        }
+    },
+    "Biotechnology": {
+        "description": "Field using biological systems and organisms to develop products",
+        "core_skills": {
+            "Laboratory Techniques": 90,
+            "Molecular Biology": 85,
+            "Research Methods": 85,
+            "Data Analysis": 80,
+            "Experimental Design": 85
+        }
+    },
+    "Architecture": {
+        "description": "Field designing buildings and other physical structures",
+        "core_skills": {
+            "Architectural Design": 90,
+            "3D Modeling": 85,
+            "Building Codes": 80,
+            "Technical Drawing": 85,
+            "Project Management": 75
+        }
+    },
+    "Journalism": {
+        "description": "Field gathering, assessing, creating, and presenting news and information",
+        "core_skills": {
+            "Reporting": 90,
+            "Writing": 90,
+            "Research": 85,
+            "Interviewing": 85,
+            "Media Ethics": 80
         }
     }
 }
