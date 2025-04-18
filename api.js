@@ -23,7 +23,7 @@ const API_CONFIG = {
         specializations: "http://localhost:8000/specializations", // Get available specializations
         matchSkill: "http://localhost:8000/match_skill", // Skill matching endpoint
     },
-    timeout: 8000, // 8 second timeout
+    timeout: 30000, // 30 second timeout
 };
 
 /**
@@ -337,6 +337,12 @@ export const getCareerRecommendations = async (skills, options = {}) => {
  * Get detailed career recommendations with advanced options
  * @param {Array} skills - Array of skill objects with name and proficiency
  * @param {Object} options - Optional parameters for the recommendation
+ * @param {boolean} options.saveToFile - Whether to save recommendations to a file
+ * @param {number} options.topFields - Number of top fields to return
+ * @param {number} options.topSpecializations - Number of top specializations to return
+ * @param {number} options.fuzzyThreshold - Threshold for fuzzy matching
+ * @param {boolean} options.simplifiedResponse - Whether to simplify the response
+ * @param {boolean} options.useSemantic - Whether to use semantic matching
  * @returns {Promise} - Promise that resolves to detailed recommendations
  */
 export const getDetailedCareerRecommendations = async (
@@ -399,30 +405,18 @@ export const getDetailedCareerRecommendations = async (
             );
         }
 
-        // Create the result with full context
-        const result = {
+        return {
             success: true,
             recommendations: data,
-            timestamp: new Date().toISOString(),
-            inputSkills: skills.map((s) => ({
-                name: s.name,
-                proficiency: s.proficiency,
-            })),
-            options,
+            fileSaved: options.saveToFile || false,
         };
-
-        // Save to JSON file if saveToFile option is true
-        if (options.saveToFile) {
-            saveRecommendationToFile(result, "detailed_recommendation");
-        }
-
-        return result;
     } catch (error) {
         console.error("Error getting detailed recommendations:", error);
         return {
             success: false,
             message: error.message || "Failed to get detailed recommendations",
             recommendations: null,
+            fileSaved: false,
         };
     }
 };
