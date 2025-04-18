@@ -104,124 +104,124 @@ def save_test_result(test_name: str, input_skills: Dict[str, int], result: Dict[
     # Add to the test results container
     test_results[test_name] = simplified_result
 
-def test_case_1_web_development_profile(recommender):
-    """Test with a web development skill profile"""
+def test_case_1_corporate_law_profile(recommender):
+    """Test with a corporate law skill profile"""
     skills = {
-        "JavaScript": 90,
-        "HTML": 95,
-        "CSS": 90,
-        "React": 85,
-        "Node.js": 80
+        "Contract Drafting": 90,
+        "Corporate Governance": 95,
+        "Due Diligence": 90,
+        "Mergers & Acquisitions": 85,
+        "Securities Law": 80
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("web_development_profile", skills, result)
+    save_test_result("corporate_law_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
     # Specific assertions for this profile
-    # Find and check if Web Development or similar field is recommended
-    web_dev_field = next((field for field in result["fields"] 
-                        if "web" in field["field"].lower() or "front" in field["field"].lower()), None)
+    # Find and check if Corporate Law or similar field is recommended
+    corporate_law_field = next((field for field in result["fields"] 
+                        if "corporate" in field["field"].lower() or "business" in field["field"].lower()), None)
     
-    if web_dev_field:
+    if corporate_law_field:
         # Check if confidence score is present
-        assert web_dev_field["confidence"] > 50, "Web Development confidence should be significant"
+        assert corporate_law_field["confidence"] > 50, "Corporate Law confidence should be significant"
         
-        # Check if frontend specialization was recommended for this field
-        field_name = web_dev_field["field"]
+        # Check if corporate law specialization was recommended for this field
+        field_name = corporate_law_field["field"]
         if field_name in result["specializations_by_field"]:
             specs = result["specializations_by_field"][field_name]
-            frontend_spec = next((spec for spec in specs 
-                              if "front" in spec["specialization"].lower()), None)
+            corp_spec = next((spec for spec in specs 
+                              if "corporate" in spec["specialization"].lower() or "business" in spec["specialization"].lower()), None)
             
-            if frontend_spec:
-                # Check if matched skills include the core web dev skills
-                matched_skills = [skill["skill"] for skill in frontend_spec["matched_skills"]]
-                assert any("javascript" in skill.lower() for skill in matched_skills) or \
-                       any("html" in skill.lower() for skill in matched_skills), \
-                       "Frontend specialization should recognize HTML/JavaScript skills"
+            if corp_spec:
+                # Check if matched skills include the core corporate law skills
+                matched_skills = [skill["skill"] for skill in corp_spec["matched_skills"]]
+                assert any("contract" in skill.lower() for skill in matched_skills) or \
+                       any("corporate" in skill.lower() for skill in matched_skills), \
+                       "Corporate Law specialization should recognize Contract Drafting/Corporate Governance skills"
                 
                 # Check if skill confidence values are present
-                for skill in frontend_spec["matched_skills"]:
+                for skill in corp_spec["matched_skills"]:
                     assert "proficiency" in skill, "Matched skills should have proficiency"
                     assert isinstance(skill["proficiency"], (int, float)), "Proficiency should be numeric"
                 
                 # Check if any missing skills have confidence/priority indicators
-                if frontend_spec["missing_skills"]:
-                    missing = frontend_spec["missing_skills"][0]
+                if corp_spec["missing_skills"]:
+                    missing = corp_spec["missing_skills"][0]
                     assert "priority" in missing, "Missing skills should have priority"
                     assert isinstance(missing["priority"], (int, float)), "Priority should be numeric"
 
-def test_case_2_data_science_profile(recommender):
-    """Test with a data science skill profile"""
+def test_case_2_litigation_profile(recommender):
+    """Test with a litigation skill profile"""
     skills = {
-        "Python": 85,
-        "Data Analysis": 90,
-        "Machine Learning": 80,
-        "Statistics": 75,
-        "SQL": 70
+        "Legal Research": 85,
+        "Legal Writing": 90,
+        "Trial Advocacy": 80,
+        "Evidence Law": 75,
+        "Civil Procedure": 70
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("data_science_profile", skills, result)
+    save_test_result("litigation_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
     # Specific assertions for this profile
-    # Find and check if Data Science or similar field is recommended
-    data_field = next((field for field in result["fields"] 
-                    if "data" in field["field"].lower() or "science" in field["field"].lower() 
-                    or "analytics" in field["field"].lower()), None)
+    # Find and check if Litigation or similar field is recommended
+    litigation_field = next((field for field in result["fields"] 
+                    if "litigation" in field["field"].lower() or "trial" in field["field"].lower() 
+                    or "dispute" in field["field"].lower()), None)
     
-    if data_field:
+    if litigation_field:
         # Check if confidence score is present
-        assert data_field["confidence"] > 50, "Data Science confidence should be significant"
+        assert litigation_field["confidence"] > 50, "Litigation confidence should be significant"
         
-        # Check if data science specialization was recommended for this field
-        field_name = data_field["field"]
+        # Check if litigation specialization was recommended for this field
+        field_name = litigation_field["field"]
         if field_name in result["specializations_by_field"]:
             specs = result["specializations_by_field"][field_name]
-            data_spec = next((spec for spec in specs 
-                          if "data" in spec["specialization"].lower() or 
-                             "machine" in spec["specialization"].lower() or
-                             "analytics" in spec["specialization"].lower()), None)
+            litigation_spec = next((spec for spec in specs 
+                          if "litigation" in spec["specialization"].lower() or 
+                             "trial" in spec["specialization"].lower() or
+                             "dispute" in spec["specialization"].lower()), None)
             
-            if data_spec:
-                # Check if matched skills include the core data science skills
-                matched_skills = [skill["skill"] for skill in data_spec["matched_skills"]]
-                assert any("python" in skill.lower() for skill in matched_skills) or \
-                       any("machine learning" in skill.lower() for skill in matched_skills), \
-                       "Data Science specialization should recognize Python/ML skills"
+            if litigation_spec:
+                # Check if matched skills include the core litigation skills
+                matched_skills = [skill["skill"] for skill in litigation_spec["matched_skills"]]
+                assert any("legal research" in skill.lower() for skill in matched_skills) or \
+                       any("trial advocacy" in skill.lower() for skill in matched_skills), \
+                       "Litigation specialization should recognize Legal Research/Trial Advocacy skills"
                 
-                # Check if missing skills include relevant data science skills
-                if data_spec["missing_skills"]:
-                    missing_skills = [skill["skill"] for skill in data_spec["missing_skills"]]
+                # Check if missing skills include relevant litigation skills
+                if litigation_spec["missing_skills"]:
+                    missing_skills = [skill["skill"] for skill in litigation_spec["missing_skills"]]
                     print(f"Missing skills: {missing_skills}")
 
-def test_case_3_mixed_skills_profile(recommender):
-    """Test with a mixed skill profile that could match multiple fields"""
+def test_case_3_mixed_legal_skills_profile(recommender):
+    """Test with a mixed legal skill profile that could match multiple fields"""
     skills = {
-        "JavaScript": 80,
-        "Python": 80,
-        "SQL": 85,
-        "Project Management": 90,
-        "Communication": 95
+        "Contract Drafting": 80,
+        "Legal Research": 80,
+        "Regulatory Compliance": 85,
+        "Case Management": 90,
+        "Client Communication": 95
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("mixed_skills_profile", skills, result)
+    save_test_result("mixed_legal_skills_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -244,17 +244,17 @@ def test_case_3_mixed_skills_profile(recommender):
             assert "match_score" in skill, "Matched skills should have match scores"
             assert 0 <= skill["match_score"] <= 100, "Match score should be between 0 and 100"
 
-def test_case_4_minimal_skills_profile(recommender):
-    """Test with minimal skills to see recommendation behavior"""
+def test_case_4_minimal_legal_skills_profile(recommender):
+    """Test with minimal legal skills to see recommendation behavior"""
     skills = {
-        "JavaScript": 60
+        "Legal Research": 60
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("minimal_skills_profile", skills, result)
+    save_test_result("minimal_legal_skills_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -270,21 +270,21 @@ def test_case_4_minimal_skills_profile(recommender):
             assert "skill" in missing, "Missing skill should have a name"
             assert "priority" in missing, "Missing skill should have priority"
 
-def test_case_5_high_proficiency_profile(recommender):
-    """Test with high proficiency skills to check confidence scores"""
+def test_case_5_high_proficiency_legal_profile(recommender):
+    """Test with high proficiency legal skills to check confidence scores"""
     skills = {
-        "Python": 95,
-        "Machine Learning": 95,
-        "Deep Learning": 95,
-        "Neural Networks": 95,
-        "TensorFlow": 95
+        "Legal Research": 95,
+        "Legal Writing": 95,
+        "Constitutional Law": 95,
+        "Administrative Law": 95,
+        "Judicial Clerkship": 95
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("high_proficiency_profile", skills, result)
+    save_test_result("high_proficiency_legal_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -303,21 +303,21 @@ def test_case_5_high_proficiency_profile(recommender):
                 assert "proficiency" in skill, "Matched skill should have proficiency"
                 assert skill["proficiency"] >= 90, "Proficiency should be high (as input)"
 
-def test_case_6_low_proficiency_profile(recommender):
-    """Test with low proficiency skills to check confidence scores"""
+def test_case_6_low_proficiency_legal_profile(recommender):
+    """Test with low proficiency legal skills to check confidence scores"""
     skills = {
-        "Python": 45,
-        "Machine Learning": 40,
-        "Deep Learning": 30,
-        "Neural Networks": 35,
-        "TensorFlow": 30
+        "Legal Research": 45,
+        "Legal Writing": 40,
+        "Constitutional Law": 30,
+        "Administrative Law": 35,
+        "Judicial Clerkship": 30
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("low_proficiency_profile", skills, result)
+    save_test_result("low_proficiency_legal_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
@@ -338,10 +338,10 @@ def test_case_6_low_proficiency_profile(recommender):
 def test_case_7_misspelled_skills(recommender):
     """Test with misspelled skills to check fuzzy matching"""
     skills = {
-        "Paithon": 85,  # Misspelled Python
-        "Javascrpt": 80,  # Misspelled JavaScript
-        "Machine Lerning": 75,  # Misspelled Machine Learning
-        "Data Analisys": 85  # Misspelled Data Analysis
+        "Legul Research": 85,  # Misspelled Legal Research
+        "Contruct Drafting": 80,  # Misspelled Contract Drafting
+        "Constitutionl Law": 75,  # Misspelled Constitutional Law
+        "Reguletory Compliance": 85  # Misspelled Regulatory Compliance
     }
     
     # Get recommendations
@@ -396,50 +396,50 @@ def test_case_8_irrelevant_skills(recommender):
         if top_spec["missing_skills"]:
             print(f"Example missing skill: {top_spec['missing_skills'][0]['skill']}")
 
-def test_case_9_highly_specialized_profile(recommender):
-    """Test with a highly specialized skill set"""
+def test_case_9_highly_specialized_legal_profile(recommender):
+    """Test with a highly specialized legal skill set"""
     skills = {
-        "Kubernetes": 90,
-        "Docker": 95,
-        "AWS": 85,
-        "Terraform": 80,
-        "DevOps": 95,
-        "CI/CD": 90,
-        "Jenkins": 85
+        "International Arbitration": 90,
+        "Cross-Border Transactions": 95,
+        "Foreign Investment Law": 85,
+        "Treaty Interpretation": 80,
+        "International Trade Law": 95,
+        "Diplomatic Protocol": 90,
+        "Multi-Jurisdictional Litigation": 85
     }
     
     # Get recommendations
     result = recommender.full_recommendation(skills)
     
     # Save test result
-    save_test_result("highly_specialized_profile", skills, result)
+    save_test_result("highly_specialized_legal_profile", skills, result)
     
     # Validate structure
     validate_recommendation_structure(result)
     
-    # Check for relevant field like DevOps or Cloud
-    devops_field = next((field for field in result["fields"] 
+    # Check for relevant field like International Law
+    int_law_field = next((field for field in result["fields"] 
                      if any(term in field["field"].lower() for term in 
-                        ["devops", "cloud", "infrastructure", "operations"])), None)
+                        ["international", "global", "transnational", "cross-border"])), None)
     
-    if devops_field:
-        print(f"Recognized specialized DevOps profile with confidence: {devops_field['confidence']}")
+    if int_law_field:
+        print(f"Recognized specialized International Law profile with confidence: {int_law_field['confidence']}")
         
         # Check for specialized recommendations
-        field_name = devops_field["field"]
+        field_name = int_law_field["field"]
         if field_name in result["specializations_by_field"]:
             specs = result["specializations_by_field"][field_name]
-            devops_spec = next((spec for spec in specs 
+            int_law_spec = next((spec for spec in specs 
                             if any(term in spec["specialization"].lower() for term in 
-                               ["devops", "cloud", "infrastructure", "operations"])), None)
+                               ["international", "global", "transnational", "cross-border"])), None)
             
-            if devops_spec:
+            if int_law_spec:
                 # Check matched skills
-                matched_skills = [skill["skill"] for skill in devops_spec["matched_skills"]]
-                print(f"Matched DevOps skills: {', '.join(matched_skills) if matched_skills else 'None'}")
+                matched_skills = [skill["skill"] for skill in int_law_spec["matched_skills"]]
+                print(f"Matched International Law skills: {', '.join(matched_skills) if matched_skills else 'None'}")
                 
                 # Check confidence scores
-                assert devops_spec["confidence"] > 50, "DevOps specialization should have high confidence"
+                assert int_law_spec["confidence"] > 50, "International Law specialization should have high confidence"
 
 def test_case_10_incomplete_field_skills(recommender):
     """Test with incomplete skills for a field"""
