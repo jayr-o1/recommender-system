@@ -48,13 +48,19 @@ class SemanticMatcher:
         },
         "business": {
             "management", "leadership", "strategy", "marketing", "analytics", 
-            "project management", "agile", "scrum", "kanban", "waterfall"
+            "project management", "agile", "scrum", "kanban", "waterfall",
+            "advertising", "branding", "market research", "public relations", "sales"
         },
         "cybersecurity": {
             "pentesting", "penetration testing", "network security", "vulnerability", "ethical hacking",
             "security analysis", "malware", "encryption", "firewall", "intrusion detection",
             "ddos", "security audit", "cyber threat", "incident response", "forensics",
             "access control", "authentication", "cryptography", "security governance", "compliance"
+        },
+        "arts": {
+            "dancing", "painting", "drawing", "sketching", "sculpture", 
+            "performance", "choreography", "visual arts", "fine arts", "crafts",
+            "photography", "design", "illustration", "ceramics", "printmaking"
         }
     }
     
