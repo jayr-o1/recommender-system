@@ -2,10 +2,10 @@
     "Computer Science": {
         "description": "Field covering the theory and practice of computer technology and software development",
         "core_skills": {
-            "Programming": 95,
-            "Data Structures": 90,
-            "Algorithms": 85,
-            "Software Design": 75,
+            "Programming": 90,
+            "Data Structures": 80,
+            "Algorithms": 80,
+            "Software Design": 70,
             "Problem Solving": 85
         }
     },

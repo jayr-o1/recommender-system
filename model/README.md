@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Model Directory
 
 This directory contains the trained machine learning models and associated metadata files for the career recommendation system.
@@ -33,6 +34,20 @@ python src/train.py
 ```
 
 This will create the model files in this directory.
+=======
+# Career Recommendation Model
+
+This directory contains trained models for the Career Recommendation system. These models are trained using synthetic user data based on the field and specialization definitions in the `data` directory.
+
+## Model Files
+
+-   `field_clf.joblib`: Random Forest classifier for predicting career fields
+-   `spec_clf.joblib`: Random Forest classifier for predicting specializations
+-   `le_field.joblib`: Label encoder for field names
+-   `le_spec.joblib`: Label encoder for specialization names
+-   `feature_names.joblib`: List of features (skills) used by the models
+-   `model_metadata.json`: Metadata about the trained models
+>>>>>>> 05a31f53e7cf8827ee9d9d7602031ca22712bd52
 
 ## Training Process
 
