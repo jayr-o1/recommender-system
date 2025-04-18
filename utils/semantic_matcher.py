@@ -46,6 +46,12 @@ class SemanticMatcher:
         "business": {
             "management", "leadership", "strategy", "marketing", "analytics", 
             "project management", "agile", "scrum", "kanban", "waterfall"
+        },
+        "cybersecurity": {
+            "pentesting", "penetration testing", "network security", "vulnerability", "ethical hacking",
+            "security analysis", "malware", "encryption", "firewall", "intrusion detection",
+            "ddos", "security audit", "cyber threat", "incident response", "forensics",
+            "access control", "authentication", "cryptography", "security governance", "compliance"
         }
     }
     
@@ -209,6 +215,22 @@ class SemanticMatcher:
                 result = (ref_skill, 1.0)
                 cls._match_cache[cache_key] = result
                 return result
+        
+        # Special case mappings for common alternative terms
+        special_mappings = {
+            "pentesting": "penetration testing",
+            "pen testing": "penetration testing",
+            "pentest": "penetration testing"
+        }
+        
+        # Check for special mappings
+        if skill_lower in special_mappings:
+            mapped_skill = special_mappings[skill_lower]
+            for ref_skill in reference_skills:
+                if mapped_skill == ref_skill.lower():
+                    result = (ref_skill, 1.0)  # Consider it a perfect match
+                    cls._match_cache[cache_key] = result
+                    return result
         
         # Apply semantic matching
         best_match = None
