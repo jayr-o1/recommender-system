@@ -407,26 +407,31 @@ class CareerRecommender:
     
     def _get_skill_details(self, skills: Dict[str, int], spec_name: str) -> tuple:
         """
-        Get detailed skill matching information for a specialization
+        Get details of matching skills between user skills and specialization requirements
         
         Args:
             skills: Dictionary of user skills and proficiency
-            spec_name: Name of specialization to check
+            spec_name: Name of specialization to match against
             
         Returns:
             Tuple of (matched_skill_details, missing_skills, match_score)
         """
-        if spec_name not in self.specializations:
-            raise ValueError(f"Specialization '{spec_name}' not found")
-            
-        spec_data = self.specializations[spec_name]
-        if "core_skills" not in spec_data:
+        # Get specialization data
+        spec_data = self.specializations.get(spec_name, {})
+        
+        # If specialization not found, return empty results
+        if not spec_data:
             return [], [], 0.0
-            
+        
+        # Get required skills for this specialization
+        required_skills = spec_data.get("core_skills", {})
+        
+        # Lists to store matches and missing skills
         matched_skill_details = []
         missing_skills = []
         
-        for skill in spec_data["core_skills"]:
+        # For each required skill
+        for skill, importance in required_skills.items():
             # Get the weight/importance of this skill (default to 70)
             weight = self.skill_weights.get(skill, 70)
             
@@ -460,40 +465,63 @@ class CareerRecommender:
             # Record the match or missing skill
             matched = False
             if best_match:
-                # For specialized skills, increase their impact on confidence
-                skill_importance = 1.0
-                
-                # Check if this is a specialized skill using the semantic matcher's domain knowledge
-                domain_bonuses = SemanticMatcher.get_domain_bonus(skill) if self.use_semantic else {}
-                if domain_bonuses:
-                    skill_importance = 1.5  # 50% more weight for specialized skills
-                else:
-                    # Fallback to the original specialized terms check
-                    specialized_terms = {"laboratory", "techniques", "toxicology", "analytical", 
-                                     "chemistry", "chemical", "organic", "synthesis", "spectroscopy",
-                                     "biochemistry", "instrumentation"}
-                    for term in specialized_terms:
-                        if term in skill.lower():
-                            skill_importance = 1.5  # 50% more weight for specialized skills
-                            break
-                
+                matched = True
                 matched_skill_details.append({
                     "skill": skill,
-                    "proficiency": best_proficiency,
-                    "weight": weight,
+                    "user_skill": best_match,
                     "match_score": best_score,
-                    "matched_to": best_match,
-                    "importance": skill_importance  # Track importance for confidence calculation
+                    "proficiency": best_proficiency,
+                    "importance": importance,
+                    "weight": weight if isinstance(weight, (int, float)) else 
+                             weight.get("global_weight", 70) if isinstance(weight, dict) else 70
                 })
-                matched = True
             
             if not matched:
+                # Get domain information for better categorization
+                domains = SemanticMatcher.get_prioritized_domains(skill) if self.use_semantic else []
+                primary_domain = domains[0] if domains else "general"
+                
+                # For missing skills, check if any user skill is somewhat similar but below threshold
+                best_partial_match = None
+                best_partial_score = 0
+                
+                if self.use_semantic:
+                    for user_skill, proficiency in skills.items():
+                        _, score = SemanticMatcher.match_skill(
+                            user_skill, 
+                            [skill], 
+                            threshold=0.4  # Lower threshold for partial matches
+                        )
+                        score_int = int(score * 100)
+                        if score_int > best_partial_score:
+                            best_partial_match = user_skill
+                            best_partial_score = score_int
+                
+                # Calculate priority based on importance and partial match score
+                # Higher importance and lower partial match means higher priority
+                priority_score = (importance / 100) * (1 - (best_partial_score / 100 * 0.5))
+                
                 missing_skills.append({
                     "skill": skill,
-                    "weight": weight
+                    "importance": importance,
+                    "weight": weight if isinstance(weight, (int, float)) else 
+                             weight.get("global_weight", 70) if isinstance(weight, dict) else 70,
+                    "closest_user_skill": best_partial_match,
+                    "similarity": best_partial_score,
+                    "priority_score": priority_score,
+                    "domain": primary_domain
                 })
-                
-        return matched_skill_details, missing_skills, self._calculate_match_score(matched_skill_details)
+        
+        # Calculate overall match score
+        if matched_skill_details:
+            match_score = self._calculate_match_score(matched_skill_details)
+        else:
+            match_score = 0.0
+        
+        # Sort missing skills by priority (higher priority_score first)
+        missing_skills.sort(key=lambda x: x["priority_score"], reverse=True)
+        
+        return matched_skill_details, missing_skills, match_score
     
     def _calculate_match_score(self, matched_skill_details: List[Dict[str, Any]]) -> float:
         """
@@ -501,22 +529,22 @@ class CareerRecommender:
         
         Args:
             matched_skill_details: List of matched skill details
-            
+        
         Returns:
-            Match score as a float between 0 and 1
+            Match score between 0.0 and 1.0
         """
         if not matched_skill_details:
             return 0.0
-            
+        
         total_score = 0.0
         total_weight = 0.0
         
         for skill in matched_skill_details:
-            # Consider match quality, proficiency, and importance
+            # Normalize scores between 0 and 1
             normalized_match_score = skill["match_score"] / 100
             normalized_proficiency = skill["proficiency"] / 100
             
-            # Ensure weight is a numeric value
+            # Get skill weight (default to 70 if not found or invalid)
             weight = skill["weight"]
             if isinstance(weight, dict):
                 # If weight is a dictionary, use a default value
@@ -524,54 +552,91 @@ class CareerRecommender:
             elif not isinstance(weight, (int, float)):
                 # If weight is not numeric, use a default value
                 weight = 70
-                
+            
             importance = skill.get("importance", 1.0)
             
             # Weight the skill by its match score, proficiency, and importance
             skill_score = normalized_match_score * normalized_proficiency * importance
             total_score += skill_score * weight
             total_weight += weight
-            
+        
         if total_weight > 0:
             return total_score / total_weight
         else:
             return 0.0
-            
+    
     def _calculate_specialization_confidence(self, spec_name: str, 
                                           matched_skill_details: List[Dict[str, Any]]) -> float:
         """
-        Calculate confidence score for specialization match
+        Calculate confidence score for specialization match with improved distribution
         
         Args:
             spec_name: Name of specialization
             matched_skill_details: List of matched skill details
-            
+        
         Returns:
             Confidence score between 0.0 and 1.0
         """
         if not matched_skill_details:
             return 0.0
-            
-        # Use the new match score calculation
+        
+        # Use the match score calculation
         match_score = self._calculate_match_score(matched_skill_details)
         
         # Get the specialization data
         spec_data = self.specializations.get(spec_name, {})
         
         # Calculate what percentage of core skills are matched
-        core_skills = spec_data.get("core_skills", [])
+        core_skills = spec_data.get("core_skills", {})
         if not core_skills:
             return match_score
-            
-        # Get matched skill count
+        
+        # Get matched skill count and total core skill count
         matched_count = len(matched_skill_details)
         total_count = len(core_skills)
-        coverage_ratio = matched_count / total_count
         
-        # Weight the match score by coverage
-        confidence = match_score * (0.5 + 0.5 * coverage_ratio)  # Coverage impacts 50% of confidence
+        # Calculate weighted coverage based on importance of matched skills
+        total_importance = sum(core_skills.values())
+        matched_importance = sum(skill.get("importance", 70) for skill in matched_skill_details)
         
-        return min(1.0, confidence)
+        # Calculate coverage ratio considering both count and importance
+        if total_importance > 0:
+            importance_coverage = matched_importance / total_importance
+        else:
+            importance_coverage = 0
+        
+        count_coverage = matched_count / total_count if total_count > 0 else 0
+        
+        # Weight coverage (60% importance-based, 40% count-based)
+        weighted_coverage = (importance_coverage * 0.6) + (count_coverage * 0.4)
+        
+        # Calculate specialized skill coverage
+        # A specialization should have higher confidence if specialized/high-weight skills are matched
+        specialized_skills = [s for s, v in core_skills.items() 
+                           if self.skill_weights.get(s, {}).get("global_weight", 70) > 80 or v > 80]
+        
+        specialized_count = len(specialized_skills)
+        matched_specialized = sum(1 for skill in matched_skill_details 
+                               if skill["skill"] in specialized_skills)
+        
+        specialized_coverage = matched_specialized / specialized_count if specialized_count > 0 else 0.5
+        
+        # Combined score with adjusted weights for better distribution:
+        # - Match score (quality of matches): 40%
+        # - Weighted coverage (quantity and importance): 40%
+        # - Specialized skill coverage: 20%
+        confidence = (match_score * 0.4) + (weighted_coverage * 0.4) + (specialized_coverage * 0.2)
+        
+        # Apply sigmoid scaling to better distribute confidence scores
+        # This makes mid-range matches more distinct and spreads out the confidence distribution
+        scaled_confidence = 1.0 / (1.0 + np.exp(-10 * (confidence - 0.5)))
+        
+        # Rescale to 0-1 range
+        min_confidence = 1.0 / (1.0 + np.exp(-10 * (-0.5)))
+        max_confidence = 1.0 / (1.0 + np.exp(-10 * (0.5)))
+        rescaled_confidence = (scaled_confidence - min_confidence) / (max_confidence - min_confidence)
+        
+        return min(1.0, max(0.0, rescaled_confidence))
     
     def full_recommendation(self, skills: Dict[str, int], top_fields: int = 1, 
                              top_specs: int = 3) -> Dict[str, Any]:
@@ -611,7 +676,7 @@ class CareerRecommender:
                         total_skills = len(self.fields[field_name].get("core_skills", []))
                         confidence = min((matches / max(total_skills, 1)) * 100, 100)
                         field_confidences[field_name] = confidence
-                
+            
             # Get top fields
             top_field_names = sorted(field_confidences.keys(), 
                                    key=lambda x: field_confidences[x], 
@@ -625,24 +690,61 @@ class CareerRecommender:
                              if spec_data.get("field") == field_name}
                 
                 for spec_name, spec_data in field_specs.items():
-                    # Get matched and missing skills - now returns 3 values
+                    # Get matched and missing skills - now returns 3 values including match_score
                     matched_skill_details, missing_skills, match_score = self._get_skill_details(processed_skills, spec_name)
                     
-                    # Calculate confidence using new method with specialized skill weighting
+                    # Calculate confidence using improved method with better distribution
                     confidence = self._calculate_specialization_confidence(spec_name, matched_skill_details)
                     
                     if confidence > 0:
                         specialization_results.append({
                             "specialization": spec_name,
                             "field": field_name,
-                            "confidence": confidence,
+                            "confidence": confidence * 100,  # Convert to percentage
                             "matched_skill_details": matched_skill_details,
-                            "missing_skills": missing_skills,
+                            "missing_skills": missing_skills,  # Now sorted by priority
                             "description": spec_data.get("description", "")
                         })
             
             # Sort specializations by confidence
             specialization_results.sort(key=lambda x: x["confidence"], reverse=True)
+            
+            # Process results for output
+            formatted_specializations = []
+            for spec_result in specialization_results[:top_specs]:
+                # Format matched skills for output
+                formatted_matches = [
+                    {
+                        "required_skill": match["skill"],
+                        "user_skill": match["user_skill"],
+                        "match_score": match["match_score"],
+                        "proficiency": match["proficiency"],
+                        "importance": match["importance"]
+                    }
+                    for match in spec_result["matched_skill_details"]
+                ]
+                
+                # Format missing skills with priority information
+                formatted_missing = [
+                    {
+                        "skill": missing["skill"],
+                        "importance": missing["importance"],
+                        "priority_score": round(missing["priority_score"] * 100, 1),
+                        "closest_user_skill": missing["closest_user_skill"],
+                        "similarity": missing["similarity"],
+                        "domain": missing["domain"]
+                    }
+                    for missing in spec_result["missing_skills"]
+                ]
+                
+                formatted_specializations.append({
+                    "specialization": spec_result["specialization"],
+                    "field": spec_result["field"],
+                    "confidence": round(spec_result["confidence"], 1),
+                    "matched_skills": formatted_matches,
+                    "missing_skills": formatted_missing,
+                    "description": spec_result["description"]
+                })
             
             # Build result dictionary
             result = {
@@ -650,12 +752,12 @@ class CareerRecommender:
                 "fields": [
                     {
                         "field": field_name,
-                        "confidence": round(field_confidences[field_name], 2),
+                        "confidence": round(field_confidences[field_name], 1),
                         "description": self.fields[field_name].get("description", "")
                     }
                     for field_name in top_field_names
                 ],
-                "specializations": specialization_results[:top_specs]
+                "specializations": formatted_specializations
             }
             
             return result
